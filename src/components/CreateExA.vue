@@ -55,11 +55,17 @@ export default {
       this.lines.splice(this.lines.findIndex(x => x === line), 1);
     },
     addExercise() {
-      this.$store.dispatch("addExercise", {
-        exercise: this.lines,
-        title: this.title,
-        type: "A"
-      });
+      this.$store
+        .dispatch("addExercise", {
+          exercise: this.lines,
+          title: this.title,
+          type: "A"
+        })
+        .then(x => {
+          console.log(x);
+          this.lines = [{}];
+          this.title = "";
+        });
     }
   }
 };
