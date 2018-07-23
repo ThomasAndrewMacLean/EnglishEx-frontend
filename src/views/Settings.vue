@@ -3,7 +3,7 @@
         <div class="level">
             <div class="level-left">
                 <div class="level-item">
-                    <h1>Home</h1>
+                    <h1>Settings</h1>
                 </div>
             </div>
         </div>
