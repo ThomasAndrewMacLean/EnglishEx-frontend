@@ -1,13 +1,16 @@
 <template>
     <section>
         <h1 class="title">Create Exercise Type A</h1>
+        <p class="level"> Here we create exercises type A, we set the left and right part in the correct order. These can also be uploaded from an Excelfile.
+            It will upload the first sheet of an excel file, and it needs a title on the first row.
+        </p>
 
         <div class="field">
             <label class="label" for="title">Title</label>
             <div class="columns">
                 <div class="column is-half">
                     <div class="control">
-                        <input class="input is-radiusless" v-model="title" type="text" name="title" id="title" requierd>
+                        <input class="input is-radiusless" v-model="title" type="text" name="title" id="title" required>
                     </div>
                 </div>
             </div>

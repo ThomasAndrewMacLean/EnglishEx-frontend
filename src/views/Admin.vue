@@ -1,7 +1,7 @@
 <template>
     <section class="container section">
         <div class="columns">
-            <div class="column is-one-fifth">
+            <div class="column is-one-fifth admin-menu">
 
                 <aside class="menu">
                     <p class="menu-label">
@@ -51,4 +51,8 @@ export default {
 </script>
 
 <style>
+.admin-menu {
+  border-right: 1px solid #ccc;
+  margin-right: 1rem;
+}
 </style>
