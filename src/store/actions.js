@@ -73,7 +73,7 @@ export default {
   },
   addExercise({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      fetch(api + "/upload", {
+      fetch(api + "/addexercise", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -82,7 +82,33 @@ export default {
 
         method: "POST",
         body: JSON.stringify({
-          test: payload
+          exercise: payload
+        })
+      })
+        .then(res => res.json())
+        .then(j => {
+          resolve(j);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
+  },
+  addCourse({ commit }, payload) {
+    console.log(payload);
+
+    return new Promise((resolve, reject) => {
+      fetch(api + "/addcourse", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+
+        method: "POST",
+        body: JSON.stringify({
+          course: payload.course
         })
       })
         .then(res => res.json())
@@ -98,6 +124,35 @@ export default {
   getExercises({ commit }) {
     return new Promise((resolve, reject) => {
       fetch(api + "/exercises", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        method: "GET"
+      })
+        .then(res => {
+          console.log(res);
+
+          if (res.status !== 200) {
+            commit("setUser", null);
+            commit("setErrorMessage", "make sure you are logged in.");
+            router.push("/");
+          }
+          return res.json();
+        })
+        .then(j => {
+          console.log(j);
+
+          return resolve(j);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
+  },
+  getCourses({ commit }) {
+    return new Promise((resolve, reject) => {
+      fetch(api + "/courses", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         },

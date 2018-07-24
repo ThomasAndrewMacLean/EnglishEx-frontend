@@ -40,30 +40,28 @@
                     />
                 </div>
             </div>
-        </form>
-        <div class="columns">
-            <div class="column">
+            <div class="columns">
+                <div class="column">
 
-                <div class="panel">
-                    <p class="panel-heading">
-                        Exercises
-                    </p>
-                    <a  v-if="ex.test" v-for="(ex, index) in exercises" :key="index" 
-                    :class="ex.isActive ? 'is-active panel-block' : 'panel-block'"
-                        @click="toggle(ex)">
-                        
-                        {{ex.test && ex.test.title}}
-                    </a>
-                    <!-- <a class="panel-block">
-                        <span class="panel-icon">
-                            <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>
-                        marksheet
-                    </a> -->
+                    <div class="panel margin-top">
+                        <p class="panel-heading">
+                            Exercises
+                        </p>
+                        <a v-for="(ex, index) in exercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
+
+                            {{ex.title}}
+                        </a>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field margin-top">
+                        <div class="control">
+                            <button type="submit" class="button is-link is-radiusless">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="column"></div>
-        </div>
+        </form>
     </section>
 </template>
 
@@ -76,15 +74,31 @@ export default {
     };
   },
   methods: {
-    toggle(e) {
-      console.log(e);
-      console.log("jkljk");
-      e.isActive = true;
+    addCourse() {
+      this.course.exercises = this.exercises.filter(e => e.isActive);
+      console.log(this.course);
+      this.$store
+        .dispatch("addCourse", {
+          course: this.course
+        })
+        .then(() => this.clearCourse());
+    },
+    clearCourse() {
+      this.exercises.forEach(e => (e.isActive = false));
+      this.course = {};
     }
   },
   mounted() {
     //TODO: store in vuex store so we dont fetch them every time we visit homepage?
-    this.$store.dispatch("getExercises").then(x => (this.exercises = x));
+    this.$store.dispatch("getExercises").then(x => {
+      return (this.exercises = x.filter(y => y.exercise).map(z => {
+        return {
+          id: z._id,
+          isActive: false,
+          title: z.exercise.title
+        };
+      }));
+    });
   }
 };
 </script>
@@ -101,7 +115,7 @@ export default {
   background-repeat: no-repeat;
 }
 
-.panel {
+.margin-top {
   margin-top: 2rem;
 }
 

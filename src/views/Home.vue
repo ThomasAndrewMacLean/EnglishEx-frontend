@@ -3,7 +3,7 @@
         <h1>Home</h1>
         <!-- <pre>{{exercises}}</pre> -->
         <a v-if="exercises" v-for="(ex,index) in exercises" :key="index" :href="'#/exercise/' + ex._id">
-            {{ex.test && ex.test.title}}
+            <pre>{{ex}}</pre>
         </a>
 
     </section>
@@ -19,7 +19,7 @@ export default {
   mounted() {
     //TODO: store in vuex store so we dont fetch them every time we visit homepage?
     this.$store
-      .dispatch("getExercises")
+      .dispatch("getCourses")
       .then(x => (this.exercises = x))
       .catch(err => {
         console.log("err");
