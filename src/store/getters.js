@@ -5,7 +5,9 @@ export default {
   errorMessage(state) {
     return state.errorMessage;
   },
-
+  loading(state) {
+    return state.loading;
+  },
   appName(state) {
     return state.appName;
   },

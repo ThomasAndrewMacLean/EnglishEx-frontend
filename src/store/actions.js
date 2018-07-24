@@ -1,8 +1,10 @@
-const api = "https://xtdghj4hv0.execute-api.eu-west-1.amazonaws.com/latest/";
-import router from "./../router";
+const api = "https://xtdghj4hv0.execute-api.eu-west-1.amazonaws.com/latest";
+import router from "../router/router";
+import XLSX from "xlsx";
 
 export default {
   signUserUp({ commit }, payload) {
+    commit("setLoader", true);
     fetch(api + "/signup", {
       headers: {
         Accept: "application/json",
@@ -17,6 +19,7 @@ export default {
     })
       .then(res => res.json())
       .then(j => {
+        commit("setLoader", false);
         if (j.token) {
           localStorage.setItem("token", j.token);
           commit("setUser", {
@@ -26,9 +29,14 @@ export default {
         } else {
           commit("setErrorMessage", j.message);
         }
+      })
+      .catch(err => {
+        commit("setLoader", false);
+        commit("setErrorMessage", err);
       });
   },
   logUserIn({ commit }, payload) {
+    commit("setLoader", true);
     fetch(api + "/login", {
       headers: {
         Accept: "application/json",
@@ -43,15 +51,24 @@ export default {
     })
       .then(res => res.json())
       .then(j => {
+        commit("setLoader", false);
+
         if (j.token) {
           localStorage.setItem("token", j.token);
           commit("setUser", {
             email: payload.email
           });
-          router.push("/home");
+          const redirect =
+            sessionStorage.getItem("setNavigateToAfterSignin") || "/home";
+          sessionStorage.removeItem("setNavigateToAfterSignin");
+          router.push(redirect);
         } else {
           commit("setErrorMessage", j.message);
         }
+      })
+      .catch(err => {
+        commit("setErrorMessage", err);
+        commit("setLoader", false);
       });
   },
   addExercise({ commit }, payload) {
@@ -59,7 +76,8 @@ export default {
       fetch(api + "/upload", {
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
         },
 
         method: "POST",
@@ -80,11 +98,25 @@ export default {
   getExercises({ commit }) {
     return new Promise((resolve, reject) => {
       fetch(api + "/exercises", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
         method: "GET"
       })
-        .then(res => res.json())
+        .then(res => {
+          console.log(res);
+
+          if (res.status !== 200) {
+            commit("setUser", null);
+            commit("setErrorMessage", "make sure you are logged in.");
+            router.push("/");
+          }
+          return res.json();
+        })
         .then(j => {
-          resolve(j);
+          console.log(j);
+
+          return resolve(j);
         })
         .catch(err => {
           commit("setErrorMessage", err);
@@ -94,5 +126,29 @@ export default {
   },
   clearErrorMessage({ commit }) {
     commit("setErrorMessage", null);
+  },
+  readExcel({ commit }, payload) {
+    commit("setLoader", true);
+
+    const reader = new FileReader();
+    return new Promise(resolve => {
+      reader.onload = e => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, {
+          type: "binary"
+        });
+        workbook.SheetNames.forEach(sheetName => {
+          // const Xrowobject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+          console.log(sheetName);
+
+          const Xrowobject = XLSX.utils.sheet_to_json(
+            workbook.Sheets[sheetName]
+          );
+          commit("setLoader", false);
+          return resolve(Xrowobject);
+        });
+      };
+      reader.readAsBinaryString(payload.file);
+    });
   }
 };

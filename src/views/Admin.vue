@@ -5,14 +5,19 @@
 
                 <aside class="menu">
                     <p class="menu-label">
-                        Create Exercises
+                        Courses
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'typeA'" :class="adminPage === 'typeA' ? 'is-active':''">Type A</a>
+                            <a @click="adminPage = 'CreateNewCourse'" :class="adminPage === 'CreateNewCourse' ? 'is-active':''">Create Course</a>
                         </li>
+                    </ul>
+                    <p class="menu-label">
+                        Exercises
+                    </p>
+                    <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'typeB'" :class="adminPage === 'typeB' ? 'is-active':''">TypeB</a>
+                            <a @click="adminPage = 'CreateExA'" :class="adminPage === 'CreateExA' ? 'is-active':''">Type A</a>
                         </li>
                     </ul>
                 </aside>
@@ -20,7 +25,8 @@
             <div class="column">
 
                 <section>
-                    <CreateExA v-if="adminPage === 'typeA'"/>
+                    <CreateExA v-if="adminPage === 'CreateExA'" />
+                    <CreateNewCourse v-if="adminPage === 'CreateNewCourse'" />
                 </section>
             </div>
         </div>
@@ -30,14 +36,16 @@
 
 <script>
 import CreateExA from "./../components/CreateExA.vue";
+import CreateNewCourse from "./../components/CreateNewCourse.vue";
 export default {
   data() {
     return {
-      adminPage: "typeA"
+      adminPage: "CreateExA"
     };
   },
   components: {
-    CreateExA
+    CreateExA,
+    CreateNewCourse
   }
 };
 </script>

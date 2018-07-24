@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h1>Create</h1>
+        <h1 class="title">Create Exercise Type A</h1>
 
         <div class="field">
             <label class="label" for="title">Title</label>
@@ -38,6 +38,10 @@
                 </div>
             </div>
         </form>
+        <label for="inputfile">
+            Upload file
+            <input type="file" id="inputfile" @change="readExcel" style="display:none" />
+        </label>
     </section>
 </template>
 
@@ -65,6 +69,25 @@ export default {
           console.log(x);
           this.lines = [{}];
           this.title = "";
+        });
+    },
+    readExcel(event) {
+      var inputElement = document.getElementById("inputfile");
+      this.$store
+        .dispatch("readExcel", {
+          file: inputElement.files[0]
+        })
+        .then(x => {
+          const keys = Object.keys(x[0]);
+          //dodgy shit goin on here... cant be sure of the order of the keys...
+          console.log(keys);
+          this.lines = x.map(y => {
+            return {
+              partA: y.partA || y[keys[0]],
+              partB: y.partB || y[keys[1]]
+            };
+          });
+          event.target.value = "";
         });
     }
   }

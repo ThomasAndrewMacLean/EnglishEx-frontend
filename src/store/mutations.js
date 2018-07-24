@@ -4,5 +4,8 @@ export default {
   },
   setErrorMessage(state, payload) {
     state.errorMessage = payload;
+  },
+  setLoader(state, payload) {
+    state.loading = payload;
   }
 };
