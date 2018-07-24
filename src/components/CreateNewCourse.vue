@@ -75,12 +75,12 @@ export default {
       exercises: []
     };
   },
-  methods:{
-      toggle(e) {
-          console.log(e);
-          console.log("jkljk")
-          e.isActive = true;
-      }
+  methods: {
+    toggle(e) {
+      console.log(e);
+      console.log("jkljk");
+      e.isActive = true;
+    }
   },
   mounted() {
     //TODO: store in vuex store so we dont fetch them every time we visit homepage?
