@@ -47,7 +47,12 @@
                         <p class="panel-heading">
                             Exercises
                         </p>
-                        <a v-for="(ex, index) in exercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
+                        <div class="panel-block">
+                            <p class="control">
+                                <input class="input is-small" v-model="fil" type="text" placeholder="search">
+                            </p>
+                        </div>
+                        <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
 
                             {{ex.title}}
                         </a>
@@ -70,7 +75,8 @@ export default {
   data() {
     return {
       course: {},
-      exercises: []
+      exercises: [],
+      fil: ""
     };
   },
   methods: {
@@ -99,6 +105,11 @@ export default {
         };
       }));
     });
+  },
+  computed: {
+    filteredExercises() {
+      return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+    }
   }
 };
 </script>
