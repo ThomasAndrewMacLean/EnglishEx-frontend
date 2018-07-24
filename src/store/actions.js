@@ -55,21 +55,6 @@ export default {
       });
   },
   addExercise({ commit }, payload) {
-    console.log(payload);
-
-    // return new Promise((resolve, reject) => {
-    //   // Do something here... lets say, a http call using vue-resource
-    //   this.$http("/api/something").then(
-    //     response => {
-    //       // http success, call the mutator and change something in state
-    //       resolve(response); // Let the calling function know that http is done. You may send some data back
-    //     },
-    //     error => {
-    //       // http failed, let the calling function know that action did not work out
-    //       reject(error);
-    //     }
-    //   );
-    // });
     return new Promise((resolve, reject) => {
       fetch(api + "/upload", {
         headers: {
@@ -81,6 +66,21 @@ export default {
         body: JSON.stringify({
           test: payload
         })
+      })
+        .then(res => res.json())
+        .then(j => {
+          resolve(j);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
+  },
+  getExercises({ commit }) {
+    return new Promise((resolve, reject) => {
+      fetch(api + "/exercises", {
+        method: "GET"
       })
         .then(res => res.json())
         .then(j => {
