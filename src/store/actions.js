@@ -25,7 +25,7 @@ export default {
           commit("setUser", {
             email: payload.email
           });
-          router.push("/home");
+          router.push("/confirm");
         } else {
           commit("setErrorMessage", j.message);
         }
@@ -67,6 +67,42 @@ export default {
         }
       })
       .catch(err => {
+        commit("setErrorMessage", err);
+        commit("setLoader", false);
+      });
+  },
+  confirmUser({ commit }, payload) {
+    console.log(payload.code);
+
+    commit("setLoader", true);
+    fetch(api + "/confirm", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token")
+      },
+
+      method: "POST",
+      body: JSON.stringify({
+        code: payload.code
+      })
+    })
+      .then(res => {
+        commit("setLoader", false);
+        if (res.status === 200) {
+          router.push("/home");
+        }
+        if (res.status === 403) {
+          localStorage.removeItem("token");
+          router.push("/");
+          commit(
+            "setErrorMessage",
+            "The code was wrong, or it took too long to confirm the code. Please try to sign up again. You will receive a new code."
+          );
+        }
+      })
+      .catch(err => {
+        router.push("/");
         commit("setErrorMessage", err);
         commit("setLoader", false);
       });
