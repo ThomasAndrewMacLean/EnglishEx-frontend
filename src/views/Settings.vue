@@ -1,12 +1,8 @@
 <template>
     <section class="section container">
-        <div class="level">
-            <div class="level-left">
-                <div class="level-item">
-                    <h1>Settings</h1>
-                </div>
-            </div>
-        </div>
+        <h1 class="title">Settings</h1>
+        <p class="level">set name displayname, see points and stuff</p>
+
     </section>
 </template>
 
