@@ -22,9 +22,9 @@ export default {
         commit("setLoader", false);
         if (j.token) {
           localStorage.setItem("token", j.token);
-          commit("setUser", {
-            email: payload.email
-          });
+          //commit("setUser", {
+          //  email: payload.email
+          //});
           router.push("/confirm");
         } else {
           commit("setErrorMessage", j.message);
@@ -52,11 +52,13 @@ export default {
       .then(res => res.json())
       .then(j => {
         commit("setLoader", false);
+        console.log(j);
 
         if (j.token) {
           localStorage.setItem("token", j.token);
           commit("setUser", {
-            email: payload.email
+            email: payload.email,
+            admin: j.isAdmin
           });
           const redirect =
             sessionStorage.getItem("setNavigateToAfterSignin") || "/home";
@@ -195,8 +197,6 @@ export default {
         method: "GET"
       })
         .then(res => {
-          console.log(res);
-
           if (res.status !== 200) {
             commit("setUser", null);
             commit("setErrorMessage", "make sure you are logged in.");
@@ -205,8 +205,6 @@ export default {
           return res.json();
         })
         .then(j => {
-          console.log(j);
-
           return resolve(j);
         })
         .catch(err => {

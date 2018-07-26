@@ -1,27 +1,39 @@
 <template>
-    <section class="section container">
-        <h1 class="title">Confirm</h1>
-        <p class="level">You will receive an email with your secret code. Please fill it in to complete your registration.
-
-        </p>
-        <div class="columns">
-            <div class="column is-one-fifth">
-
-                <form @submit.prevent="confirm">
-                    <div class="field">
-                        <label class="label" for="email">Code</label>
-                        <div class="control">
-                            <input class="input is-radiusless" v-model="confirmCode" type="text" name="confirm" id="confirm">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <button type="submit" class="button is-link is-radiusless">Confirm</button>
-                        </div>
-                    </div>
-                </form>
+    <section class="confirm landing">
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        {{this.$store.getters.appName}}
+                    </h1>
+                    <h2 class="subtitle">
+                        Log in or sign up
+                    </h2>
+                </div>
             </div>
-        </div>
+        </section>
+        <section class="container section">
+            <div class="columns">
+                <div class="column is-offset-6 is-one-fifth">
+
+                    <div class="box is-radiusless">
+                        <form @submit.prevent="confirm">
+                            <div class="field">
+                                <label class="label" for="email">Code</label>
+                                <div class="control">
+                                    <input class="input is-radiusless" v-model="confirmCode" type="text" name="confirm" id="confirm">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" class="button is-link is-radiusless">Confirm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     </section>
 </template>
 

@@ -13,7 +13,7 @@
 
             <div class="navbar-menu" :class="{ 'is-active': showNav }">
                 <div class="navbar-end">
-                    <a @click="showNav = false" class="navbar-item" href="#/admin">
+                    <a v-if="user.isAdmin" @click="showNav = false" class="navbar-item" href="#/admin">
                         admin
                     </a>
                     <a @click="showNav = false" class="navbar-item" href="#/home">

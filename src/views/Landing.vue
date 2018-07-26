@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="landing">
         <section class="hero is-primary">
             <div class="hero-body">
                 <div class="container">
@@ -114,8 +114,8 @@ export default {
 </script>
 
 
-<style scoped>
-.home {
+<style>
+.landing {
   height: 100vh;
   background-image: url("./../assets/bookshop.jpg");
   filter: grayscale(30%);
