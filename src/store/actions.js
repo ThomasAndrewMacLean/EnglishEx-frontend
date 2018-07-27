@@ -227,6 +227,31 @@ export default {
         });
     });
   },
+  getCourse({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      fetch(api + "/course/" + payload.id, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        method: "GET"
+      })
+        .then(res => {
+          if (res.status !== 200) {
+            commit("setUser", null);
+            commit("setErrorMessage", "make sure you are logged in.");
+            router.push("/");
+          }
+          return res.json();
+        })
+        .then(j => {
+          return resolve(j);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
+  },
   clearErrorMessage({ commit }) {
     commit("setErrorMessage", null);
   },

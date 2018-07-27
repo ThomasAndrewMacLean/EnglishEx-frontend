@@ -12,7 +12,26 @@
 
 <script>
 export default {
-  name: "course"
+  name: "course",
+  data() {
+    return {
+      exercises: []
+    };
+  },
+  mounted() {
+    //TODO: store in vuex store so we dont fetch them every time we visit homepage?
+    this.$store
+      .dispatch("getCourse", {
+        id: this.$route.params.courseid
+      })
+      .then(x => (this.exercises = x))
+      .catch(err => {
+        console.log("err");
+        console.log(err);
+
+        this.$router.push("/");
+      });
+  }
 };
 </script>
 
