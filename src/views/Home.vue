@@ -5,12 +5,12 @@
         <!-- <pre>{{exercises}}</pre> -->
         <div class="columns is-multiline">
 
-            <a class="column is-one-third " v-if="ex.course.title" v-for="(ex,index) in exercises" :key="index" :href="'#/exercise/' + ex._id">
+            <a class="column is-one-third " v-if="course.title" v-for="(course,index) in courses" :key="index" :href="'#/course/' + course._id">
                 <div class="box is-radiusless">
-                    <div class="img image is-3by1" :style="{ backgroundImage: `url('${ex.course.imgURL}')` }"></div>
-                    <p class="title">{{ex.course.title}}</p>
-                    <p class="level">{{ex.course.description}}</p>
-                    <p class="level">number of exercises {{ex.course.exercises.length}}</p>
+                    <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
+                    <p class="title">{{course.title}}</p>
+                    <p class="level">{{course.description}}</p>
+                    <p class="level">number of exercises {{course.exercises.length}}</p>
                 </div>
             </a>
         </div>
@@ -19,16 +19,17 @@
 
 <script>
 export default {
+  name: "home",
   data() {
     return {
-      exercises: []
+      courses: []
     };
   },
   mounted() {
     //TODO: store in vuex store so we dont fetch them every time we visit homepage?
     this.$store
       .dispatch("getCourses")
-      .then(x => (this.exercises = x))
+      .then(x => (this.courses = x))
       .catch(err => {
         console.log("err");
         console.log(err);

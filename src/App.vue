@@ -3,7 +3,7 @@
         <div class="navbar is-primary" v-if="user">
             <div class="navbar-brand">
                 <a class="navbar-item" @click="showNav = false" href="#/">English Exercises</a>
-                <div class="navbar-item is-right" @click="showNav = false">{{user}}</div>
+                <div class="navbar-item is-right" @click="showNav = false">{{user.username || user.email}}</div>
                 <div class="navbar-burger" @click="showNav = !showNav" :class="{ 'is-active': showNav }">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -46,10 +46,11 @@ export default {
   },
   computed: {
     user() {
+      if (this.$store.getters.user !== null) return this.$store.getters.user;
+    },
+    isAdmin() {
       if (this.$store.getters.user !== null)
-        return (
-          this.$store.getters.user.username || this.$store.getters.user.email
-        );
+        return this.$store.getters.user.isAdmin;
     },
     loading() {
       return this.$store.getters.loading;

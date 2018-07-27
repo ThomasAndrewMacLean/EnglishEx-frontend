@@ -58,7 +58,7 @@ export default {
           localStorage.setItem("token", j.token);
           commit("setUser", {
             email: payload.email,
-            admin: j.isAdmin
+            isAdmin: j.isAdmin
           });
           const redirect =
             sessionStorage.getItem("setNavigateToAfterSignin") || "/home";
@@ -90,11 +90,13 @@ export default {
       })
     })
       .then(res => {
+        console.log(res);
+
         commit("setLoader", false);
-        if (res.status === 200) {
-          router.push("/home");
-        }
+
         if (res.status === 403) {
+          console.log("should not be hiereee!!!");
+
           localStorage.removeItem("token");
           router.push("/");
           commit(
@@ -102,6 +104,18 @@ export default {
             "The code was wrong, or it took too long to confirm the code. Please try to sign up again. You will receive a new code."
           );
         }
+        return res.json();
+      })
+      .then(j => {
+        console.log("go to home!!");
+
+        commit("setUser", {
+          email: j.email,
+          isAdmin: j.isAdmin
+        });
+        // synchroon?
+        // of toch al zetten op sing up???
+        router.push("/home");
       })
       .catch(err => {
         router.push("/");

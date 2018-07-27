@@ -1,4 +1,5 @@
 import Vue from "vue";
+import AuthGuard from "./auth-guard";
 import Router from "vue-router";
 import Landing from "./../views/Landing.vue";
 import Home from "./../views/Home.vue";
@@ -6,7 +7,7 @@ import Settings from "./../views/Settings.vue";
 import Admin from "./../views/Admin.vue";
 import Exercise from "./../views/Exercise.vue";
 import Confirm from "./../views/Confirm.vue";
-import AuthGuard from "./auth-guard";
+import Course from "./../views/Course.vue";
 
 Vue.use(Router);
 
@@ -32,6 +33,12 @@ export default new Router({
       path: "/exercise/:exid",
       name: "exercise",
       component: Exercise,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: "/course/:courseid",
+      name: "course",
+      component: Course,
       beforeEnter: AuthGuard
     },
     {
