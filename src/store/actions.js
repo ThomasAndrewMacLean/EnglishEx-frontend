@@ -1,4 +1,8 @@
-const api = "https://xtdghj4hv0.execute-api.eu-west-1.amazonaws.com/latest";
+let api = "https://xtdghj4hv0.execute-api.eu-west-1.amazonaws.com/latest";
+if (window.location.host === "localhost:8080") {
+  api = "http://localhost:5001";
+}
+
 import router from "../router/router";
 import XLSX from "xlsx";
 
@@ -20,6 +24,8 @@ export default {
       .then(res => res.json())
       .then(j => {
         commit("setLoader", false);
+        console.log(j);
+
         if (j.token) {
           localStorage.setItem("token", j.token);
           //commit("setUser", {
