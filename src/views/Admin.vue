@@ -26,6 +26,14 @@
                             <a @click="adminPage = 'CreateExB'" :class="adminPage === 'CreateExB' ? 'is-active':''">Type B</a>
                         </li>
                     </ul>
+                    <p class="menu-label">
+                        Users
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a @click="adminPage = 'Users'" :class="adminPage === 'Users' ? 'is-active':''">Type A</a>
+                        </li>
+                    </ul>
                 </aside>
             </div>
             <div class="column">
@@ -47,6 +55,7 @@ import CreateExA from "./../components/CreateExA.vue";
 import CreateExB from "./../components/CreateExB.vue";
 import CreateNewCourse from "./../components/CreateNewCourse.vue";
 import EditCourse from "./../components/EditCourse.vue";
+import Users from "./../components/Users.vue";
 
 export default {
   data() {
@@ -58,6 +67,7 @@ export default {
     CreateExA,
     CreateExB,
     EditCourse,
+    Users,
     CreateNewCourse
   }
 };
