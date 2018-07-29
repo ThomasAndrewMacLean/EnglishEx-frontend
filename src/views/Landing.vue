@@ -119,6 +119,7 @@ export default {
   height: 100vh;
   background-image: url("./../assets/bookshop.jpg");
   filter: grayscale(30%);
+  background-size: cover;
   /* filter: blur(5px);
   filter: hue-rotate(90deg); */
 }

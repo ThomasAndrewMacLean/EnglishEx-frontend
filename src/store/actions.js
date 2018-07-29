@@ -1,6 +1,6 @@
 let api = "https://xtdghj4hv0.execute-api.eu-west-1.amazonaws.com/latest";
 if (window.location.host === "localhost:8080") {
-  api = "http://localhost:5001";
+  // api = "http://localhost:5001";
 }
 
 import router from "../router/router";
@@ -179,6 +179,32 @@ export default {
         });
     });
   },
+  editCourse({ commit }, payload) {
+    console.log(payload);
+
+    return new Promise((resolve, reject) => {
+      fetch(api + "/editcourse", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+
+        method: "POST",
+        body: JSON.stringify({
+          course: payload.course
+        })
+      })
+        .then(res => res.json())
+        .then(j => {
+          resolve(j);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
+  },
   getExercises({ commit }) {
     return new Promise((resolve, reject) => {
       fetch(api + "/exercises", {
@@ -188,7 +214,7 @@ export default {
         method: "GET"
       })
         .then(res => {
-          console.log(res);
+          //console.log(res);
 
           if (res.status !== 200) {
             commit("setUser", null);

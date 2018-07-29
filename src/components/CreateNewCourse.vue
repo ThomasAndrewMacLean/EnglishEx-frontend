@@ -97,11 +97,13 @@ export default {
   mounted() {
     //TODO: store in vuex store so we dont fetch them every time we visit homepage?
     this.$store.dispatch("getExercises").then(x => {
-      return (this.exercises = x.filter(y => y.exercise).map(z => {
+      console.log(x);
+
+      return (this.exercises = x.filter(y => y.title).map(z => {
         return {
           id: z._id,
           isActive: false,
-          title: z.exercise.title
+          title: z.title
         };
       }));
     });
