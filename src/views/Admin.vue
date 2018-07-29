@@ -31,7 +31,7 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'Users'" :class="adminPage === 'Users' ? 'is-active':''">Type A</a>
+                            <a @click="adminPage = 'Users'" :class="adminPage === 'Users' ? 'is-active':''">Users</a>
                         </li>
                     </ul>
                 </aside>
@@ -43,6 +43,7 @@
                     <CreateExB v-if="adminPage === 'CreateExB'" />
                     <CreateNewCourse v-if="adminPage === 'CreateNewCourse'" />
                     <EditCourse v-if="adminPage === 'EditCourse'" />
+                    <Users v-if="adminPage === 'Users'" />
                 </section>
             </div>
         </div>

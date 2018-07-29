@@ -310,5 +310,30 @@ export default {
       };
       reader.readAsBinaryString(payload.file);
     });
+  },
+  getUsers({ commit }) {
+    return new Promise((resolve, reject) => {
+      fetch(api + "/user", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        method: "GET"
+      })
+        .then(res => {
+          if (res.status !== 200) {
+            commit("setUser", null);
+            commit("setErrorMessage", "make sure you are logged in.");
+            router.push("/");
+          }
+          return res.json();
+        })
+        .then(j => {
+          return resolve(j);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
   }
 };
