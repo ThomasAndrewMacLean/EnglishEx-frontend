@@ -9,7 +9,8 @@
                         </div>
                     </div>
                     <div class="column">
-                        <div draggable @dragover="dragover" class="partB" v-for="e in columnB" :key="e">
+                        <div draggable="true" @dragstart="startdrag" @click="clickk" @drop="onDrop" @dragover="ondragover"
+                            @dragenter="ondragenter" class="partB" v-for="e in columnB" :key="e">
                             {{e}}
                         </div>
                     </div>
@@ -23,9 +24,14 @@
 export default {
   data() {
     return {
+      copy: null,
+      selected: null
       //columnA: this.exercise.exercise.map(a => a.partA)
       // columnB: this.exercise.exercise.map(a => a.partB)
     };
+  },
+  components: {
+    //  draggable
   },
   //   updated: function() {
   //   },
@@ -38,8 +44,48 @@ export default {
     }
   },
   methods: {
-    dragover() {
-      console.log("a");
+    clickk(e) {
+      let text = e.target.innerText;
+      this.switzch(text);
+    },
+    switzch(text) {
+      if (!this.selected) {
+        this.selected = text;
+      } else {
+        this.switch(text, this.selected);
+        this.selected = null;
+      }
+    },
+    ondragenter(event) {
+      event.preventDefault();
+    },
+    ondragover(event) {
+      event.preventDefault();
+    },
+    onDrop(e) {
+      console.log("DROP");
+      console.log(e.target.innerText);
+      this.switzch(e.target.innerText);
+    },
+    startdrag(e) {
+      console.log("START");
+      this.selected = null;
+      this.switzch(e.target.innerText);
+      console.log(e.target.innerText);
+    },
+
+    switch(id1, id2) {
+      console.log(id1, id2);
+
+      let copy = this.columnB;
+      let place1 = this.columnB.indexOf(id1);
+      let place2 = this.columnB.indexOf(id2);
+      //let temp = copy[copy.indexOf(id1)];
+      this.columnB[place1] = id2;
+      this.columnB[place2] = id1;
+
+      this.$store.dispatch("changeColB", copy);
+      this.$forceUpdate();
     }
   },
   //   watch: {

@@ -58,7 +58,6 @@ export default {
       .then(res => res.json())
       .then(j => {
         commit("setLoader", false);
-        console.log(j);
 
         if (j.token) {
           localStorage.setItem("token", j.token);
@@ -361,5 +360,8 @@ export default {
           reject(err);
         });
     });
+  },
+  changeColB({ commit }, payload) {
+    commit("changeColB", payload);
   }
 };
