@@ -2,7 +2,7 @@
     <div id="app">
         <div class="navbar is-primary" v-if="user">
             <div class="navbar-brand">
-                <a class="navbar-item" @click="showNav = false" href="#/">English Exercises</a>
+                <a class="navbar-item" @click="showNav = false" href="#/home">End Training</a>
                 <div class="navbar-item is-right" @click="showNav = false">{{user.username || user.email}}</div>
                 <div class="navbar-burger" @click="showNav = !showNav" :class="{ 'is-active': showNav }">
                     <span aria-hidden="true"></span>
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <router-view/>
+        <router-view />
         <div :class="loading ? 'show-loader loading' : 'loading'">
             <div class="load-wrap">
                 <div class="load-spinner"></div>
@@ -98,6 +98,7 @@ export default {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
@@ -109,6 +110,7 @@ export default {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);

@@ -13,5 +13,14 @@ export default {
   },
   navigateToAfterSignin(state) {
     return state.navigateToAfterSignin;
+  },
+  getCurrentExercise(state) {
+    return state.currentExercise;
+  },
+  getColA(state) {
+    return state.colA;
+  },
+  getColB(state) {
+    return state.colB;
   }
 };

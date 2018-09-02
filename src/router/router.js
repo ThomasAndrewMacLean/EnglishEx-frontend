@@ -5,7 +5,6 @@ import Landing from "./../views/Landing.vue";
 import Home from "./../views/Home.vue";
 import Settings from "./../views/Settings.vue";
 import Admin from "./../views/Admin.vue";
-import Exercise from "./../views/Exercise.vue";
 import Confirm from "./../views/Confirm.vue";
 import Course from "./../views/Course.vue";
 
@@ -27,12 +26,6 @@ export default new Router({
       path: "/home",
       name: "home",
       component: Home,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: "/exercise/:exid",
-      name: "exercise",
-      component: Exercise,
       beforeEnter: AuthGuard
     },
     {

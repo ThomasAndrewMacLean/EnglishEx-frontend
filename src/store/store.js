@@ -13,8 +13,11 @@ export default new Vuex.Store({
     loading: false,
     error: null,
     navigateToAfterSignin: null,
-    appName: "English Exercises",
-    errorMessage: null
+    appName: "End Training",
+    errorMessage: null,
+    currentExercise: null,
+    colA: null,
+    colB: null
   },
   mutations,
   actions,

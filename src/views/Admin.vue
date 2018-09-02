@@ -37,7 +37,6 @@
                 </aside>
             </div>
             <div class="column">
-
                 <section>
                     <CreateExA v-if="adminPage === 'CreateExA'" />
                     <CreateExB v-if="adminPage === 'CreateExB'" />

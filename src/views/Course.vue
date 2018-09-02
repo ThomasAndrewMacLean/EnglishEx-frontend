@@ -1,9 +1,20 @@
 <template>
     <section class="section container">
-        <div class="level">
-            <div class="level-left">
-                <div class="level-item">
-                    <h1 class="title">Course</h1>
+        <h1 v-if="course" class="title">{{course.title}} </h1>
+        <div class="columns">
+            <div class="column is-one-fifth admin-menu">
+                <div class="has-text-dark has-text-weight-light description" v-if="course">
+                    {{course.description}}
+                </div>
+                <ul>
+                    <li class="ex-list" :key="e.id" v-for="e in exercises" @click="getExercise(e.id)">
+                        {{e.title}}
+                    </li>
+                </ul>
+            </div>
+            <div class="column">
+                <div v-if="exercise">
+                    <Exercise :exercise="exercise" />
                 </div>
             </div>
         </div>
@@ -11,12 +22,35 @@
 </template>
 
 <script>
+import Exercise from "./../components/Exercise";
 export default {
   name: "course",
+  components: {
+    Exercise
+  },
   data() {
     return {
+      course: undefined,
       exercises: []
+      //exercise: undefined
     };
+  },
+  methods: {
+    getExercise(exId) {
+      this.$store
+        .dispatch("getExercise", {
+          id: exId
+        })
+        .catch(err => {
+          console.log(err);
+          this.$router.push("/");
+        });
+    }
+  },
+  computed: {
+    exercise() {
+      return this.$store.getters.getCurrentExercise;
+    }
   },
   mounted() {
     //TODO: store in vuex store so we dont fetch them every time we visit homepage?
@@ -24,16 +58,31 @@ export default {
       .dispatch("getCourse", {
         id: this.$route.params.courseid
       })
-      .then(x => (this.exercises = x))
+      .then(x => {
+        this.course = x[0];
+        this.exercises = x[0].exercises;
+      })
       .catch(err => {
-        console.log("err");
         console.log(err);
-
         this.$router.push("/");
       });
   }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "../../node_modules/bulma/bulma.sass";
+
+.description {
+  margin-bottom: 1rem;
+}
+
+.ex-list {
+  cursor: pointer;
+  margin: 0.5rem 0;
+}
+
+.ex-list:hover {
+  color: $dark;
+}
 </style>
