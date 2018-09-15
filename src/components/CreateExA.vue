@@ -1,7 +1,8 @@
 <template>
     <section>
-        <h1 class="title">Create Exercise Type A</h1>
-        <p class="level"> Here we create exercises type A, we set the left and right part in the correct order. These
+        <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type A</h1>
+        <p v-if="!editMode" class="level"> Here we create exercises type A, we set the left and right part in the
+            correct order. These
             can also be uploaded from an Excelfile.
             It will upload the first sheet of an excel file, and it needs a title on the first row.
         </p>
@@ -42,7 +43,7 @@
                 </div>
             </div>
         </form>
-        <label for="inputfile">
+        <label v-if="!editMode" for="inputfile">
             Upload file
             <input type="file" id="inputfile" @change="readExcel" style="display:none" />
         </label>
@@ -53,8 +54,11 @@
 export default {
   data() {
     return {
-      lines: [{}],
-      title: ""
+      //(this.exercise && this.exercise.exercise) ||
+      lines: (this.exercise && this.exercise.exercise) || [{}],
+      title: (this.exercise && this.exercise.title) || "",
+      editMode: !!this.exercise,
+      id: (this.exercise && this.exercise._id) || null
     };
   },
   methods: {
@@ -67,12 +71,14 @@ export default {
         .dispatch("addExercise", {
           exercise: this.lines,
           title: this.title,
-          type: "A"
+          type: "A",
+          id: this.id
         })
         .then(x => {
           console.log(x);
           this.lines = [{}];
           this.title = "";
+          this.$emit("updated", true);
         });
     },
     readExcel(event) {
@@ -93,6 +99,15 @@ export default {
           });
           event.target.value = "";
         });
+    }
+  },
+  props: ["exercise"],
+  watch: {
+    exercise(val) {
+      this.editMode = true;
+      this.title = val.title;
+      this.lines = val.exercise;
+      this.id = val._id;
     }
   }
 };

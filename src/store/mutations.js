@@ -3,6 +3,7 @@ export default {
     state.user = payload;
   },
   setErrorMessage(state, payload) {
+    state.loading = false;
     state.errorMessage = payload;
   },
   setLoader(state, payload) {

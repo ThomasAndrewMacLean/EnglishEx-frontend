@@ -129,6 +129,7 @@ export default {
       });
   },
   addExercise({ commit }, payload) {
+    commit("setLoader", true);
     return new Promise((resolve, reject) => {
       fetch(api + "/addexercise", {
         headers: {
@@ -144,9 +145,11 @@ export default {
       })
         .then(res => res.json())
         .then(j => {
+          commit("setLoader", false);
           resolve(j);
         })
         .catch(err => {
+          commit("setLoader", false);
           commit("setErrorMessage", err);
           reject(err);
         });
@@ -205,6 +208,7 @@ export default {
     });
   },
   getExercises({ commit }) {
+    commit("setLoader", true);
     return new Promise((resolve, reject) => {
       fetch(api + "/exercises", {
         headers: {
@@ -214,7 +218,7 @@ export default {
       })
         .then(res => {
           //console.log(res);
-
+          commit("setLoader", false);
           if (res.status !== 200) {
             commit("setUser", null);
             commit("setErrorMessage", "make sure you are logged in.");
@@ -228,6 +232,8 @@ export default {
           return resolve(j);
         })
         .catch(err => {
+          commit("setLoader", false);
+
           commit("setErrorMessage", err);
           reject(err);
         });
@@ -379,7 +385,7 @@ export default {
       })
         .then(res => {
           commit("setLoader", false);
-            
+
           if (res.status !== 200) {
             commit("setErrorMessage", "make sure you are logged in.");
           }
