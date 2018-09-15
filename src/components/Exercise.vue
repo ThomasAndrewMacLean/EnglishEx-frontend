@@ -17,6 +17,8 @@
                 </div>
             </div>
         </div>
+        <button @click="sendExToServer" class="button is-primary is-radiusless">Submit</button>
+        <div v-if="score">{{score}}</div>
     </section>
 </template>
 
@@ -25,16 +27,10 @@ export default {
   data() {
     return {
       copy: null,
-      selected: null
-      //columnA: this.exercise.exercise.map(a => a.partA)
-      // columnB: this.exercise.exercise.map(a => a.partB)
+      selected: null,
+      score: null
     };
   },
-  components: {
-    //  draggable
-  },
-  //   updated: function() {
-  //   },
   computed: {
     columnA() {
       return this.$store.getters.getColA;
@@ -64,18 +60,18 @@ export default {
     },
     onDrop(e) {
       console.log("DROP");
-      console.log(e.target.innerText);
+      //console.log(e.target.innerText);
       this.switzch(e.target.innerText);
     },
     startdrag(e) {
       console.log("START");
       this.selected = null;
       this.switzch(e.target.innerText);
-      console.log(e.target.innerText);
+      //console.log(e.target.innerText);
     },
 
     switch(id1, id2) {
-      console.log(id1, id2);
+      //console.log(id1, id2);
 
       let copy = this.columnB;
       let place1 = this.columnB.indexOf(id1);
@@ -86,6 +82,14 @@ export default {
 
       this.$store.dispatch("changeColB", copy);
       this.$forceUpdate();
+    },
+    sendExToServer() {
+      this.$store
+        .dispatch("sendExToServer", {
+          exId: this.exercise._id,
+          data: this.columnB
+        })
+        .then(re => (this.score = re));
     }
   },
   //   watch: {
@@ -100,7 +104,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "../../node_modules/bulma/bulma.sass";
+@import "../mystyles.scss";
 
 .partA {
   min-height: 72px;

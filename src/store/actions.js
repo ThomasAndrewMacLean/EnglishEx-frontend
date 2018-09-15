@@ -363,5 +363,35 @@ export default {
   },
   changeColB({ commit }, payload) {
     commit("changeColB", payload);
+  },
+  sendExToServer({ commit }, payload) {
+    commit("setLoader", true);
+    console.log(payload);
+    return new Promise((resolve, reject) => {
+      fetch(api + "/saveEx", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+        .then(res => {
+          commit("setLoader", false);
+            
+          if (res.status !== 200) {
+            commit("setErrorMessage", "make sure you are logged in.");
+          }
+          return res.json();
+        })
+        .then(j => {
+          return resolve(j);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
   }
 };

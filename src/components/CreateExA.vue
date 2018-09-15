@@ -1,7 +1,8 @@
 <template>
     <section>
         <h1 class="title">Create Exercise Type A</h1>
-        <p class="level"> Here we create exercises type A, we set the left and right part in the correct order. These can also be uploaded from an Excelfile.
+        <p class="level"> Here we create exercises type A, we set the left and right part in the correct order. These
+            can also be uploaded from an Excelfile.
             It will upload the first sheet of an excel file, and it needs a title on the first row.
         </p>
 
