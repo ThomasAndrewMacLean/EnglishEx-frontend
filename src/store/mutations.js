@@ -10,10 +10,16 @@ export default {
     state.loading = payload;
   },
   setCurrentExercise(state, payload) {
-    state.currentExercise = payload;
-    if (payload.type === "A") {
-      state.colA = payload.exercise.map(a => a.partA.trim());
-      state.colB = payload.exercise.map(a => a.partB.trim());
+    if (payload === null) {
+      state.currentExercise = null;
+      state.colA = null;
+      state.colB = null;
+    } else {
+      state.currentExercise = payload;
+      if (payload.type === "A") {
+        state.colA = payload.exercise.map(a => a.partA.trim());
+        state.colB = payload.exercise.map(a => a.partB.trim());
+      }
     }
   },
   changeColB(state, payload) {

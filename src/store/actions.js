@@ -78,6 +78,36 @@ export default {
         commit("setLoader", false);
       });
   },
+  getNameFromToken({ commit }) {
+    commit("setLoader", true);
+    return new Promise((resolve, reject) => {
+      fetch(api + "/getNameFromToken", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        method: "GET"
+      })
+        .then(res => {
+          //console.log(res);
+          commit("setLoader", false);
+          if (res.status !== 200) {
+            commit("setUser", null);
+            commit("setErrorMessage", "make sure you are logged in.");
+            router.push("/");
+          }
+          res.json().then(j => {
+            commit("setUser", {
+              email: j.email,
+              isAdmin: j.isAdmin
+            });
+          });
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
+  },
   confirmUser({ commit }, payload) {
     console.log(payload.code);
 
@@ -240,34 +270,67 @@ export default {
     });
   },
   getExercise({ commit }, payload) {
-    commit("setLoader", true);
+    if (!payload.id) {
+      commit("setCurrentExercise", null);
+    } else {
+      commit("setLoader", true);
 
-    fetch(api + "/exercises/" + payload.id, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      },
-      method: "GET"
-    })
-      .then(res => {
-        if (res.status !== 200) {
-          commit("setUser", null);
-          commit("setErrorMessage", "make sure you are logged in.");
-          router.push("/");
-        }
-        return res.json();
+      fetch(api + "/exercises/" + payload.id, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        method: "GET"
       })
-      .then(ex => {
-        commit("setLoader", false);
+        .then(res => {
+          if (res.status !== 200) {
+            commit("setUser", null);
+            commit("setErrorMessage", "make sure you are logged in.");
+            router.push("/");
+          }
+          return res.json();
+        })
+        .then(ex => {
+          commit("setLoader", false);
 
-        commit("setCurrentExercise", ex[0]);
-      })
-      .catch(err => {
-        commit("setErrorMessage", err);
-      });
+          commit("setCurrentExercise", ex[0]);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+        });
+    }
   },
   getCourses({ commit }) {
+    commit("setLoader", true);
+
     return new Promise((resolve, reject) => {
       fetch(api + "/courses", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        method: "GET"
+      })
+        .then(res => {
+          commit("setLoader", false);
+
+          if (res.status !== 200) {
+            commit("setUser", null);
+            commit("setErrorMessage", "make sure you are logged in.");
+            router.push("/");
+          }
+          return res.json();
+        })
+        .then(j => {
+          return resolve(j);
+        })
+        .catch(err => {
+          commit("setErrorMessage", err);
+          reject(err);
+        });
+    });
+  },
+  getMyPoints({ commit }) {
+    return new Promise((resolve, reject) => {
+      fetch(api + "/getMyPoints", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         },
@@ -290,6 +353,7 @@ export default {
         });
     });
   },
+
   getCourse({ commit }, payload) {
     return new Promise((resolve, reject) => {
       fetch(api + "/course/" + payload.id, {

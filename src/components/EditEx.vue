@@ -62,7 +62,10 @@ export default {
       c.isActive = true;
       this.selectedEx = c;
     },
-    exHasBeenUpdated() {
+    exHasBeenUpdated(ex) {
+      this.selectedEx.isActive = false;
+      this.selectedEx.title = ex.title;
+      this.selectedEx.exercise = ex.exercise;
       this.selectedEx = null;
     },
     deleteEx() {
@@ -81,7 +84,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getExercises").then(x => {
-      console.log(x);
       this.exercises = x.filter(y => y.title && !y.delete);
     });
   },
@@ -99,7 +101,8 @@ export default {
 }
 
 .delete-button {
-  margin-top: 2rem;
+  margin-top: -36px;
+  float: right;
 }
 
 .type {

@@ -53,7 +53,11 @@ export default {
     }
   },
   mounted() {
+    //this.$store.dispatch("getExercise");
     //TODO: store in vuex store so we dont fetch them every time we visit homepage?
+    this.$store.dispatch("getExercise", {
+      id: null
+    });
     this.$store
       .dispatch("getCourse", {
         id: this.$route.params.courseid

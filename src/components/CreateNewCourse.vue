@@ -23,7 +23,7 @@
 
                     <div class="column">
                         <div class="control">
-                            <input class="input is-radiusless" v-model="course.imgURL" type="text" name="img" id="img" required>
+                            <input class="input is-radiusless" v-model="course.imgURL" type="text" name="img" id="img">
                         </div>
                     </div>
 
@@ -99,7 +99,7 @@ export default {
     this.$store.dispatch("getExercises").then(x => {
       console.log(x);
 
-      return (this.exercises = x.filter(y => y.title).map(z => {
+      return (this.exercises = x.filter(y => y.title && !y.delete).map(z => {
         return {
           id: z._id,
           isActive: false,

@@ -22,11 +22,11 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'CreateExA'" :class="adminPage === 'CreateExA' ? 'is-active':''">Type
+                            <a @click="adminPage = 'CreateExA'" :class="adminPage === 'CreateExA' ? 'is-active':''">Create Type
                                 A</a>
                         </li>
                         <li>
-                            <a @click="adminPage = 'CreateExB'" :class="adminPage === 'CreateExB' ? 'is-active':''">Type
+                            <a @click="adminPage = 'CreateExB'" :class="adminPage === 'CreateExB' ? 'is-active':''">Create Type
                                 B</a>
                         </li>
                         <li>

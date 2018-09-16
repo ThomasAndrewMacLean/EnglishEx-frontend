@@ -20,7 +20,8 @@
                 <div class="columns">
                     <div class="column is-half">
                         <div class="control">
-                            <input class="input is-radiusless" v-model="selectedCourse.title" type="text" name="title" id="title" required>
+                            <input class="input is-radiusless" v-model="selectedCourse.title" type="text" name="title"
+                                id="title" required>
                         </div>
                     </div>
 
@@ -33,7 +34,8 @@
 
                     <div class="column">
                         <div class="control">
-                            <input class="input is-radiusless" v-model="selectedCourse.imgURL" type="text" name="img" id="img" required>
+                            <input class="input is-radiusless" v-model="selectedCourse.imgURL" type="text" name="img"
+                                id="img">
                         </div>
                     </div>
 
@@ -46,9 +48,9 @@
             <div class="field">
                 <label class="label" for="description">Description</label>
                 <div class="control">
-                    <textarea class="textarea is-radiusless" v-model="selectedCourse.description" type="text" name="description" id="description"
-                        required />
-                </div>
+                    <textarea class="textarea is-radiusless" v-model="selectedCourse.description" type="text" name="description"
+                        id="description" required />
+                    </div>
             </div>
             <div class="columns">
                 <div class="column">

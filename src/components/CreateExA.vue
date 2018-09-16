@@ -9,7 +9,7 @@
 
         <div class="field">
             <label class="label" for="title">Title</label>
-            <div class="columns">
+            <div class="columns title-input">
                 <div class="column is-half">
                     <div class="control">
                         <input class="input is-radiusless" v-model="title" type="text" name="title" id="title" required>
@@ -76,9 +76,12 @@ export default {
         })
         .then(x => {
           console.log(x);
+          this.$emit("updated", {
+            title: this.title,
+            exercise: this.lines
+          });
           this.lines = [{}];
           this.title = "";
-          this.$emit("updated", true);
         });
     },
     readExcel(event) {
@@ -113,10 +116,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .margin-delete-button {
   margin-top: 20px;
   position: absolute;
   right: 0;
+}
+.title-input{
+
 }
 </style>
