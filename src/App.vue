@@ -2,7 +2,7 @@
     <div id="app">
         <div class="navbar is-primary" v-if="user">
             <div class="navbar-brand">
-                <a class="navbar-item" @click="showNav = false" href="#/home">End Training</a>
+                <a class="navbar-item" @click="showNav = false" href="#/home">DEV End Training</a>
                 <div class="navbar-item is-right" @click="showNav = false">{{user.username || user.email}}</div>
                 <div class="navbar-burger" @click="showNav = !showNav" :class="{ 'is-active': showNav }">
                     <span aria-hidden="true"></span>
