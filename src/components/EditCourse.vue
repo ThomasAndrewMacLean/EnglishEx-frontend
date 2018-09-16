@@ -3,7 +3,7 @@
         <!-- have all courses right. click one to load it and edit it -->
         <h1 class="title">Edit Courses</h1>
         <div v-if="!selectedCourse" class="columns is-multiline">
-            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses" :key="index">
+            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)" :key="index">
                 <div class="box is-radiusless" @click="selectCourse(course)">
                     <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
@@ -74,11 +74,29 @@
                     <div class="field margin-top">
                         <div class="control">
                             <button type="submit" class="button is-link is-radiusless">Save</button>
+                            <Button @click.prevent="showModal=true" class="button delete-button is-danger is-radiusless">Delete</Button>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
+         <div :class="showModal? 'is-active modal':'modal'">
+            <div class="modal-background"></div>
+            <div class="modal-card is-radiusless">
+                <header class="modal-card-head is-radiusless">
+                    <p class="modal-card-title">Are you sure??</p>
+                    <button @click="showModal=false" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <!-- Content ... -->
+                    Are you sure you want to delete this exercise?
+                </section>
+                <footer class="modal-card-foot is-radiusless">
+                    <button @click="deleteCourse" class="button is-danger is-radiusless">Yes, delete</button>
+                    <button @click="showModal=false" class="button is-radiusless">Cancel</button>
+                </footer>
+            </div>
+        </div>
     </section>
 </template>
 
@@ -90,19 +108,25 @@ export default {
       courses: [],
       selectedCourse: null,
       fil: "",
-      exercises: []
+      exercises: [],
+      showModal: false
     };
   },
   methods: {
     selectCourse(c) {
       this.selectedCourse = c;
-      console.log(c.exercises.map(d => d.id));
-
       this.exercises.forEach(e => {
-        console.log(e);
-
         e.isActive = c.exercises.map(d => d.id).includes(e.id);
       });
+    },
+    deleteCourse() {
+      this.showModal = false;
+      this.selectedCourse.delete = true;
+      this.$store
+        .dispatch("editCourse", {
+          course: this.selectedCourse
+        })
+        .then(() => this.clearCourse());
     },
     editCourse() {
       this.selectedCourse.exercises = this.exercises.filter(e => e.isActive);
@@ -134,8 +158,6 @@ export default {
         this.$router.push("/");
       });
     this.$store.dispatch("getExercises").then(x => {
-      console.log(x);
-
       return (this.exercises = x.filter(y => y.title).map(z => {
         return {
           id: z._id,
@@ -166,5 +188,8 @@ export default {
 
 .panel-block.is-active {
   border-left-width: 1rem;
+}
+.delete-button {
+  float: right;
 }
 </style>
