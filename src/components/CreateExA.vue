@@ -122,7 +122,4 @@ export default {
   position: absolute;
   right: 0;
 }
-.title-input{
-
-}
 </style>
