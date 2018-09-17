@@ -8,7 +8,10 @@
             <li>
                 <a href="https://sentry.io/tmac/englishex-api/" target="_blank">backend sentry</a>
             </li>
-
+            <li>
+                <a href="https://analytics.google.com/analytics/web/#/report-home/a110018468w184610848p181927921"
+                    target="_blank">google analytics</a>
+            </li>
         </ul>
 
     </section>
@@ -24,7 +27,6 @@ section {
   width: 100vw;
   background: url("https://sentry-brand.storage.googleapis.com/sentry-pattern.png");
 }
-
 
 ul {
   list-style: inside;
