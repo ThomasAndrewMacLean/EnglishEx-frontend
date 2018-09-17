@@ -71,35 +71,35 @@
 </template>
 
 <script>
-import CreateExA from "./../components/CreateExA.vue";
-import CreateExB from "./../components/CreateExB.vue";
-import CreateNewCourse from "./../components/CreateNewCourse.vue";
-import EditCourse from "./../components/EditCourse.vue";
-import Users from "./../components/Users.vue";
-import EditEx from "./../components/EditEx.vue";
-import DevPage from "./../components/DevPage.vue";
+import CreateExA from './../components/CreateExA.vue';
+import CreateExB from './../components/CreateExB.vue';
+import CreateNewCourse from './../components/CreateNewCourse.vue';
+import EditCourse from './../components/EditCourse.vue';
+import Users from './../components/Users.vue';
+import EditEx from './../components/EditEx.vue';
+import DevPage from './../components/DevPage.vue';
 
 export default {
-  data() {
-    return {
-      adminPage: "CreateExA"
-    };
-  },
-  components: {
-    CreateExA,
-    CreateExB,
-    EditCourse,
-    Users,
-    CreateNewCourse,
-    EditEx,
-    DevPage
-  }
+    data() {
+        return {
+            adminPage: 'CreateExA'
+        };
+    },
+    components: {
+        CreateExA,
+        CreateExB,
+        EditCourse,
+        Users,
+        CreateNewCourse,
+        EditEx,
+        DevPage
+    }
 };
 </script>
 
 <style>
 .admin-menu {
-  border-right: 1px solid #ccc;
-  margin-right: 1rem;
+    border-right: 1px solid #ccc;
+    margin-right: 1rem;
 }
 </style>

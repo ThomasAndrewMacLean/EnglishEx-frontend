@@ -85,50 +85,50 @@
 // @ is an alias to /src
 
 export default {
-  name: "landing",
-  components: {},
-  data() {
-    return {
-      email: "",
-      password: "",
-      tab: localStorage.getItem("token") ? "logIn" : "signUp"
-    };
-  },
-  methods: {
-    signUserUp() {
-      this.$store.dispatch("signUserUp", {
-        email: this.email,
-        password: this.password
-      });
+    name: 'landing',
+    components: {},
+    data() {
+        return {
+            email: '',
+            password: '',
+            tab: localStorage.getItem('token') ? 'logIn' : 'signUp'
+        };
     },
-    logUserIn() {
-      this.$store.dispatch("logUserIn", {
-        email: this.email,
-        password: this.password
-      });
+    methods: {
+        signUserUp() {
+            this.$store.dispatch('signUserUp', {
+                email: this.email,
+                password: this.password
+            });
+        },
+        logUserIn() {
+            this.$store.dispatch('logUserIn', {
+                email: this.email,
+                password: this.password
+            });
+        }
+    },
+    computed: {
+        message() {
+            if (this.$store.getters.errorMessage !== null)
+                return this.$store.getters.errorMessage;
+        }
     }
-  },
-  computed: {
-    message() {
-      if (this.$store.getters.errorMessage !== null)
-        return this.$store.getters.errorMessage;
-    }
-  }
 };
 </script>
 
 
 <style>
 .landing {
-  height: 100vh;
-  background-image: url("./../assets/bookshop.jpg");
-  filter: grayscale(30%);
-  background-size: cover;
-  /* filter: blur(5px);
+    height: 100vh;
+    background-image: url('./../assets/bookshop.jpg');
+    filter: grayscale(30%);
+    background-size: cover;
+    /* filter: blur(5px);
   filter: hue-rotate(90deg); */
 }
 
 .box {
-  margin-top: 3rem;
+    margin-top: 3rem;
 }
 </style>

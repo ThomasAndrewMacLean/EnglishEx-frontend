@@ -23,21 +23,21 @@ export default {};
 
 <style scoped>
 section {
-  height: 80vh;
-  width: 100vw;
-  background: url("https://sentry-brand.storage.googleapis.com/sentry-pattern.png");
+    height: 80vh;
+    width: 100vw;
+    background: url('https://sentry-brand.storage.googleapis.com/sentry-pattern.png');
 }
 
 ul {
-  list-style: inside;
-  background: white;
-  width: 200px;
-  margin: 2rem;
-  border-radius: 4px;
-  border: 2px solid lightgrey;
+    list-style: inside;
+    background: white;
+    width: 200px;
+    margin: 2rem;
+    border-radius: 4px;
+    border: 2px solid lightgrey;
 }
 
 li {
-  margin: 1rem;
+    margin: 1rem;
 }
 </style>

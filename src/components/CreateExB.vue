@@ -3,7 +3,8 @@
         <h1 class="title">Create Exercise Type B</h1>
         <p class="level"> Here we create exercises type B.
             The words that have to be filled in should be put between double [[]]
-            These can also be uploaded from an Excelfile. It will upload the first sheet of an excel file, and it needs a title on the first row.
+            These can also be uploaded from an Excelfile. It will upload the first sheet of an excel file, and it needs
+            a title on the first row.
         </p>
 
         <div class="field">
@@ -46,64 +47,65 @@
 
 <script>
 export default {
-  data() {
-    return {
-      lines: [{}],
-      title: ""
-    };
-  },
-  methods: {
-    deleteLine(line) {
-      this.preventDefault;
-      this.lines.splice(this.lines.findIndex(x => x === line), 1);
+    data() {
+        return {
+            lines: [{}],
+            title: ''
+        };
     },
-    addExercise() {
-      this.$store
-        .dispatch("addExercise", {
-          exercise: this.lines,
-          title: this.title,
-          type: "B"
-        })
-        .then(x => {
-          console.log(x);
-          this.lines = [{}];
-          this.title = "";
-        });
-    },
-    readExcel(event) {
-      var inputElement = document.getElementById("inputfile");
-      this.$store
-        .dispatch("readExcel", {
-          file: inputElement.files[0]
-        })
-        .then(x => {
-          const keys = Object.keys(x[0]);
-          this.lines = x.map(y => {
-            return {
-              partA: y.partA || y[keys[0]]
-            };
-          });
-          event.target.value = "";
-        });
+    methods: {
+        deleteLine(line) {
+            this.preventDefault;
+            this.lines.splice(this.lines.findIndex(x => x === line), 1);
+        },
+        addExercise() {
+            this.$store
+                .dispatch('addExercise', {
+                    exercise: this.lines,
+                    title: this.title,
+                    type: 'B'
+                })
+                .then(x => {
+                    console.log(x);
+                    this.lines = [{}];
+                    this.title = '';
+                });
+        },
+        readExcel(event) {
+            var inputElement = document.getElementById('inputfile');
+            this.$store
+                .dispatch('readExcel', {
+                    file: inputElement.files[0]
+                })
+                .then(x => {
+                    const keys = Object.keys(x[0]);
+                    this.lines = x.map(y => {
+                        return {
+                            partA: y.partA || y[keys[0]]
+                        };
+                    });
+                    event.target.value = '';
+                });
+        }
     }
-  }
 };
 </script>
 
 <style scoped>
 .margin-delete-button {
-  margin-top: 20px;
-  position: absolute;
-  right: 0;
+    margin-top: 20px;
+    position: absolute;
+    right: 0;
 }
+
 #imgPreview {
-  outline: 1px solid #ccc;
-  height: 160px;
-  width: 320px;
-  position: absolute;
-  top: 160px;
-  margin-left: 21px;
-  background-size: cover;
-  background-repeat: no-repeat;
+    outline: 1px solid #ccc;
+    height: 160px;
+    width: 320px;
+    position: absolute;
+    top: 160px;
+    margin-left: 21px;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 </style>

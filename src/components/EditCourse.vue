@@ -3,7 +3,8 @@
         <!-- have all courses right. click one to load it and edit it -->
         <h1 class="title">Edit Courses</h1>
         <div v-if="!selectedCourse" class="columns is-multiline">
-            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)" :key="index">
+            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)"
+                :key="index">
                 <div class="box is-radiusless" @click="selectCourse(course)">
                     <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
@@ -102,94 +103,96 @@
 
 <script>
 export default {
-  name: "editCourse",
-  data() {
-    return {
-      courses: [],
-      selectedCourse: null,
-      fil: "",
-      exercises: [],
-      showModal: false
-    };
-  },
-  methods: {
-    selectCourse(c) {
-      this.selectedCourse = c;
-      this.exercises.forEach(e => {
-        e.isActive = c.exercises.map(d => d.id).includes(e.id);
-      });
-    },
-    deleteCourse() {
-      this.showModal = false;
-      this.selectedCourse.delete = true;
-      this.$store
-        .dispatch("editCourse", {
-          course: this.selectedCourse
-        })
-        .then(() => this.clearCourse());
-    },
-    editCourse() {
-      this.selectedCourse.exercises = this.exercises.filter(e => e.isActive);
-      this.$store
-        .dispatch("editCourse", {
-          course: this.selectedCourse
-        })
-        .then(() => this.clearCourse());
-    },
-    clearCourse() {
-      this.exercises.forEach(e => (e.isActive = false));
-      this.selectedCourse = null;
-    }
-  },
-  computed: {
-    filteredExercises() {
-      return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
-    }
-  },
-  mounted() {
-    //TODO: store in vuex store so we dont fetch them every time we visit homepage?
-    this.$store
-      .dispatch("getCourses")
-      .then(x => (this.courses = x))
-      .catch(err => {
-        console.log("err");
-        console.log(err);
-
-        this.$router.push("/");
-      });
-    this.$store.dispatch("getExercises").then(x => {
-      return (this.exercises = x.filter(y => y.title).map(z => {
+    name: 'editCourse',
+    data() {
         return {
-          id: z._id,
-          isActive: false,
-          title: z.title
+            courses: [],
+            selectedCourse: null,
+            fil: '',
+            exercises: [],
+            showModal: false
         };
-      }));
-    });
-  }
+    },
+    methods: {
+        selectCourse(c) {
+            this.selectedCourse = c;
+            this.exercises.forEach(e => {
+                e.isActive = c.exercises.map(d => d.id).includes(e.id);
+            });
+        },
+        deleteCourse() {
+            this.showModal = false;
+            this.selectedCourse.delete = true;
+            this.$store
+                .dispatch('editCourse', {
+                    course: this.selectedCourse
+                })
+                .then(() => this.clearCourse());
+        },
+        editCourse() {
+            this.selectedCourse.exercises = this.exercises.filter(
+                e => e.isActive
+            );
+            this.$store
+                .dispatch('editCourse', {
+                    course: this.selectedCourse
+                })
+                .then(() => this.clearCourse());
+        },
+        clearCourse() {
+            this.exercises.forEach(e => (e.isActive = false));
+            this.selectedCourse = null;
+        }
+    },
+    computed: {
+        filteredExercises() {
+            return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+        }
+    },
+    mounted() {
+        //TODO: store in vuex store so we dont fetch them every time we visit homepage?
+        this.$store
+            .dispatch('getCourses')
+            .then(x => (this.courses = x))
+            .catch(err => {
+                console.log('err');
+                console.log(err);
+
+                this.$router.push('/');
+            });
+        this.$store.dispatch('getExercises').then(x => {
+            return (this.exercises = x.filter(y => y.title).map(z => {
+                return {
+                    id: z._id,
+                    isActive: false,
+                    title: z.title
+                };
+            }));
+        });
+    }
 };
 </script>
 
 <style>
 #imgPreview2 {
-  outline: 1px solid #ccc;
-  height: 160px;
-  width: 320px;
-  position: absolute;
-  top: 120px;
-  margin-left: 21px;
-  background-size: cover;
-  background-repeat: no-repeat;
+    outline: 1px solid #ccc;
+    height: 160px;
+    width: 320px;
+    position: absolute;
+    top: 120px;
+    margin-left: 21px;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .margin-top {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 .panel-block.is-active {
-  border-left-width: 1rem;
+    border-left-width: 1rem;
 }
 .delete-button {
-  float: right;
+    float: right;
 }
 </style>
