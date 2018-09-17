@@ -4,13 +4,21 @@ import router from "./router/router";
 import store from "./store/store";
 import Raven from "raven-js";
 import RavenVue from "raven-js/plugins/vue";
+import VueAnalytics from "vue-analytics";
 import "./registerServiceWorker";
 
-Raven.config("https://39def78bbaa6426c91ffc5c48d5c245c@sentry.io/1282651")
-  .addPlugin(RavenVue, Vue)
-  .install();
+//SET UP GOOGLE ANALYTICS AND SENTRY ERROR LOGGING
+if (window.location.host === "end-training.com") {
+  Raven.config("https://39def78bbaa6426c91ffc5c48d5c245c@sentry.io/1282651")
+    .addPlugin(RavenVue, Vue)
+    .install();
 
-Vue.config.productionTip = false;
+  Vue.use(VueAnalytics, {
+    id: "UA-110018468-6",
+    router
+  });
+}
+//Vue.config.productionTip = false;
 
 new Vue({
   router,
