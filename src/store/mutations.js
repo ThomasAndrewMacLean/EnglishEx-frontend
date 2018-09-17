@@ -1,5 +1,11 @@
+import Raven from "raven-js";
+
 export default {
   setUser(state, payload) {
+    Raven.setUserContext({
+      email: payload.email
+    });
+
     state.user = payload;
   },
   setErrorMessage(state, payload) {
