@@ -84,7 +84,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch('getExercises').then(x => {
-            this.exercises = x.filter(y => y.title && !y.delete);
+            this.exercises = x.filter(y => !y.delete);
         });
     },
     computed: {

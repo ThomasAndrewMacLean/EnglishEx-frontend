@@ -67,7 +67,8 @@
                         </div>
                         <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
 
-                            {{ex.title}}
+                            {{ex.title}}<span class="type is-italic has-text-grey-dark is-size-7"> (type:
+                    {{ ex.type}})</span>
                         </a>
                     </div>
                 </div>
@@ -161,19 +162,32 @@ export default {
                 this.$router.push('/');
             });
         this.$store.dispatch('getExercises').then(x => {
-            return (this.exercises = x.filter(y => y.title).map(z => {
-                return {
-                    id: z._id,
-                    isActive: false,
-                    title: z.title
-                };
-            }));
+            return (this.exercises = x
+                .filter(y => y.title && !y.delete)
+                .map(z => {
+                    return {
+                        id: z._id,
+                        isActive: false,
+                        title: z.title,
+                        type: z.type
+                    };
+                }));
         });
     }
 };
 </script>
 
-<style>
+<style scoped>
+.img {
+    height: auto;
+    background: tomato;
+    width: calc(100% + 2.5rem);
+    margin-left: -1.25rem;
+    margin-top: -1.25rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: grayscale(20%);
+}
 #imgPreview2 {
     outline: 1px solid #ccc;
     height: 160px;
@@ -183,6 +197,9 @@ export default {
     margin-left: 21px;
     background-size: cover;
     background-repeat: no-repeat;
+}
+.type {
+    margin-left: 0.5rem;
 }
 
 .margin-top {

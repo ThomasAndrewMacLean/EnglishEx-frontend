@@ -56,7 +56,8 @@
                         </div>
                         <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
 
-                            {{ex.title}}
+                            {{ex.title}}<span class="type is-italic has-text-grey-dark is-size-7"> (type:
+                    {{ ex.type}})</span>
                         </a>
                     </div>
                 </div>
@@ -107,7 +108,8 @@ export default {
                     return {
                         id: z._id,
                         isActive: false,
-                        title: z.title
+                        title: z.title,
+                        type: z.type
                     };
                 }));
         });
@@ -130,6 +132,9 @@ export default {
     margin-left: 21px;
     background-size: cover;
     background-repeat: no-repeat;
+}
+.type {
+    margin-left: 0.5rem;
 }
 
 .margin-top {
