@@ -9,6 +9,10 @@
                 <a href="https://sentry.io/tmac/englishex-api/" target="_blank">backend sentry</a>
             </li>
             <li>
+                <a href="https://app.dashbird.io/lambdas/eu-west-1/englishex---api/tabs/overview" target="_blank">dashbird
+                    backend monitoring</a>
+            </li>
+            <li>
                 <a href="https://analytics.google.com/analytics/web/#/report-home/a110018468w184610848p181927921"
                     target="_blank">google analytics</a>
             </li>
