@@ -33,14 +33,14 @@
                                 <label class="label" for="email">Email</label>
                                 <div class="control">
                                     <input autocomplete="email" class="input is-radiusless" v-model="email" type="email"
-                                        name="email" id="email">
+                                        required name="email" id="email">
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="password">Password</label>
                                 <div class="control">
                                     <input autocomplete="password" class="input is-radiusless" v-model="password" type="password"
-                                        name="password" id="password">
+                                        required name="password" id="password">
                                 </div>
                             </div>
                             <div class="field">
@@ -54,14 +54,14 @@
                                 <label class="label" for="email">Email</label>
                                 <div class="control">
                                     <input autocomplete="email" class="input is-radiusless" v-model="email" type="email"
-                                        @blur="onBlurEmail" name="email" id="email">
+                                        required @blur="onBlurEmail" name="email" id="email">
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="password">Password</label>
                                 <div class="control">
                                     <input autocomplete="password" class="input is-radiusless" v-model="password" type="password"
-                                        @blur="onBlurPassword" name="password" id="password">
+                                        required @blur="onBlurPassword" name="password" id="password">
                                 </div>
                             </div>
                             <div class="field">
