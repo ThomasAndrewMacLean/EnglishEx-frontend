@@ -22,11 +22,13 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'CreateExA'" :class="adminPage === 'CreateExA' ? 'is-active':''">Create Type
+                            <a @click="adminPage = 'CreateExA'" :class="adminPage === 'CreateExA' ? 'is-active':''">Create
+                                Type
                                 A</a>
                         </li>
                         <li>
-                            <a @click="adminPage = 'CreateExB'" :class="adminPage === 'CreateExB' ? 'is-active':''">Create Type
+                            <a @click="adminPage = 'CreateExB'" :class="adminPage === 'CreateExB' ? 'is-active':''">Create
+                                Type
                                 B</a>
                         </li>
                         <li>
@@ -41,6 +43,15 @@
                             <a @click="adminPage = 'Users'" :class="adminPage === 'Users' ? 'is-active':''">Users</a>
                         </li>
                     </ul>
+                    <p class="menu-label">
+                        Dev
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a @click="adminPage = 'DevPage'" :class="adminPage === 'DevPage' ? 'is-active':''">Dev
+                                page</a>
+                        </li>
+                    </ul>
                 </aside>
             </div>
             <div class="column">
@@ -51,6 +62,7 @@
                     <EditCourse v-if="adminPage === 'EditCourse'" />
                     <Users v-if="adminPage === 'Users'" />
                     <EditEx v-if="adminPage === 'EditEx'" />
+                    <DevPage v-if="adminPage === 'DevPage'" />
                 </section>
             </div>
         </div>
@@ -59,33 +71,35 @@
 </template>
 
 <script>
-import CreateExA from "./../components/CreateExA.vue";
-import CreateExB from "./../components/CreateExB.vue";
-import CreateNewCourse from "./../components/CreateNewCourse.vue";
-import EditCourse from "./../components/EditCourse.vue";
-import Users from "./../components/Users.vue";
-import EditEx from "./../components/EditEx.vue";
+import CreateExA from './../components/CreateExA.vue';
+import CreateExB from './../components/CreateExB.vue';
+import CreateNewCourse from './../components/CreateNewCourse.vue';
+import EditCourse from './../components/EditCourse.vue';
+import Users from './../components/Users.vue';
+import EditEx from './../components/EditEx.vue';
+import DevPage from './../components/DevPage.vue';
 
 export default {
-  data() {
-    return {
-      adminPage: "CreateExA"
-    };
-  },
-  components: {
-    CreateExA,
-    CreateExB,
-    EditCourse,
-    Users,
-    CreateNewCourse,
-    EditEx
-  }
+    data() {
+        return {
+            adminPage: 'CreateExA'
+        };
+    },
+    components: {
+        CreateExA,
+        CreateExB,
+        EditCourse,
+        Users,
+        CreateNewCourse,
+        EditEx,
+        DevPage
+    }
 };
 </script>
 
 <style>
 .admin-menu {
-  border-right: 1px solid #ccc;
-  margin-right: 1rem;
+    border-right: 1px solid #ccc;
+    margin-right: 1rem;
 }
 </style>

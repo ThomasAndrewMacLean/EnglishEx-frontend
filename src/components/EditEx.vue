@@ -42,70 +42,70 @@
 </template>
 
 <script>
-import CreateExA from "./CreateExA";
+import CreateExA from './CreateExA';
 export default {
-  name: "editEx",
-  data() {
-    return {
-      selectedEx: null,
-      exercises: [],
-      fil: "",
-      showModal: false
-    };
-  },
-  components: {
-    CreateExA
-  },
-  methods: {
-    selectEx(c) {
-      this.exercises.forEach(e => (e.isActive = false));
-      c.isActive = true;
-      this.selectedEx = c;
+    name: 'editEx',
+    data() {
+        return {
+            selectedEx: null,
+            exercises: [],
+            fil: '',
+            showModal: false
+        };
     },
-    exHasBeenUpdated(ex) {
-      this.selectedEx.isActive = false;
-      this.selectedEx.title = ex.title;
-      this.selectedEx.exercise = ex.exercise;
-      this.selectedEx = null;
+    components: {
+        CreateExA
     },
-    deleteEx() {
-      this.showModal = false;
-      this.exercises.splice(this.exercises.indexOf(this.selectedEx), 1);
+    methods: {
+        selectEx(c) {
+            this.exercises.forEach(e => (e.isActive = false));
+            c.isActive = true;
+            this.selectedEx = c;
+        },
+        exHasBeenUpdated(ex) {
+            this.selectedEx.isActive = false;
+            this.selectedEx.title = ex.title;
+            this.selectedEx.exercise = ex.exercise;
+            this.selectedEx = null;
+        },
+        deleteEx() {
+            this.showModal = false;
+            this.exercises.splice(this.exercises.indexOf(this.selectedEx), 1);
 
-      this.$store
-        .dispatch("addExercise", {
-          id: this.selectedEx._id,
-          delete: true
-        })
-        .then(() => {
-          this.selectedEx = null;
+            this.$store
+                .dispatch('addExercise', {
+                    id: this.selectedEx._id,
+                    delete: true
+                })
+                .then(() => {
+                    this.selectedEx = null;
+                });
+        }
+    },
+    mounted() {
+        this.$store.dispatch('getExercises').then(x => {
+            this.exercises = x.filter(y => !y.delete);
         });
+    },
+    computed: {
+        filteredExercises() {
+            return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+        }
     }
-  },
-  mounted() {
-    this.$store.dispatch("getExercises").then(x => {
-      this.exercises = x.filter(y => y.title && !y.delete);
-    });
-  },
-  computed: {
-    filteredExercises() {
-      return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
-    }
-  }
 };
 </script>
 
 <style scoped>
 .panel-block.is-active {
-  border-left-width: 1rem;
+    border-left-width: 1rem;
 }
 
 .delete-button {
-  margin-top: -36px;
-  float: right;
+    margin-top: -36px;
+    float: right;
 }
 
 .type {
-  margin-left: 0.5rem;
+    margin-left: 0.5rem;
 }
 </style>

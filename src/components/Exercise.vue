@@ -24,103 +24,103 @@
 
 <script>
 export default {
-  data() {
-    return {
-      copy: null,
-      selected: null,
-      score: null
-    };
-  },
-  computed: {
-    columnA() {
-      return this.$store.getters.getColA;
+    data() {
+        return {
+            copy: null,
+            selected: null,
+            score: null
+        };
     },
-    columnB() {
-      return this.$store.getters.getColB;
-    }
-  },
-  methods: {
-    clickk(e) {
-      let text = e.target.innerText;
-      this.switzch(text);
+    computed: {
+        columnA() {
+            return this.$store.getters.getColA;
+        },
+        columnB() {
+            return this.$store.getters.getColB;
+        }
     },
-    switzch(text) {
-      if (!this.selected) {
-        this.selected = text;
-      } else {
-        this.switch(text, this.selected);
-        this.selected = null;
-      }
-    },
-    ondragenter(event) {
-      event.preventDefault();
-    },
-    ondragover(event) {
-      event.preventDefault();
-    },
-    onDrop(e) {
-      console.log("DROP");
-      //console.log(e.target.innerText);
-      this.switzch(e.target.innerText);
-    },
-    startdrag(e) {
-      console.log("START");
-      this.selected = null;
-      this.switzch(e.target.innerText);
-      //console.log(e.target.innerText);
-    },
+    methods: {
+        clickk(e) {
+            let text = e.target.innerText;
+            this.switzch(text);
+        },
+        switzch(text) {
+            if (!this.selected) {
+                this.selected = text;
+            } else {
+                this.switch(text, this.selected);
+                this.selected = null;
+            }
+        },
+        ondragenter(event) {
+            event.preventDefault();
+        },
+        ondragover(event) {
+            event.preventDefault();
+        },
+        onDrop(e) {
+            console.log('DROP');
+            //console.log(e.target.innerText);
+            this.switzch(e.target.innerText);
+        },
+        startdrag(e) {
+            console.log('START');
+            this.selected = null;
+            this.switzch(e.target.innerText);
+            //console.log(e.target.innerText);
+        },
 
-    switch(id1, id2) {
-      //console.log(id1, id2);
+        switch(id1, id2) {
+            //console.log(id1, id2);
 
-      let copy = this.columnB;
-      let place1 = this.columnB.indexOf(id1);
-      let place2 = this.columnB.indexOf(id2);
-      //let temp = copy[copy.indexOf(id1)];
-      this.columnB[place1] = id2;
-      this.columnB[place2] = id1;
+            let copy = this.columnB;
+            let place1 = this.columnB.indexOf(id1);
+            let place2 = this.columnB.indexOf(id2);
+            //let temp = copy[copy.indexOf(id1)];
+            this.columnB[place1] = id2;
+            this.columnB[place2] = id1;
 
-      this.$store.dispatch("changeColB", copy);
-      this.$forceUpdate();
+            this.$store.dispatch('changeColB', copy);
+            this.$forceUpdate();
+        },
+        sendExToServer() {
+            this.$store
+                .dispatch('sendExToServer', {
+                    exId: this.exercise._id,
+                    data: this.columnB
+                })
+                .then(re => (this.score = re));
+        }
     },
-    sendExToServer() {
-      this.$store
-        .dispatch("sendExToServer", {
-          exId: this.exercise._id,
-          data: this.columnB
-        })
-        .then(re => (this.score = re));
-    }
-  },
-  //   watch: {
-  //     exercise: function(newVal) {
-  //       this.columnA = newVal.exercise.map(a => a.partA);
-  //       // this.columnB = newVal.exercise.map(a => a.partB);
-  //     }
-  //   },
-  props: ["exercise"]
+    //   watch: {
+    //     exercise: function(newVal) {
+    //       this.columnA = newVal.exercise.map(a => a.partA);
+    //       // this.columnB = newVal.exercise.map(a => a.partB);
+    //     }
+    //   },
+    props: ['exercise']
 };
 </script>
 
 
 <style lang="scss" scoped>
-@import "../mystyles.scss";
+@import '../mystyles.scss';
 
 .partA {
-  min-height: 72px;
+    min-height: 72px;
 }
 
 .partB {
-  min-height: 72px;
-  cursor: pointer;
+    min-height: 72px;
+    cursor: pointer;
 }
 
 .partB:hover {
-  color: $purple;
-  background: lightblue;
+    color: $purple;
+    background: lightblue;
 }
 
-[draggable="true"] {
-  cursor: move;
+[draggable='true'] {
+    cursor: move;
 }
 </style>

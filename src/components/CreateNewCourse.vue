@@ -1,7 +1,8 @@
 <template>
     <section>
         <h1 class="title">Create New Course Card</h1>
-        <p class="level"> Here we set the title and description of a course, plus we add the exercises that go in the course.</p>
+        <p class="level"> Here we set the title and description of a course, plus we add the exercises that go in the
+            course.</p>
 
         <form @submit.prevent="addCourse" class="form">
 
@@ -10,7 +11,8 @@
                 <div class="columns">
                     <div class="column is-half">
                         <div class="control">
-                            <input class="input is-radiusless" v-model="course.title" type="text" name="title" id="title" required>
+                            <input class="input is-radiusless" v-model="course.title" type="text" name="title" id="title"
+                                required>
                         </div>
                     </div>
 
@@ -36,9 +38,9 @@
             <div class="field">
                 <label class="label" for="description">Description</label>
                 <div class="control">
-                    <textarea class="textarea is-radiusless" v-model="course.description" type="text" name="description" id="description" required
-                    />
-                </div>
+                    <textarea class="textarea is-radiusless" v-model="course.description" type="text" name="description"
+                        id="description" required />
+                    </div>
             </div>
             <div class="columns">
                 <div class="column">
@@ -54,7 +56,8 @@
                         </div>
                         <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
 
-                            {{ex.title}}
+                            {{ex.title}}<span class="type is-italic has-text-grey-dark is-size-7"> (type:
+                    {{ ex.type}})</span>
                         </a>
                     </div>
                 </div>
@@ -72,67 +75,73 @@
 
 <script>
 export default {
-  data() {
-    return {
-      course: {},
-      exercises: [],
-      fil: ""
-    };
-  },
-  methods: {
-    addCourse() {
-      this.course.exercises = this.exercises.filter(e => e.isActive);
-      console.log(this.course);
-      this.$store
-        .dispatch("addCourse", {
-          course: this.course
-        })
-        .then(() => this.clearCourse());
-    },
-    clearCourse() {
-      this.exercises.forEach(e => (e.isActive = false));
-      this.course = {};
-    }
-  },
-  mounted() {
-    //TODO: store in vuex store so we dont fetch them every time we visit homepage?
-    this.$store.dispatch("getExercises").then(x => {
-      console.log(x);
-
-      return (this.exercises = x.filter(y => y.title && !y.delete).map(z => {
+    data() {
         return {
-          id: z._id,
-          isActive: false,
-          title: z.title
+            course: {},
+            exercises: [],
+            fil: ''
         };
-      }));
-    });
-  },
-  computed: {
-    filteredExercises() {
-      return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+    },
+    methods: {
+        addCourse() {
+            this.course.exercises = this.exercises.filter(e => e.isActive);
+            console.log(this.course);
+            this.$store
+                .dispatch('addCourse', {
+                    course: this.course
+                })
+                .then(() => this.clearCourse());
+        },
+        clearCourse() {
+            this.exercises.forEach(e => (e.isActive = false));
+            this.course = {};
+        }
+    },
+    mounted() {
+        //TODO: store in vuex store so we dont fetch them every time we visit homepage?
+        this.$store.dispatch('getExercises').then(x => {
+            console.log(x);
+
+            return (this.exercises = x
+                .filter(y => y.title && !y.delete)
+                .map(z => {
+                    return {
+                        id: z._id,
+                        isActive: false,
+                        title: z.title,
+                        type: z.type
+                    };
+                }));
+        });
+    },
+    computed: {
+        filteredExercises() {
+            return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+        }
     }
-  }
 };
 </script>
 
 <style scoped>
 #imgPreview {
-  outline: 1px solid #ccc;
-  height: 160px;
-  width: 320px;
-  position: absolute;
-  top: 160px;
-  margin-left: 21px;
-  background-size: cover;
-  background-repeat: no-repeat;
+    outline: 1px solid #ccc;
+    height: 160px;
+    width: 320px;
+    position: absolute;
+    top: 160px;
+    margin-left: 21px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.type {
+    margin-left: 0.5rem;
 }
 
 .margin-top {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 .panel-block.is-active {
-  border-left-width: 1rem;
+    border-left-width: 1rem;
 }
 </style>

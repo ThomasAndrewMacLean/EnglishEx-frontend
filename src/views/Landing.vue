@@ -33,14 +33,14 @@
                                 <label class="label" for="email">Email</label>
                                 <div class="control">
                                     <input autocomplete="email" class="input is-radiusless" v-model="email" type="email"
-                                        name="email" id="email">
+                                        required name="email" id="email">
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="password">Password</label>
                                 <div class="control">
                                     <input autocomplete="password" class="input is-radiusless" v-model="password" type="password"
-                                        name="password" id="password">
+                                        required name="password" id="password">
                                 </div>
                             </div>
                             <div class="field">
@@ -54,14 +54,14 @@
                                 <label class="label" for="email">Email</label>
                                 <div class="control">
                                     <input autocomplete="email" class="input is-radiusless" v-model="email" type="email"
-                                        name="email" id="email">
+                                        required @blur="onBlurEmail" name="email" id="email">
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="password">Password</label>
                                 <div class="control">
                                     <input autocomplete="password" class="input is-radiusless" v-model="password" type="password"
-                                        name="password" id="password">
+                                        required @blur="onBlurPassword" name="password" id="password">
                                 </div>
                             </div>
                             <div class="field">
@@ -85,50 +85,58 @@
 // @ is an alias to /src
 
 export default {
-  name: "landing",
-  components: {},
-  data() {
-    return {
-      email: "",
-      password: "",
-      tab: localStorage.getItem("token") ? "logIn" : "signUp"
-    };
-  },
-  methods: {
-    signUserUp() {
-      this.$store.dispatch("signUserUp", {
-        email: this.email,
-        password: this.password
-      });
+    name: 'landing',
+    components: {},
+    data() {
+        return {
+            email: '',
+            password: '',
+            tab: localStorage.getItem('token') ? 'logIn' : 'signUp'
+        };
     },
-    logUserIn() {
-      this.$store.dispatch("logUserIn", {
-        email: this.email,
-        password: this.password
-      });
+    methods: {
+        onBlurPassword(event) {
+            if (event && this.password !== event.target.value)
+                this.password = event.target.value;
+        },
+        onBlurEmail(event) {
+            if (event && this.email !== event.target.value)
+                this.email = event.target.value;
+        },
+        signUserUp() {
+            this.$store.dispatch('signUserUp', {
+                email: this.email,
+                password: this.password
+            });
+        },
+        logUserIn() {
+            this.$store.dispatch('logUserIn', {
+                email: this.email,
+                password: this.password
+            });
+        }
+    },
+    computed: {
+        message() {
+            if (this.$store.getters.errorMessage !== null)
+                return this.$store.getters.errorMessage;
+        }
     }
-  },
-  computed: {
-    message() {
-      if (this.$store.getters.errorMessage !== null)
-        return this.$store.getters.errorMessage;
-    }
-  }
 };
 </script>
 
 
 <style>
 .landing {
-  height: 100vh;
-  background-image: url("./../assets/bookshop.jpg");
-  filter: grayscale(30%);
-  background-size: cover;
-  /* filter: blur(5px);
+    height: 100vh;
+    background-image: url('./../assets/bookshop.jpg');
+    filter: grayscale(30%);
+    background-size: cover;
+    /* filter: blur(5px);
   filter: hue-rotate(90deg); */
 }
 
 .box {
-  margin-top: 3rem;
+    margin-top: 3rem;
 }
 </style>

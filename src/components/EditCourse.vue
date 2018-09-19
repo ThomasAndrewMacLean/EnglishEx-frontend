@@ -3,7 +3,8 @@
         <!-- have all courses right. click one to load it and edit it -->
         <h1 class="title">Edit Courses</h1>
         <div v-if="!selectedCourse" class="columns is-multiline">
-            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses" :key="index">
+            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)"
+                :key="index">
                 <div class="box is-radiusless" @click="selectCourse(course)">
                     <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
@@ -66,7 +67,8 @@
                         </div>
                         <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
 
-                            {{ex.title}}
+                            {{ex.title}}<span class="type is-italic has-text-grey-dark is-size-7"> (type:
+                    {{ ex.type}})</span>
                         </a>
                     </div>
                 </div>
@@ -74,97 +76,140 @@
                     <div class="field margin-top">
                         <div class="control">
                             <button type="submit" class="button is-link is-radiusless">Save</button>
+                            <Button @click.prevent="showModal=true" class="button delete-button is-danger is-radiusless">Delete</Button>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
+         <div :class="showModal? 'is-active modal':'modal'">
+            <div class="modal-background"></div>
+            <div class="modal-card is-radiusless">
+                <header class="modal-card-head is-radiusless">
+                    <p class="modal-card-title">Are you sure??</p>
+                    <button @click="showModal=false" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <!-- Content ... -->
+                    Are you sure you want to delete this exercise?
+                </section>
+                <footer class="modal-card-foot is-radiusless">
+                    <button @click="deleteCourse" class="button is-danger is-radiusless">Yes, delete</button>
+                    <button @click="showModal=false" class="button is-radiusless">Cancel</button>
+                </footer>
+            </div>
+        </div>
     </section>
 </template>
 
 <script>
 export default {
-  name: "editCourse",
-  data() {
-    return {
-      courses: [],
-      selectedCourse: null,
-      fil: "",
-      exercises: []
-    };
-  },
-  methods: {
-    selectCourse(c) {
-      this.selectedCourse = c;
-      console.log(c.exercises.map(d => d.id));
-
-      this.exercises.forEach(e => {
-        console.log(e);
-
-        e.isActive = c.exercises.map(d => d.id).includes(e.id);
-      });
-    },
-    editCourse() {
-      this.selectedCourse.exercises = this.exercises.filter(e => e.isActive);
-      this.$store
-        .dispatch("editCourse", {
-          course: this.selectedCourse
-        })
-        .then(() => this.clearCourse());
-    },
-    clearCourse() {
-      this.exercises.forEach(e => (e.isActive = false));
-      this.selectedCourse = null;
-    }
-  },
-  computed: {
-    filteredExercises() {
-      return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
-    }
-  },
-  mounted() {
-    //TODO: store in vuex store so we dont fetch them every time we visit homepage?
-    this.$store
-      .dispatch("getCourses")
-      .then(x => (this.courses = x))
-      .catch(err => {
-        console.log("err");
-        console.log(err);
-
-        this.$router.push("/");
-      });
-    this.$store.dispatch("getExercises").then(x => {
-      console.log(x);
-
-      return (this.exercises = x.filter(y => y.title).map(z => {
+    name: 'editCourse',
+    data() {
         return {
-          id: z._id,
-          isActive: false,
-          title: z.title
+            courses: [],
+            selectedCourse: null,
+            fil: '',
+            exercises: [],
+            showModal: false
         };
-      }));
-    });
-  }
+    },
+    methods: {
+        selectCourse(c) {
+            this.selectedCourse = c;
+            this.exercises.forEach(e => {
+                e.isActive = c.exercises.map(d => d.id).includes(e.id);
+            });
+        },
+        deleteCourse() {
+            this.showModal = false;
+            this.selectedCourse.delete = true;
+            this.$store
+                .dispatch('editCourse', {
+                    course: this.selectedCourse
+                })
+                .then(() => this.clearCourse());
+        },
+        editCourse() {
+            this.selectedCourse.exercises = this.exercises.filter(
+                e => e.isActive
+            );
+            this.$store
+                .dispatch('editCourse', {
+                    course: this.selectedCourse
+                })
+                .then(() => this.clearCourse());
+        },
+        clearCourse() {
+            this.exercises.forEach(e => (e.isActive = false));
+            this.selectedCourse = null;
+        }
+    },
+    computed: {
+        filteredExercises() {
+            return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+        }
+    },
+    mounted() {
+        //TODO: store in vuex store so we dont fetch them every time we visit homepage?
+        this.$store
+            .dispatch('getCourses')
+            .then(x => (this.courses = x))
+            .catch(err => {
+                console.log('err');
+                console.log(err);
+
+                this.$router.push('/');
+            });
+        this.$store.dispatch('getExercises').then(x => {
+            return (this.exercises = x
+                .filter(y => y.title && !y.delete)
+                .map(z => {
+                    return {
+                        id: z._id,
+                        isActive: false,
+                        title: z.title,
+                        type: z.type
+                    };
+                }));
+        });
+    }
 };
 </script>
 
-<style>
+<style scoped>
+.img {
+    height: auto;
+    background: tomato;
+    width: calc(100% + 2.5rem);
+    margin-left: -1.25rem;
+    margin-top: -1.25rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: grayscale(20%);
+}
 #imgPreview2 {
-  outline: 1px solid #ccc;
-  height: 160px;
-  width: 320px;
-  position: absolute;
-  top: 120px;
-  margin-left: 21px;
-  background-size: cover;
-  background-repeat: no-repeat;
+    outline: 1px solid #ccc;
+    height: 160px;
+    width: 320px;
+    position: absolute;
+    top: 120px;
+    margin-left: 21px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.type {
+    margin-left: 0.5rem;
 }
 
 .margin-top {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 .panel-block.is-active {
-  border-left-width: 1rem;
+    border-left-width: 1rem;
+}
+.delete-button {
+    float: right;
 }
 </style>

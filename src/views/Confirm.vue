@@ -21,7 +21,8 @@
                             <div class="field">
                                 <label class="label" for="email">Code</label>
                                 <div class="control">
-                                    <input class="input is-radiusless" v-model="confirmCode" type="text" name="confirm" id="confirm">
+                                    <input class="input is-radiusless" v-model="confirmCode" type="text" name="confirm"
+                                        id="confirm">
                                 </div>
                             </div>
                             <div class="field">
@@ -39,18 +40,18 @@
 
 <script>
 export default {
-  data() {
-    return {
-      confirmCode: ""
-    };
-  },
-  methods: {
-    confirm() {
-      this.$store.dispatch("confirmUser", {
-        code: this.confirmCode
-      });
+    data() {
+        return {
+            confirmCode: ''
+        };
+    },
+    methods: {
+        confirm() {
+            this.$store.dispatch('confirmUser', {
+                code: this.confirmCode
+            });
+        }
     }
-  }
 };
 </script>
 

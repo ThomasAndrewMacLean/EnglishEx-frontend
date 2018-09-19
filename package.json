@@ -11,8 +11,10 @@
         "test:unit": "vue-cli-service test:unit"
     },
     "dependencies": {
+        "raven-js": "^3.27.0",
         "register-service-worker": "^1.0.0",
         "vue": "^2.5.16",
+        "vue-analytics": "^5.16.0",
         "vue-router": "^3.0.1",
         "vuex": "^3.0.1",
         "vuex-persistedstate": "^2.5.4",
