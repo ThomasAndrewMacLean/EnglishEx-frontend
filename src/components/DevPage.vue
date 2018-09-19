@@ -35,7 +35,7 @@ section {
 ul {
     list-style: inside;
     background: white;
-    width: 200px;
+    width: 300px;
     margin: 2rem;
     border-radius: 4px;
     border: 2px solid lightgrey;

@@ -54,14 +54,14 @@
                                 <label class="label" for="email">Email</label>
                                 <div class="control">
                                     <input autocomplete="email" class="input is-radiusless" v-model="email" type="email"
-                                        name="email" id="email">
+                                        @blur="onBlurEmail" name="email" id="email">
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="password">Password</label>
                                 <div class="control">
                                     <input autocomplete="password" class="input is-radiusless" v-model="password" type="password"
-                                        name="password" id="password">
+                                        @blur="onBlurPassword" name="password" id="password">
                                 </div>
                             </div>
                             <div class="field">
@@ -95,6 +95,14 @@ export default {
         };
     },
     methods: {
+        onBlurPassword(event) {
+            if (event && this.password !== event.target.value)
+                this.password = event.target.value;
+        },
+        onBlurEmail(event) {
+            if (event && this.email !== event.target.value)
+                this.email = event.target.value;
+        },
         signUserUp() {
             this.$store.dispatch('signUserUp', {
                 email: this.email,
