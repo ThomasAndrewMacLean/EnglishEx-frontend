@@ -1,5 +1,7 @@
 # englishex-frontend
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ThomasAndrewMacLean/EnglishEx-frontend.svg)](https://greenkeeper.io/)
+
 ## Project setup
 ```
 yarn install
