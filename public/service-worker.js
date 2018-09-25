@@ -1,1 +1,1 @@
-//self.skipWaiting();
+self.skipWaiting();
