@@ -34,11 +34,11 @@
                     <a @click="lines.push({})" class="button  is-radiusless">add</a>
                 </div>
                 <div class="control">
-                    <button type="submit" class="button is-link is-radiusless">Save</button>
+                    <button type="submit" class="button is-primary is-radiusless">Save</button>
                 </div>
             </div>
         </form>
-        <label for="inputfile">
+        <label class="button upload-button" for="inputfile">
             Upload file
             <input type="file" id="inputfile" @change="readExcel" style="display:none" />
         </label>
@@ -107,5 +107,8 @@ export default {
     margin-left: 21px;
     background-size: cover;
     background-repeat: no-repeat;
+}
+.upload-button{
+    margin-top:1rem;
 }
 </style>

@@ -9,7 +9,11 @@
                     <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
                     <p class="level">{{course.description}}</p>
-                    <p class="level">number of exercises {{course.exercises.length}}</p>
+                    <ul v-for="ex in course.exercises" :key="ex._id">
+                        <li>
+                            {{ex.title}}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -75,8 +79,9 @@
                 <div class="column">
                     <div class="field margin-top">
                         <div class="control">
-                            <button type="submit" class="button is-link is-radiusless">Save</button>
-                            <Button @click.prevent="showModal=true" class="button delete-button is-danger is-radiusless">Delete</Button>
+                            <button type="submit" class="button is-primary is-radiusless">Save</button>
+                            <button @click.prevent="clearCourse" class="button cancel-button is-radiusless">Cancel</button>
+                            <Button @click.prevent="showModal=true" class="button delete-button is-radiusless">Delete</Button>
                         </div>
                     </div>
                 </div>
@@ -178,6 +183,12 @@ export default {
 </script>
 
 <style scoped>
+.box {
+    cursor: pointer;
+}
+ul {
+    list-style: inside;
+}
 .img {
     height: auto;
     background: tomato;
@@ -211,5 +222,13 @@ export default {
 }
 .delete-button {
     float: right;
+}
+.delete-button:hover {
+    background-color: #ff3860;
+    border-color: transparent;
+    color: #fff;
+}
+.cancel-button {
+    margin-left: 1rem;
 }
 </style>

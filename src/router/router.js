@@ -41,7 +41,7 @@ export default new Router({
             beforeEnter: AuthGuard
         },
         {
-            path: '/admin',
+            path: '/admin/:adminPage?',
             name: 'admin',
             component: Admin,
             beforeEnter: AuthGuard

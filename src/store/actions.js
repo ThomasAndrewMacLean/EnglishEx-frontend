@@ -24,7 +24,6 @@ export default {
             .then(res => res.json())
             .then(j => {
                 commit('setLoader', false);
-                console.log(j);
 
                 if (j.token) {
                     localStorage.setItem('token', j.token);
@@ -89,7 +88,6 @@ export default {
                 method: 'GET'
             })
                 .then(res => {
-                    //console.log(res);
                     commit('setLoader', false);
                     if (res.status !== 200) {
                         commit('setUser', null);
@@ -113,8 +111,6 @@ export default {
         });
     },
     confirmUser({ commit }, payload) {
-        console.log(payload.code);
-
         commit('setLoader', true);
         fetch(api + '/confirm', {
             headers: {
@@ -129,13 +125,9 @@ export default {
             })
         })
             .then(res => {
-                console.log(res);
-
                 commit('setLoader', false);
 
                 if (res.status === 403) {
-                    console.log('should not be hiereee!!!');
-
                     localStorage.removeItem('token');
                     router.push('/');
                     commit(
@@ -146,8 +138,6 @@ export default {
                 return res.json();
             })
             .then(j => {
-                console.log('go to home!!');
-
                 commit('setUser', {
                     email: j.email,
                     isAdmin: j.isAdmin
@@ -190,8 +180,6 @@ export default {
         });
     },
     addCourse({ commit }, payload) {
-        console.log(payload);
-
         return new Promise((resolve, reject) => {
             fetch(api + '/addcourse', {
                 headers: {
@@ -216,8 +204,6 @@ export default {
         });
     },
     editCourse({ commit }, payload) {
-        console.log(payload);
-
         return new Promise((resolve, reject) => {
             fetch(api + '/editcourse', {
                 headers: {
@@ -251,7 +237,6 @@ export default {
                 method: 'GET'
             })
                 .then(res => {
-                    //console.log(res);
                     commit('setLoader', false);
                     if (res.status !== 200) {
                         commit('setUser', null);
@@ -264,8 +249,6 @@ export default {
                     return res.json();
                 })
                 .then(j => {
-                    console.log(j);
-
                     return resolve(j);
                 })
                 .catch(err => {
@@ -413,7 +396,6 @@ export default {
                 });
                 workbook.SheetNames.forEach(sheetName => {
                     // const Xrowobject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-                    console.log(sheetName);
 
                     const Xrowobject = XLSX.utils.sheet_to_json(
                         workbook.Sheets[sheetName]
@@ -458,7 +440,6 @@ export default {
     },
     sendExToServer({ commit }, payload) {
         commit('setLoader', true);
-        console.log(payload);
         return new Promise((resolve, reject) => {
             fetch(api + '/saveEx', {
                 headers: {

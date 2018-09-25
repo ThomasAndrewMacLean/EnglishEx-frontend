@@ -64,7 +64,7 @@
                 <div class="column">
                     <div class="field margin-top">
                         <div class="control">
-                            <button type="submit" class="button is-link is-radiusless">Save</button>
+                            <button type="submit" class="button is-primary is-radiusless">Save</button>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,6 @@ export default {
     methods: {
         addCourse() {
             this.course.exercises = this.exercises.filter(e => e.isActive);
-            console.log(this.course);
             this.$store
                 .dispatch('addCourse', {
                     course: this.course
@@ -100,8 +99,6 @@ export default {
     mounted() {
         //TODO: store in vuex store so we dont fetch them every time we visit homepage?
         this.$store.dispatch('getExercises').then(x => {
-            console.log(x);
-
             return (this.exercises = x
                 .filter(y => y.title && !y.delete)
                 .map(z => {
