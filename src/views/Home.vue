@@ -5,7 +5,8 @@
         <!-- <pre>{{exercises}}</pre> -->
         <div class="columns is-multiline">
 
-            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)" :key="index" >
+            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)"
+                :key="index">
                 <a :href="'#/course/' + course._id" class="box is-radiusless">
                     <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
@@ -80,6 +81,10 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
     filter: grayscale(20%);
+}
+
+box {
+    height: 100%;
 }
 
 ul {
