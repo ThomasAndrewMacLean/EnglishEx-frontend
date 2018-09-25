@@ -39,11 +39,11 @@
                     <a @click="lines.push({})" class="button  is-radiusless">add</a>
                 </div>
                 <div class="control">
-                    <button type="submit" class="button is-link is-radiusless">Save</button>
+                    <button type="submit" class="button is-primary is-radiusless">Save</button>
                 </div>
             </div>
         </form>
-        <label v-if="!editMode" for="inputfile">
+        <label class="button upload-button" v-if="!editMode" for="inputfile">
             Upload file
             <input type="file" id="inputfile" @change="readExcel" style="display:none" />
         </label>
@@ -121,5 +121,8 @@ export default {
     margin-top: 20px;
     position: absolute;
     right: 0;
+}
+.upload-button{
+    margin-top:1rem;
 }
 </style>

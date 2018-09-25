@@ -9,11 +9,11 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'CreateNewCourse'" :class="adminPage === 'CreateNewCourse' ? 'is-active':''">Create
+                            <a @click="changeAdminPage('CreateNewCourse')" :class="adminPage === 'CreateNewCourse' ? 'is-active':''">Create
                                 Course</a>
                         </li>
                         <li>
-                            <a @click="adminPage = 'EditCourse'" :class="adminPage === 'EditCourse' ? 'is-active':''">Edit
+                            <a @click="changeAdminPage('EditCourse')" :class="adminPage === 'EditCourse' ? 'is-active':''">Edit
                                 Courses</a>
                         </li>
                     </ul>
@@ -22,17 +22,17 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'CreateExA'" :class="adminPage === 'CreateExA' ? 'is-active':''">Create
+                            <a @click="changeAdminPage('CreateExA')" :class="adminPage === 'CreateExA' ? 'is-active':''">Create
                                 Type
                                 A</a>
                         </li>
                         <li>
-                            <a @click="adminPage = 'CreateExB'" :class="adminPage === 'CreateExB' ? 'is-active':''">Create
+                            <a @click="changeAdminPage('CreateExB')" :class="adminPage === 'CreateExB' ? 'is-active':''">Create
                                 Type
                                 B</a>
                         </li>
                         <li>
-                            <a @click="adminPage = 'EditEx'" :class="adminPage === 'EditEx' ? 'is-active':''">EditEx</a>
+                            <a @click="changeAdminPage('EditEx')" :class="adminPage === 'EditEx' ? 'is-active':''">EditEx</a>
                         </li>
                     </ul>
                     <p class="menu-label">
@@ -40,7 +40,7 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'Users'" :class="adminPage === 'Users' ? 'is-active':''">Users</a>
+                            <a @click="changeAdminPage('Users')" :class="adminPage === 'Users' ? 'is-active':''">Users</a>
                         </li>
                     </ul>
                     <p class="menu-label">
@@ -48,7 +48,7 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a @click="adminPage = 'DevPage'" :class="adminPage === 'DevPage' ? 'is-active':''">Dev
+                            <a @click="changeAdminPage('DevPage')" :class="adminPage === 'DevPage' ? 'is-active':''">Dev
                                 page</a>
                         </li>
                     </ul>
@@ -56,12 +56,12 @@
             </div>
             <div class="column">
                 <section>
+                    <CreateNewCourse v-if="adminPage === 'CreateNewCourse'" />
+                    <EditCourse ref="EditCourse" v-if="adminPage === 'EditCourse'" />
                     <CreateExA v-if="adminPage === 'CreateExA'" />
                     <CreateExB v-if="adminPage === 'CreateExB'" />
-                    <CreateNewCourse v-if="adminPage === 'CreateNewCourse'" />
-                    <EditCourse v-if="adminPage === 'EditCourse'" />
-                    <Users v-if="adminPage === 'Users'" />
                     <EditEx v-if="adminPage === 'EditEx'" />
+                    <Users v-if="adminPage === 'Users'" />
                     <DevPage v-if="adminPage === 'DevPage'" />
                 </section>
             </div>
@@ -82,16 +82,37 @@ import DevPage from './../components/DevPage.vue';
 export default {
     data() {
         return {
-            adminPage: 'CreateExA'
+            adminPage: ''
         };
     },
+    created() {
+        this.adminPage = this.$route.params.adminPage || 'CreateNewCourse';
+    },
+    methods: {
+        changeAdminPage(newPage) {
+            if (this.adminPage === newPage) {
+                //send clear to children;
+                if (newPage === 'EditCourse') {
+                    this.$refs.EditCourse.clearCourse();
+                }
+                return;
+            }
+            this.$router.push({
+                name: 'admin',
+                params: {
+                    adminPage: newPage
+                }
+            });
+            this.adminPage = newPage;
+        }
+    },
     components: {
+        CreateNewCourse,
+        EditCourse,
         CreateExA,
         CreateExB,
-        EditCourse,
-        Users,
-        CreateNewCourse,
         EditEx,
+        Users,
         DevPage
     }
 };

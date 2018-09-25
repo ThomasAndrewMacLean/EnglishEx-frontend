@@ -20,7 +20,7 @@
             </a>
         </div>
         <CreateExA @updated="exHasBeenUpdated" v-if="selectedEx" :exercise="selectedEx" />
-        <Button @click="showModal=true" v-if="selectedEx" class="button delete-button is-danger is-radiusless">Delete</Button>
+        <Button @click="showModal=true" v-if="selectedEx" class="button delete-button is-radiusless">Delete</Button>
         <div :class="showModal? 'is-active modal':'modal'">
             <div class="modal-background"></div>
             <div class="modal-card is-radiusless">
@@ -103,6 +103,12 @@ export default {
 .delete-button {
     margin-top: -36px;
     float: right;
+}
+
+.delete-button:hover {
+    background-color: #ff3860;
+    border-color: transparent;
+    color: #fff;
 }
 
 .type {
