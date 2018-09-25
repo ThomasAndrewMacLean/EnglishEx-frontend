@@ -19,9 +19,9 @@
                     <a @click="showNav = false" class="navbar-item" href="#/home">
                         home
                     </a>
-                    <!-- <a @click="showNav = false" class="navbar-item" href="#/settings">
+                    <a @click="showNav = false" class="navbar-item" href="#/settings">
                         settings
-                    </a> -->
+                    </a>
 
                 </div>
             </div>
