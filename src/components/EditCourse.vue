@@ -231,4 +231,7 @@ ul {
 .cancel-button {
     margin-left: 1rem;
 }
+.box {
+    height: 100%;
+}
 </style>
