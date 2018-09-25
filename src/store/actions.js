@@ -111,7 +111,6 @@ export default {
         });
     },
     confirmUser({ commit }, payload) {
-
         commit('setLoader', true);
         fetch(api + '/confirm', {
             headers: {
@@ -126,11 +125,9 @@ export default {
             })
         })
             .then(res => {
-
                 commit('setLoader', false);
 
                 if (res.status === 403) {
-
                     localStorage.removeItem('token');
                     router.push('/');
                     commit(
@@ -183,7 +180,6 @@ export default {
         });
     },
     addCourse({ commit }, payload) {
-
         return new Promise((resolve, reject) => {
             fetch(api + '/addcourse', {
                 headers: {
@@ -208,7 +204,6 @@ export default {
         });
     },
     editCourse({ commit }, payload) {
-
         return new Promise((resolve, reject) => {
             fetch(api + '/editcourse', {
                 headers: {
@@ -254,7 +249,6 @@ export default {
                     return res.json();
                 })
                 .then(j => {
-
                     return resolve(j);
                 })
                 .catch(err => {
