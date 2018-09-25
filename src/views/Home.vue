@@ -83,7 +83,7 @@ export default {
     filter: grayscale(20%);
 }
 
-box {
+.box {
     height: 100%;
 }
 
