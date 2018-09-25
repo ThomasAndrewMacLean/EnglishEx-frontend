@@ -5,8 +5,8 @@
         <!-- <pre>{{exercises}}</pre> -->
         <div class="columns is-multiline">
 
-            <a class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)" :key="index" :href="'#/course/' + course._id">
-                <div class="box is-radiusless">
+            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)" :key="index" >
+                <a :href="'#/course/' + course._id" class="box is-radiusless">
                     <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
                     <p class="level">{{course.description}}</p>
@@ -19,8 +19,8 @@
                             {{ex.title}} <span v-if="ex.total">score:({{ex.score}}/{{ex.total}})</span>
                         </li>
                     </ul>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
     </section>
 </template>
