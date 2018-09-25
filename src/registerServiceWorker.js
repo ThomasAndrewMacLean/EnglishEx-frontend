@@ -13,8 +13,8 @@ if (process.env.NODE_ENV === 'production') {
             console.log('Content has been cached for offline use.');
         },
         updated() {
-            document.getElementById('update-service-worker').style.display =
-                'block';
+            // document.getElementById('update-service-worker').style.display =
+            //     'block';
             console.log('New content is available; please refresh.');
         },
         offline() {
