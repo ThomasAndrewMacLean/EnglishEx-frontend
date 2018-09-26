@@ -44,6 +44,11 @@ export default {
             showNav: false
         };
     },
+    beforeCreate() {
+        console.log('GET LABELS');
+
+        this.$store.dispatch('getLabels');
+    },
     computed: {
         user() {
             if (this.$store.getters.user !== null)

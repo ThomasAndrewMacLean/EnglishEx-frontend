@@ -438,6 +438,77 @@ export default {
     changeColB({ commit }, payload) {
         commit('changeColB', payload);
     },
+    getLabels({ commit }) {
+        commit('setLoader', true);
+        return new Promise((resolve, reject) => {
+            fetch(api + '/getLabels', {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'GET'
+            })
+                .then(res => {
+                    commit('setLoader', false);
+                    return res.json();
+                })
+                .then(j => {
+                    commit('setLabels', j);
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
+    },
+    updateLabel({ commit }, payload) {
+        commit('setLoader', true);
+        return new Promise((resolve, reject) => {
+            fetch(api + '/updateLabel', {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+                .then(res => {
+                    commit('setLoader', false);
+                    return res.json();
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
+    },
+    addLabel({ commit }, payload) {
+        commit('setLoader', true);
+        return new Promise((resolve, reject) => {
+            fetch(api + '/newLabel', {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+                .then(res => {
+                    commit('setLoader', false);
+
+                    return res.json();
+                })
+                .then(j => {
+                    commit('addLabel', j);
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
+    },
     sendExToServer({ commit }, payload) {
         commit('setLoader', true);
         return new Promise((resolve, reject) => {
@@ -469,5 +540,8 @@ export default {
                     reject(err);
                 });
         });
+    },
+    toggleShowLabels({ commit }) {
+        commit('toggleShowLabels');
     }
 };

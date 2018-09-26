@@ -19,3 +19,6 @@ $fullhd-enabled: false;
 $box-background-color: rgba(255, 255, 255, 0.9);
 $input-radius: 0 !important;
 @import "../node_modules/bulma/bulma.sass";
+@import "../node_modules//bulma-switch/dist/css/bulma-switch.sass";
+@import "../node_modules//bulma-tooltip/dist/css/bulma-tooltip.sass";
+@import "../node_modules//bulma-badge/dist/css/bulma-badge.sass";

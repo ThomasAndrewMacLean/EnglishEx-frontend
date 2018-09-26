@@ -41,16 +41,12 @@ export default {
             .then(x => {
                 this.courses = x;
                 this.$store.dispatch('getMyPoints').then(y => {
-                    console.log(y);
-
                     let yy = y.reverse();
                     this.courses.forEach(course => {
                         if (course.exercises) {
                             course.exercises.forEach(ex => {
                                 let score = yy.find(z => z.exId === ex.id);
                                 if (score) {
-                                    console.log(score);
-
                                     ex.score = score.score;
                                     ex.total = score.total;
                                 }

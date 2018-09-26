@@ -31,16 +31,22 @@
                         <form @submit.prevent="signUserUp" v-if="tab === 'signUp'">
                             <div class="field">
                                 <label class="label" for="email">Email</label>
-                                <div class="control">
+                                <div class="control has-icons-left">
                                     <input autocomplete="email" class="input is-radiusless" v-model="email" type="email"
-                                        required name="email" id="email">
+                                        required name="email" id="email" placeholder="Email">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="password">Password</label>
-                                <div class="control">
+                                <div class="control has-icons-left">
                                     <input autocomplete="password" class="input is-radiusless" v-model="password" type="password"
-                                        required name="password" id="password">
+                                        required name="password" id="password" placeholder="Password">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
                                 </div>
                             </div>
                             <div class="field">
@@ -52,16 +58,22 @@
                         <form @submit.prevent="logUserIn" v-if="tab === 'logIn'">
                             <div class="field">
                                 <label class="label" for="email">Email</label>
-                                <div class="control">
+                                <div class="control has-icons-left">
                                     <input autocomplete="email" class="input is-radiusless" v-model="email" type="email"
-                                        required @blur="onBlurEmail" name="email" id="email">
+                                        required @blur="onBlurEmail" name="email" id="email" placeholder="Email">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label" for="password">Password</label>
-                                <div class="control">
+                                <div class="control  has-icons-left">
                                     <input autocomplete="password" class="input is-radiusless" v-model="password" type="password"
-                                        required @blur="onBlurPassword" name="password" id="password">
+                                        required @blur="onBlurPassword" name="password" id="password" placeholder="Password">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
                                 </div>
                             </div>
                             <div class="field">

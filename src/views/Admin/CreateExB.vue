@@ -38,7 +38,10 @@
                 </div>
             </div>
         </form>
-        <label class="button upload-button" for="inputfile">
+        <label class="button upload-button is-radiusless" for="inputfile">
+            <span class="file-icon">
+                <i class="fas fa-upload"></i>
+            </span>
             Upload file
             <input type="file" id="inputfile" @change="readExcel" style="display:none" />
         </label>
@@ -108,7 +111,8 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
 }
-.upload-button{
-    margin-top:1rem;
+
+.upload-button {
+    margin-top: 1rem;
 }
 </style>

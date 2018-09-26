@@ -22,5 +22,11 @@ export default {
     },
     getColB(state) {
         return state.colB;
+    },
+    getLabels(state) {
+        return state.labels;
+    },
+    getShowLabels(state) {
+        return state.showLabels;
     }
 };

@@ -43,7 +43,10 @@
                 </div>
             </div>
         </form>
-        <label class="button upload-button" v-if="!editMode" for="inputfile">
+        <label class="button upload-button is-radiusless" v-if="!editMode" for="inputfile">
+            <span class="file-icon">
+                <i class="fas fa-upload"></i>
+            </span>
             Upload file
             <input type="file" id="inputfile" @change="readExcel" style="display:none" />
         </label>
@@ -122,7 +125,8 @@ export default {
     position: absolute;
     right: 0;
 }
-.upload-button{
-    margin-top:1rem;
+
+.upload-button {
+    margin-top: 1rem;
 }
 </style>

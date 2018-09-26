@@ -2,60 +2,21 @@
     <section class="container section">
         <div class="columns">
             <div class="column is-one-fifth admin-menu">
-
                 <aside class="menu">
-                    <p class="menu-label">
-                        Courses
-                    </p>
-                    <ul class="menu-list">
-                        <li>
-                            <a @click="changeAdminPage('CreateNewCourse')" :class="adminPage === 'CreateNewCourse' ? 'is-active':''">Create
-                                Course</a>
-                        </li>
-                        <li>
-                            <a @click="changeAdminPage('EditCourse')" :class="adminPage === 'EditCourse' ? 'is-active':''">Edit
-                                Courses</a>
-                        </li>
-                    </ul>
-                    <p class="menu-label">
-                        Exercises
-                    </p>
-                    <ul class="menu-list">
-                        <li>
-                            <a @click="changeAdminPage('CreateExA')" :class="adminPage === 'CreateExA' ? 'is-active':''">Create
-                                Type
-                                A</a>
-                        </li>
-                        <li>
-                            <a @click="changeAdminPage('CreateExB')" :class="adminPage === 'CreateExB' ? 'is-active':''">Create
-                                Type
-                                B</a>
-                        </li>
-                        <li>
-                            <a @click="changeAdminPage('EditEx')" :class="adminPage === 'EditEx' ? 'is-active':''">EditEx</a>
-                        </li>
-                    </ul>
-                    <p class="menu-label">
-                        Users
-                    </p>
-                    <ul class="menu-list">
-                        <li>
-                            <a @click="changeAdminPage('Users')" :class="adminPage === 'Users' ? 'is-active':''">Users</a>
-                        </li>
-                    </ul>
-                    <p class="menu-label">
-                        Dev
-                    </p>
-                    <ul class="menu-list">
-                        <li>
-                            <a @click="changeAdminPage('DevPage')" :class="adminPage === 'DevPage' ? 'is-active':''">Dev
-                                page</a>
-                        </li>
-                    </ul>
+                    <div class="menu-div" v-for="m in menu" :key="m.title">
+                        <p class="menu-label">{{m.title}}</p>
+                        <ul class="menu-list">
+                            <li v-for="p in m.pages" :key="p.title">
+                                <a @click="changeAdminPage(p.page)" :class="adminPage === p.page ? 'is-active':''">{{p.title}}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </aside>
             </div>
             <div class="column">
                 <section>
+                    <LabelEditor v-if="adminPage === 'Labels'" />
+                    <AddLabel v-if="adminPage === 'AddLabel'" />
                     <CreateNewCourse v-if="adminPage === 'CreateNewCourse'" />
                     <EditCourse ref="EditCourse" v-if="adminPage === 'EditCourse'" />
                     <CreateExA v-if="adminPage === 'CreateExA'" />
@@ -71,22 +32,88 @@
 </template>
 
 <script>
-import CreateExA from './../components/CreateExA.vue';
-import CreateExB from './../components/CreateExB.vue';
-import CreateNewCourse from './../components/CreateNewCourse.vue';
-import EditCourse from './../components/EditCourse.vue';
-import Users from './../components/Users.vue';
-import EditEx from './../components/EditEx.vue';
-import DevPage from './../components/DevPage.vue';
-
+import LabelEditor from './Admin/LabelEditor.vue';
+import CreateExA from './Admin/CreateExA.vue';
+import CreateExB from './Admin/CreateExB.vue';
+import CreateNewCourse from './Admin/CreateNewCourse.vue';
+import EditCourse from './Admin/EditCourse.vue';
+import Users from './Admin/Users.vue';
+import EditEx from './Admin/EditEx.vue';
+import DevPage from './Admin/DevPage.vue';
+import AddLabel from './Admin/AddLabel.vue';
 export default {
     data() {
         return {
-            adminPage: ''
+            adminPage: '',
+            menu: [
+                {
+                    title: 'Labels',
+                    pages: [
+                        {
+                            title: 'Change Labels',
+                            page: 'Labels',
+                            new: true
+                        },
+                        {
+                            title: 'Add Label',
+                            page: 'AddLabel',
+                            new: true
+                        }
+                    ]
+                },
+                {
+                    title: 'Courses',
+                    pages: [
+                        {
+                            title: 'Create Course',
+                            page: 'CreateNewCourse'
+                        },
+                        {
+                            title: 'Edit Courses',
+                            page: 'EditCourse'
+                        }
+                    ]
+                },
+                {
+                    title: 'Exercises',
+                    pages: [
+                        {
+                            title: 'Create Type A',
+                            page: 'CreateExA'
+                        },
+                        {
+                            title: 'Create Type B',
+                            page: 'CreateExB'
+                        },
+                        {
+                            title: 'Edit Exercises',
+                            page: 'EditEx'
+                        }
+                    ]
+                },
+                {
+                    title: 'Users',
+                    pages: [
+                        {
+                            title: 'Users',
+                            page: 'Users'
+                        }
+                    ]
+                },
+                {
+                    title: 'Dev',
+                    pages: [
+                        {
+                            title: 'Dev Page',
+                            page: 'DevPage'
+                        }
+                    ]
+                }
+            ]
         };
     },
     created() {
-        this.adminPage = this.$route.params.adminPage || 'CreateNewCourse';
+        this.adminPage = this.$route.params.adminPage || 'Labels';
     },
     methods: {
         changeAdminPage(newPage) {
@@ -107,6 +134,8 @@ export default {
         }
     },
     components: {
+        AddLabel,
+        LabelEditor,
         CreateNewCourse,
         EditCourse,
         CreateExA,
@@ -118,9 +147,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .admin-menu {
     border-right: 1px solid #ccc;
     margin-right: 1rem;
+}
+
+.menu-div {
+    margin-top: 12px;
 }
 </style>

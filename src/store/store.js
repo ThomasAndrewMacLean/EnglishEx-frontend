@@ -17,7 +17,9 @@ export default new Vuex.Store({
         errorMessage: null,
         currentExercise: null,
         colA: null,
-        colB: null
+        colB: null,
+        labels: [],
+        showLabels: true
     },
     mutations,
     actions,

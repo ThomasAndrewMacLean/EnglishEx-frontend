@@ -15,6 +15,12 @@ export default {
     setLoader(state, payload) {
         state.loading = payload;
     },
+    setLabels(state, payload) {
+        state.labels = payload;
+    },
+    addLabel(state, payload) {
+        state.labels.push(payload);
+    },
     setCurrentExercise(state, payload) {
         if (payload === null) {
             state.currentExercise = null;
@@ -30,5 +36,8 @@ export default {
     },
     changeColB(state, payload) {
         state.colB = payload;
+    },
+    toggleShowLabels(state) {
+        state.showLabels = !state.showLabels;
     }
 };
