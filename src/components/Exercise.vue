@@ -2,6 +2,11 @@
     <section>
         <div v-if="exercise" class="wrap">
             <div v-if="exercise.type==='A'">
+                <div v-if="showInfo" class="notification">
+                    <button @click="showInfo = false" class="delete"></button>
+                    <TextLabel label="explanationTypeA" />
+
+                </div>
                 <div class="columns">
                     <div class="column">
                         <div class="partA" v-for="e in columnA" :key="e">
@@ -23,13 +28,18 @@
 </template>
 
 <script>
+import TextLabel from './TextLabel.vue';
 export default {
     data() {
         return {
             copy: null,
             selected: null,
-            score: null
+            score: null,
+            showInfo: true
         };
+    },
+    components: {
+        TextLabel
     },
     computed: {
         columnA() {

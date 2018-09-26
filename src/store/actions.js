@@ -8,7 +8,7 @@ import XLSX from 'xlsx';
 
 export default {
     signUserUp({ commit }, payload) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'signUserUp' });
         fetch(api + '/signup', {
             headers: {
                 Accept: 'application/json',
@@ -23,7 +23,7 @@ export default {
         })
             .then(res => res.json())
             .then(j => {
-                commit('setLoader', false);
+                commit('setLoader', { add: false, name: 'signUserUp' });
 
                 if (j.token) {
                     localStorage.setItem('token', j.token);
@@ -36,12 +36,12 @@ export default {
                 }
             })
             .catch(err => {
-                commit('setLoader', false);
+                commit('setLoader', { add: false, name: 'signUserUp' });
                 commit('setErrorMessage', err);
             });
     },
     logUserIn({ commit }, payload) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'logUserIn' });
         fetch(api + '/login', {
             headers: {
                 Accept: 'application/json',
@@ -56,7 +56,7 @@ export default {
         })
             .then(res => res.json())
             .then(j => {
-                commit('setLoader', false);
+                commit('setLoader', { add: false, name: 'logUserIn' });
 
                 if (j.token) {
                     localStorage.setItem('token', j.token);
@@ -75,7 +75,7 @@ export default {
             })
             .catch(err => {
                 commit('setErrorMessage', err);
-                commit('setLoader', false);
+                commit('setLoader', { add: false, name: 'logUserIn' });
             });
     },
     getNameFromToken({ commit }) {
@@ -153,7 +153,7 @@ export default {
             });
     },
     addExercise({ commit }, payload) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'addExercise' });
         return new Promise((resolve, reject) => {
             fetch(api + '/addexercise', {
                 headers: {
@@ -169,11 +169,11 @@ export default {
             })
                 .then(res => res.json())
                 .then(j => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'addExercise' });
                     resolve(j);
                 })
                 .catch(err => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'addExercise' });
                     commit('setErrorMessage', err);
                     reject(err);
                 });
@@ -228,7 +228,7 @@ export default {
         });
     },
     getExercises({ commit }) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'getExercises' });
         return new Promise((resolve, reject) => {
             fetch(api + '/exercises', {
                 headers: {
@@ -237,7 +237,7 @@ export default {
                 method: 'GET'
             })
                 .then(res => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'getExercises' });
                     if (res.status !== 200) {
                         commit('setUser', null);
                         commit(
@@ -252,7 +252,7 @@ export default {
                     return resolve(j);
                 })
                 .catch(err => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'getExercises' });
 
                     commit('setErrorMessage', err);
                     reject(err);
@@ -263,7 +263,7 @@ export default {
         if (!payload.id) {
             commit('setCurrentExercise', null);
         } else {
-            commit('setLoader', true);
+            commit('setLoader', { add: true, name: 'getExercise' });
 
             fetch(api + '/exercises/' + payload.id, {
                 headers: {
@@ -283,7 +283,7 @@ export default {
                     return res.json();
                 })
                 .then(ex => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'getExercise' });
 
                     commit('setCurrentExercise', ex[0]);
                 })
@@ -293,7 +293,7 @@ export default {
         }
     },
     getCourses({ commit }) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'getCourses' });
 
         return new Promise((resolve, reject) => {
             fetch(api + '/courses', {
@@ -303,7 +303,7 @@ export default {
                 method: 'GET'
             })
                 .then(res => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'getCourses' });
 
                     if (res.status !== 200) {
                         commit('setUser', null);
@@ -354,6 +354,8 @@ export default {
     },
 
     getCourse({ commit }, payload) {
+        commit('setLoader', { add: true, name: 'getCourse' });
+
         return new Promise((resolve, reject) => {
             fetch(api + '/course/' + payload.id, {
                 headers: {
@@ -373,6 +375,7 @@ export default {
                     return res.json();
                 })
                 .then(j => {
+                    commit('setLoader', { add: false, name: 'getCourse' });
                     return resolve(j);
                 })
                 .catch(err => {
@@ -385,7 +388,7 @@ export default {
         commit('setErrorMessage', null);
     },
     readExcel({ commit }, payload) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'readExcel' });
 
         const reader = new FileReader();
         return new Promise(resolve => {
@@ -400,7 +403,7 @@ export default {
                     const Xrowobject = XLSX.utils.sheet_to_json(
                         workbook.Sheets[sheetName]
                     );
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'readExcel' });
                     return resolve(Xrowobject);
                 });
             };
@@ -439,7 +442,7 @@ export default {
         commit('changeColB', payload);
     },
     getLabels({ commit }) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'getLabels' });
         return new Promise((resolve, reject) => {
             fetch(api + '/getLabels', {
                 headers: {
@@ -449,7 +452,7 @@ export default {
                 method: 'GET'
             })
                 .then(res => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'getLabels' });
                     return res.json();
                 })
                 .then(j => {
@@ -462,7 +465,7 @@ export default {
         });
     },
     updateLabel({ commit }, payload) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'updateLabel' });
         return new Promise((resolve, reject) => {
             fetch(api + '/updateLabel', {
                 headers: {
@@ -474,7 +477,7 @@ export default {
                 body: JSON.stringify(payload)
             })
                 .then(res => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'updateLabel' });
                     return res.json();
                 })
                 .catch(err => {
@@ -484,7 +487,7 @@ export default {
         });
     },
     addLabel({ commit }, payload) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'addLabel' });
         return new Promise((resolve, reject) => {
             fetch(api + '/newLabel', {
                 headers: {
@@ -496,7 +499,7 @@ export default {
                 body: JSON.stringify(payload)
             })
                 .then(res => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'addLabel' });
 
                     return res.json();
                 })
@@ -510,7 +513,7 @@ export default {
         });
     },
     sendExToServer({ commit }, payload) {
-        commit('setLoader', true);
+        commit('setLoader', { add: true, name: 'sendExToServer' });
         return new Promise((resolve, reject) => {
             fetch(api + '/saveEx', {
                 headers: {
@@ -522,7 +525,7 @@ export default {
                 body: JSON.stringify(payload)
             })
                 .then(res => {
-                    commit('setLoader', false);
+                    commit('setLoader', { add: false, name: 'sendExToServer' });
 
                     if (res.status !== 200) {
                         commit(

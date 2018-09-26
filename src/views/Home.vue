@@ -1,7 +1,11 @@
 <template>
     <section class="section container">
-        <h1 class="title">Home</h1>
-        <p class="level">explenation</p>
+        <h1 class="title">
+            <TextLabel label="homeTitle" />
+        </h1>
+        <p class="level">
+            <TextLabel label="homeExplanation" />
+        </p>
         <!-- <pre>{{exercises}}</pre> -->
         <div class="columns is-multiline">
 
@@ -27,12 +31,16 @@
 </template>
 
 <script>
+import TextLabel from './../components/TextLabel.vue';
 export default {
     name: 'home',
     data() {
         return {
             courses: []
         };
+    },
+    components: {
+        TextLabel
     },
     mounted() {
         //TODO: store in vuex store so we dont fetch them every time we visit homepage?

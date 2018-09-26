@@ -1,8 +1,8 @@
 <template>
-    <section class="section container">
-        <h1 v-if="course" class="title">{{course.title}} </h1>
+    <section v-if="course" class="section container">
+        <h1 class="title">{{course.title}} </h1>
         <div class="columns">
-            <div class="column is-one-fifth admin-menu">
+            <div class="column is-one-fifth side-menu">
                 <div class="has-text-dark has-text-weight-light description" v-if="course">
                     {{course.description}}
                 </div>
@@ -16,6 +16,9 @@
                 <div v-if="exercise">
                     <Exercise :exercise="exercise" />
                 </div>
+                <div v-if="!exercise">
+                    <TextLabel label="exerciseExplanation" />
+                </div>
             </div>
         </div>
     </section>
@@ -23,10 +26,13 @@
 
 <script>
 import Exercise from './../components/Exercise';
+import TextLabel from './../components/TextLabel.vue';
+
 export default {
     name: 'course',
     components: {
-        Exercise
+        Exercise,
+        TextLabel
     },
     data() {
         return {
@@ -88,5 +94,10 @@ export default {
 
 .ex-list:hover {
     color: $dark;
+}
+
+.side-menu {
+    border-right: 1px solid #ccc;
+    margin-right: 1rem;
 }
 </style>

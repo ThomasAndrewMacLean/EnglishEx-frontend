@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         user: null,
-        loading: false,
+        loading: [],
         error: null,
         navigateToAfterSignin: null,
         appName: 'End Training',

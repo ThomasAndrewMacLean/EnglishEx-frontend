@@ -6,7 +6,7 @@ export default {
         return state.errorMessage;
     },
     loading(state) {
-        return state.loading;
+        return state.loading.length > 0;
     },
     appName(state) {
         return state.appName;

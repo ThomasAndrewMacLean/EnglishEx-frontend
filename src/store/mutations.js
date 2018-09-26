@@ -9,11 +9,15 @@ export default {
         state.user = payload;
     },
     setErrorMessage(state, payload) {
-        state.loading = false;
+        state.loading = [];
         state.errorMessage = payload;
     },
     setLoader(state, payload) {
-        state.loading = payload;
+        if (payload.add) {
+            state.loading.push(payload.name);
+        } else {
+            state.loading.splice(state.loading.indexOf(payload.name), 1);
+        }
     },
     setLabels(state, payload) {
         state.labels = payload;
