@@ -1,8 +1,11 @@
 <template>
     <section>
         <h1 class="title">Label factory</h1>
-        <p class="level"> Here we can change the labels for the website.
-            <span class="icon has-text-info tooltip" data-tooltip="Tooltip Test">
+        <p class="level"> Here we can change the labels for the website. Every change you make is directly saved in the
+            database.
+            If you toggle the switch, you can navigate around the site and you will see the keys instead of the labels.
+            This can help you visualize where the text will be.
+            <span class="icon has-text-info tooltip is-tooltip-multiline" data-tooltip="Labels are saved after you changed the text, and clicked outside of the input bar.">
                 <i class="fas fa-info-circle"></i>
             </span>
         </p>
@@ -11,6 +14,9 @@
                 :checked="!showLabels">
             <label for="switchExample">Toggle Label View</label>
         </div>
+        <p class="level">
+            You can test this on the testKey
+        </p>
 
         Example:
         <pre id="example">
@@ -19,7 +25,7 @@
 
         <div class="margin" v-for="label in labels" :key="label._id">
             <label class="label" :for="label.key">{{label.key}}:</label>
-            <input @blur="updateLabel(label)" class="input is-radiusless" :id="label.key" type="text" :placeholder="label.key"
+            <input @change="updateLabel(label)" class="input is-radiusless" :id="label.key" type="text" :placeholder="label.key"
                 v-model="label.label">
         </div>
     </section>
@@ -44,13 +50,9 @@ export default {
             this.$store.dispatch('toggleShowLabels');
         },
         updateLabel(label) {
-            this.$store
-                .dispatch('updateLabel', {
-                    label
-                })
-                .then(x => {
-                    console.log(x);
-                });
+            this.$store.dispatch('updateLabel', {
+                label
+            });
         }
     },
     components: {
