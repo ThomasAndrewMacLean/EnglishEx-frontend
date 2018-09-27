@@ -43,21 +43,35 @@
                     </div>
             </div>
             <div class="columns">
-                <div class="column">
+                <div class="column is-two-thirds">
 
                     <div class="panel margin-top">
                         <p class="panel-heading">
                             Exercises
                         </p>
-                        <div class="panel-block">
-                            <p class="control">
-                                <input class="input is-small" v-model="fil" type="text" placeholder="search">
+                        <div class="panel-block search-panel">
+                            <p class="control has-icons-left">
+                                <input class="input search-input is-radiusless" v-model="fil" type="text" placeholder="search">
+                            <span class="icon is-small is-left search-icon">
+      <i class="fas fa-search"></i>
+    </span>
                             </p>
                         </div>
                         <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
 
-                            {{ex.title}}<span class="type is-italic has-text-grey-dark is-size-7"> (type:
-                    {{ ex.type}})</span>
+                    <span>
+                            {{ex.title}}
+                            <span class="type is-italic has-text-grey-dark is-size-7">
+                                (type: {{ ex.type}})
+                                
+                            </span>
+                                 <span v-if="ex.tagName" class="type is-italic has-text-grey-dark is-size-7">
+                                (tag: {{ ex.tagName}})
+                                
+                            </span>
+
+                    </span>
+                    <button @click.prevent="addTagName($event, ex)" v-if="ex.isActive" class="button is-small is-radiusless is-pulled-right">{{ex.tagName? 'Edit': 'Add'}} Tag</button>
                         </a>
                     </div>
                 </div>
@@ -94,6 +108,12 @@ export default {
         clearCourse() {
             this.exercises.forEach(e => (e.isActive = false));
             this.course = {};
+        },
+        addTagName(event, ex) {
+            event.stopPropagation();
+            let tagName = prompt('Please enter the tagname for ' + ex.title);
+            ex.tagName = tagName;
+            this.$forceUpdate();
         }
     },
     mounted() {
@@ -113,7 +133,10 @@ export default {
     },
     computed: {
         filteredExercises() {
-            return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+            return this.exercises.filter(
+                e =>
+                    e.title.toLowerCase().indexOf(this.fil.toLowerCase()) !== -1
+            );
         }
     }
 };
@@ -140,5 +163,22 @@ export default {
 
 .panel-block.is-active {
     border-left-width: 1rem;
+}
+
+.panel-block {
+    justify-content: space-between;
+    min-height: 50px;
+}
+
+.search-panel {
+    padding: 0;
+}
+
+.search-input {
+    min-height: 50px;
+}
+
+.search-icon {
+    margin-top: 7px;
 }
 </style>

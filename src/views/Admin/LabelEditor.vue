@@ -62,9 +62,6 @@ export default {
 </script>
 
 <style scoped>
-pre {
-}
-
 .margin {
     margin-top: 1rem;
 }

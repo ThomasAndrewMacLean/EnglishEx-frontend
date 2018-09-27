@@ -58,21 +58,35 @@
                     </div>
             </div>
             <div class="columns">
-                <div class="column">
+                <div class="column is-two-thirds">
 
                     <div class="panel margin-top">
                         <p class="panel-heading">
                             Exercises
                         </p>
-                        <div class="panel-block">
-                            <p class="control">
-                                <input class="input is-small" v-model="fil" type="text" placeholder="search">
+                        <div class="panel-block search-panel">
+                            <p class="control has-icons-left">
+                                <input class="input search-input is-radiusless" v-model="fil" type="text" placeholder="search">
+                            <span class="icon is-small is-left search-icon">
+      <i class="fas fa-search"></i>
+    </span>
                             </p>
                         </div>
                         <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
+   <span>
+                            {{ex.title}}
+                            <span class="type is-italic has-text-grey-dark is-size-7">
+                                (type: {{ ex.type}})
+                                
+                            </span>
+                                 <span v-if="ex.tagName" class="type is-italic has-text-grey-dark is-size-7">
+                                (tag: {{ ex.tagName}})
+                                
+                            </span>
 
-                            {{ex.title}}<span class="type is-italic has-text-grey-dark is-size-7"> (type:
-                    {{ ex.type}})</span>
+                    </span>
+                    <button @click.prevent="addTagName($event, ex)" v-if="ex.isActive" class="button is-small is-radiusless is-pulled-right">{{ex.tagName? 'Edit': 'Add'}} Tag</button>
+               
                         </a>
                     </div>
                 </div>
@@ -124,6 +138,10 @@ export default {
             this.selectedCourse = c;
             this.exercises.forEach(e => {
                 e.isActive = c.exercises.map(d => d.id).includes(e.id);
+                let exx = c.exercises.find(d => e.id === d.id);
+                if (exx && exx.tagName) {
+                    e.tagName = exx.tagName;
+                }
             });
         },
         deleteCourse() {
@@ -148,11 +166,20 @@ export default {
         clearCourse() {
             this.exercises.forEach(e => (e.isActive = false));
             this.selectedCourse = null;
+        },
+        addTagName(event, ex) {
+            event.stopPropagation();
+            let tagName = prompt('Please enter the tagname for ' + ex.title);
+            ex.tagName = tagName;
+            this.$forceUpdate();
         }
     },
     computed: {
         filteredExercises() {
-            return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+            return this.exercises.filter(
+                e =>
+                    e.title.toLowerCase().indexOf(this.fil.toLowerCase()) !== -1
+            );
         }
     },
     mounted() {
@@ -174,7 +201,8 @@ export default {
                         id: z._id,
                         isActive: false,
                         title: z.title,
-                        type: z.type
+                        type: z.type,
+                        tagName: z.tagName
                     };
                 }));
         });
@@ -183,6 +211,20 @@ export default {
 </script>
 
 <style scoped>
+.search-icon {
+    margin-top: 7px;
+}
+.search-panel {
+    padding: 0;
+}
+.search-input {
+    min-height: 50px;
+    line-height: 50px;
+}
+.panel-block {
+    justify-content: space-between;
+    min-height: 50px;
+}
 .box {
     cursor: pointer;
 }
