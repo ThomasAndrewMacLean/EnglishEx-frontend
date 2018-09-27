@@ -50,8 +50,6 @@ export default {
         TextLabel
     },
     beforeCreate() {
-        console.log('GET LABELS');
-
         this.$store.dispatch('getLabels');
     },
     computed: {
