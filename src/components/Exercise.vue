@@ -162,7 +162,7 @@ export default {
     watch: {
         exercise: function() {
             this.score = null;
-            this.checked = {};
+            this.clearSelectedDivs();
         }
     },
     props: ['exercise']
