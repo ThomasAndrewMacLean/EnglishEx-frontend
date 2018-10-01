@@ -21,6 +21,23 @@
                     </div>
                 </div>
             </div>
+            <div v-if="exercise.type==='B'">
+                <div v-if="showInfo" class="notification">
+                    <button @click="showInfo = false" class="delete"></button>
+                    <TextLabel label="explanationTypeB" />
+
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="partA" v-for="e in columnA" :key="e.ex">
+                            <div>{{e.ex.split('[[')[0]}}
+                                <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length +'ch'}" class="typeBInput"
+                                    type="text" v-model="e.ans">
+                                {{e.ex.split(']]')[1]}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <button @click="sendExToServer" class="button is-primary is-radiusless">Submit</button>
         <div v-if="score">{{score}}</div>
@@ -94,20 +111,33 @@ export default {
             this.$forceUpdate();
         },
         sendExToServer() {
-            this.$store
-                .dispatch('sendExToServer', {
-                    exId: this.exercise._id,
-                    data: this.columnB
-                })
-                .then(re => (this.score = re));
+            if (this.exercise.type === 'A') {
+                this.$store
+                    .dispatch('sendExToServer', {
+                        exId: this.exercise._id,
+                        data: this.columnB
+                    })
+                    .then(re => (this.score = re));
+                return;
+            }
+            if (this.exercise.type === 'B') {
+                console.log(this.columnA);
+                // return;
+                this.$store
+                    .dispatch('sendExToServer', {
+                        exId: this.exercise._id,
+                        data: this.columnA
+                    })
+                    .then(re => (this.score = re));
+                return;
+            }
         }
     },
-    //   watch: {
-    //     exercise: function(newVal) {
-    //       this.columnA = newVal.exercise.map(a => a.partA);
-    //       // this.columnB = newVal.exercise.map(a => a.partB);
-    //     }
-    //   },
+    watch: {
+        exercise: function() {
+            this.score = null;
+        }
+    },
     props: ['exercise']
 };
 </script>
@@ -115,6 +145,16 @@ export default {
 
 <style lang="scss" scoped>
 @import '../mystyles.scss';
+
+.typeBInput {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid lightblue;
+    outline: none;
+
+    font-size: 1rem;
+    // padding-left: 2px;
+}
 
 .partA {
     min-height: 72px;

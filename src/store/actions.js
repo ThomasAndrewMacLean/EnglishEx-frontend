@@ -544,6 +544,41 @@ export default {
                 });
         });
     },
+    sendExBToServer({ commit }, payload) {
+        commit('setLoader', { add: true, name: 'sendExBToServer' });
+        return new Promise((resolve, reject) => {
+            fetch(api + '/saveExB', {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+                .then(res => {
+                    commit('setLoader', {
+                        add: false,
+                        name: 'sendExBToServer'
+                    });
+
+                    if (res.status !== 200) {
+                        commit(
+                            'setErrorMessage',
+                            'make sure you are logged in.'
+                        );
+                    }
+                    return res.json();
+                })
+                .then(j => {
+                    return resolve(j);
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
+    },
     toggleShowLabels({ commit }) {
         commit('toggleShowLabels');
     }

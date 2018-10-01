@@ -36,6 +36,13 @@ export default {
                 state.colA = payload.exercise.map(a => a.partA.trim());
                 state.colB = payload.exercise.map(a => a.partB.trim());
             }
+            if (payload.type === 'B') {
+                state.colA = payload.exercise.map(a => ({
+                    ex: a.partA.trim(),
+                    ans: ''
+                }));
+                state.colB = null;
+            }
         }
     },
     changeColB(state, payload) {
