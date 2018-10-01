@@ -55,79 +55,79 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                //(this.exercise && this.exercise.exercise) ||
-                lines: (this.exercise && this.exercise.exercise) || [{}],
-                title: (this.exercise && this.exercise.title) || '',
-                editMode: !!this.exercise,
-                id: (this.exercise && this.exercise._id) || null
-            };
+export default {
+    data() {
+        return {
+            //(this.exercise && this.exercise.exercise) ||
+            lines: (this.exercise && this.exercise.exercise) || [{}],
+            title: (this.exercise && this.exercise.title) || '',
+            editMode: !!this.exercise,
+            id: (this.exercise && this.exercise._id) || null
+        };
+    },
+    methods: {
+        deleteLine(line) {
+            this.preventDefault;
+            this.lines.splice(this.lines.findIndex(x => x === line), 1);
         },
-        methods: {
-            deleteLine(line) {
-                this.preventDefault;
-                this.lines.splice(this.lines.findIndex(x => x === line), 1);
-            },
-            addExercise() {
-                this.$store
-                    .dispatch('addExercise', {
-                        exercise: this.lines,
+        addExercise() {
+            this.$store
+                .dispatch('addExercise', {
+                    exercise: this.lines,
+                    title: this.title,
+                    type: 'A',
+                    id: this.id
+                })
+                .then(x => {
+                    console.log(x);
+                    this.$emit('updated', {
                         title: this.title,
-                        type: 'A',
-                        id: this.id
-                    })
-                    .then(x => {
-                        console.log(x);
-                        this.$emit('updated', {
-                            title: this.title,
-                            exercise: this.lines
-                        });
-                        this.lines = [{}];
-                        this.title = '';
+                        exercise: this.lines
                     });
-            },
-            readExcel(event) {
-                var inputElement = document.getElementById('inputfile');
-                this.$store
-                    .dispatch('readExcel', {
-                        file: inputElement.files[0]
-                    })
-                    .then(x => {
-                        const keys = Object.keys(x[0]);
-                        //dodgy shit goin on here... cant be sure of the order of the keys...
-                        console.log(keys);
-                        this.lines = x.map(y => {
-                            return {
-                                partA: y.partA || y[keys[0]],
-                                partB: y.partB || y[keys[1]]
-                            };
-                        });
-                        event.target.value = '';
-                    });
-            }
+                    this.lines = [{}];
+                    this.title = '';
+                });
         },
-        props: ['exercise'],
-        watch: {
-            exercise(val) {
-                this.editMode = true;
-                this.title = val.title;
-                this.lines = val.exercise;
-                this.id = val._id;
-            }
+        readExcel(event) {
+            var inputElement = document.getElementById('inputfile');
+            this.$store
+                .dispatch('readExcel', {
+                    file: inputElement.files[0]
+                })
+                .then(x => {
+                    const keys = Object.keys(x[0]);
+                    //dodgy shit goin on here... cant be sure of the order of the keys...
+                    console.log(keys);
+                    this.lines = x.map(y => {
+                        return {
+                            partA: y.partA || y[keys[0]],
+                            partB: y.partB || y[keys[1]]
+                        };
+                    });
+                    event.target.value = '';
+                });
         }
-    };
+    },
+    props: ['exercise'],
+    watch: {
+        exercise(val) {
+            this.editMode = true;
+            this.title = val.title;
+            this.lines = val.exercise;
+            this.id = val._id;
+        }
+    }
+};
 </script>
 
 <style scoped>
-    .margin-delete-button {
-        margin-top: 20px;
-        position: absolute;
-        right: 0;
-    }
+.margin-delete-button {
+    margin-top: 20px;
+    position: absolute;
+    right: 0;
+}
 
-    .upload-button {
-        margin-top: 1rem;
-    }
+.upload-button {
+    margin-top: 1rem;
+}
 </style>
