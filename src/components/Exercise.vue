@@ -29,10 +29,10 @@
                 </div>
                 <div class="columns">
                     <div class="column">
-                        <div class="partA" v-for="e in columnA" :key="e.ex">
+                        <div class="partA" v-for="(e, index) in columnA" :key="e.ex" @click=setFocus(index)>
                             <div>{{e.ex.split('[[')[0]}}
                                 <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length +'ch'}" class="typeBInput"
-                                    type="text" v-model="e.ans">
+                                    type="text" v-model="e.ans" v-bind:ref="'input-' + index">
                                 {{e.ex.split(']]')[1]}}</div>
                         </div>
                     </div>
@@ -67,6 +67,13 @@ export default {
         }
     },
     methods: {
+        setFocus(index) {
+            let t = 'input-' + index;
+            console.log(t);
+            console.log(this.$refs[t]);
+
+          //  this.$refs[t].focus();
+        },
         clickk(e) {
             let text = e.target.innerText;
             this.switzch(text);
@@ -151,9 +158,7 @@ export default {
     border: none;
     border-bottom: 2px solid lightblue;
     outline: none;
-
     font-size: 1rem;
-    // padding-left: 2px;
 }
 
 .partA {
