@@ -13,6 +13,9 @@
                 <a href="https://eu.mouseflow.com/websites/63ae51ef-6201-44c0-bde3-f85e1756b57c" target="_blank">mouseflow</a>
             </li>
             <li>
+                <a href="https://uptimerobot.com/dashboard#mainDashboard" target="_blank">Uptown Robot</a>
+            </li>
+            <li>
                 <a href="https://analytics.google.com/analytics/web/#/report-home/a110018468w184610848p181927921"
                     target="_blank">google analytics</a>
             </li>
