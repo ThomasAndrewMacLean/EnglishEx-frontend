@@ -12,7 +12,7 @@
             <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)"
                 :key="index">
                 <a :href="'#/course/' + course._id" class="box is-radiusless">
-                    <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
+                    <div class="img image is-3by1" :style="{ background:course.imgURL ? '':course.color, backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
                     <p class="level">{{course.description}}</p>
                     <!-- TODO: filter x.delete does not work here, we only know the id of the exercises, not the properties -->

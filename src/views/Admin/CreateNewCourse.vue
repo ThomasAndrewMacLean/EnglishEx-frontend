@@ -20,17 +20,46 @@
             </div>
 
             <div class="field">
-                <label class="label" for="img">Image URL</label>
+                <label class="label" for="img">Choose image or colour
+                    <span class="icon has-text-info tooltip is-tooltip-multiline" data-tooltip="If no picture is uploaded, the colour will be used. You can click on the color to change it.">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
+                </label>
                 <div class="columns">
 
                     <div class="column">
                         <div class="control">
-                            <input class="input is-radiusless" v-model="course.imgURL" type="text" name="img" id="img">
+                            <div class="columns">
+                                <div class="column">
+                                    <div class="file">
+                                        <label class="file-label">
+                                            <input @change="(e) => handleChange(e.target.files)" class="file-input"
+                                                type="file" name="resume">
+                                            <span class="file-cta is-radiusless">
+                                                <span class="file-icon">
+                                                    <i class="fas fa-upload"></i>
+                                                </span>
+                                                <span class="file-label is-radiusless">
+                                                    Choose a file…
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <button @click.prevent="clearPic" class="button is-radiusless">Clear</button>
+                                </div>
+                                <div class="column">
+                                    <input class="colorPicker" type="color" v-model="course.color">
+                                </div>
+                            </div>
+                            <!-- <input class="input is-radiusless" v-model="course.imgURL" type="text" name="img" id="img"> -->
                         </div>
                     </div>
 
                     <div class="column">
-                        <div :style="{ backgroundImage: `url('${course.imgURL}')` }" id="imgPreview">
+                        <div :style="{ background:course.imgURL ? '':course.color, backgroundImage: `url('${course.imgURL}')` }"
+                            id="imgPreview">
                         </div>
                     </div>
                 </div>
@@ -53,8 +82,8 @@
                             <p class="control has-icons-left">
                                 <input class="input search-input is-radiusless" v-model="fil" type="text" placeholder="search">
                             <span class="icon is-small is-left search-icon">
-      <i class="fas fa-search"></i>
-    </span>
+        <i class="fas fa-search"></i>
+        </span>
                             </p>
                         </div>
                         <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
@@ -62,14 +91,11 @@
                     <span>
                             {{ex.title}}
                             <span class="type is-italic has-text-grey-dark is-size-7">
-                                (type: {{ ex.type}})
-                                
+                                (type: {{ ex.type}})                       
                             </span>
                                  <span v-if="ex.tagName" class="type is-italic has-text-grey-dark is-size-7">
-                                (tag: {{ ex.tagName}})
-                                
+                                (tag: {{ ex.tagName}})                       
                             </span>
-
                     </span>
                     <button @click.prevent="addTagName($event, ex)" v-if="ex.isActive" class="button is-small is-radiusless is-pulled-right">{{ex.tagName? 'Edit': 'Add'}} Tag</button>
                         </a>
@@ -91,12 +117,49 @@
 export default {
     data() {
         return {
-            course: {},
+            course: {
+                color: '#ff6347'
+            },
             exercises: [],
             fil: ''
         };
     },
     methods: {
+        handleChange(files) {
+            this.$store.dispatch('showLoader', {
+                add: true,
+                name: 'uploadingPic'
+            });
+            const file = files[0];
+
+            var validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+            if (validImageTypes.indexOf(file.type) === -1) {
+                console.log('wrong type');
+                return;
+            }
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('upload_preset', 'uzgtvylv');
+            fetch('https://api.cloudinary.com/v1_1/dhz1ztiqb/upload', {
+                method: 'POST',
+                body: fd
+            })
+                .then(img => {
+                    return img.json();
+                })
+                .then(j => {
+                    this.$store.dispatch('showLoader', {
+                        add: false,
+                        name: 'uploadingPic'
+                    });
+                    this.course.imgURL = j.secure_url;
+                    this.$forceUpdate();
+                });
+        },
+        clearPic() {
+            this.course.imgURL = '';
+            this.$forceUpdate();
+        },
         addCourse() {
             this.course.exercises = this.exercises.filter(e => e.isActive);
             this.$store
@@ -143,6 +206,11 @@ export default {
 </script>
 
 <style scoped>
+.colorPicker {
+    height: 36px;
+    width: 100%;
+}
+
 #imgPreview {
     outline: 1px solid #ccc;
     height: 160px;

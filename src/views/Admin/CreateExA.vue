@@ -7,18 +7,19 @@
             It will upload the first sheet of an excel file, and it needs a title on the first row.
         </p>
 
-        <div class="field">
-            <label class="label" for="title">Title</label>
-            <div class="columns title-input">
-                <div class="column is-half">
-                    <div class="control">
-                        <input class="input is-radiusless" v-model="title" type="text" name="title" id="title" required>
+        <form @submit.prevent="addExercise">
+            <div class="field">
+                <label class="label" for="title">Title</label>
+                <div class="columns title-input">
+                    <div class="column is-half">
+                        <div class="control">
+                            <input class="input is-radiusless" v-model="title" type="text" name="title" id="title"
+                                required>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <form @submit.prevent="addExercise">
             <div v-for="(line, index) in lines" :key="line.toString() + index" class="field">
                 <div class="columns">
                     <div class="column">
@@ -54,79 +55,79 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            //(this.exercise && this.exercise.exercise) ||
-            lines: (this.exercise && this.exercise.exercise) || [{}],
-            title: (this.exercise && this.exercise.title) || '',
-            editMode: !!this.exercise,
-            id: (this.exercise && this.exercise._id) || null
-        };
-    },
-    methods: {
-        deleteLine(line) {
-            this.preventDefault;
-            this.lines.splice(this.lines.findIndex(x => x === line), 1);
+    export default {
+        data() {
+            return {
+                //(this.exercise && this.exercise.exercise) ||
+                lines: (this.exercise && this.exercise.exercise) || [{}],
+                title: (this.exercise && this.exercise.title) || '',
+                editMode: !!this.exercise,
+                id: (this.exercise && this.exercise._id) || null
+            };
         },
-        addExercise() {
-            this.$store
-                .dispatch('addExercise', {
-                    exercise: this.lines,
-                    title: this.title,
-                    type: 'A',
-                    id: this.id
-                })
-                .then(x => {
-                    console.log(x);
-                    this.$emit('updated', {
+        methods: {
+            deleteLine(line) {
+                this.preventDefault;
+                this.lines.splice(this.lines.findIndex(x => x === line), 1);
+            },
+            addExercise() {
+                this.$store
+                    .dispatch('addExercise', {
+                        exercise: this.lines,
                         title: this.title,
-                        exercise: this.lines
+                        type: 'A',
+                        id: this.id
+                    })
+                    .then(x => {
+                        console.log(x);
+                        this.$emit('updated', {
+                            title: this.title,
+                            exercise: this.lines
+                        });
+                        this.lines = [{}];
+                        this.title = '';
                     });
-                    this.lines = [{}];
-                    this.title = '';
-                });
+            },
+            readExcel(event) {
+                var inputElement = document.getElementById('inputfile');
+                this.$store
+                    .dispatch('readExcel', {
+                        file: inputElement.files[0]
+                    })
+                    .then(x => {
+                        const keys = Object.keys(x[0]);
+                        //dodgy shit goin on here... cant be sure of the order of the keys...
+                        console.log(keys);
+                        this.lines = x.map(y => {
+                            return {
+                                partA: y.partA || y[keys[0]],
+                                partB: y.partB || y[keys[1]]
+                            };
+                        });
+                        event.target.value = '';
+                    });
+            }
         },
-        readExcel(event) {
-            var inputElement = document.getElementById('inputfile');
-            this.$store
-                .dispatch('readExcel', {
-                    file: inputElement.files[0]
-                })
-                .then(x => {
-                    const keys = Object.keys(x[0]);
-                    //dodgy shit goin on here... cant be sure of the order of the keys...
-                    console.log(keys);
-                    this.lines = x.map(y => {
-                        return {
-                            partA: y.partA || y[keys[0]],
-                            partB: y.partB || y[keys[1]]
-                        };
-                    });
-                    event.target.value = '';
-                });
+        props: ['exercise'],
+        watch: {
+            exercise(val) {
+                this.editMode = true;
+                this.title = val.title;
+                this.lines = val.exercise;
+                this.id = val._id;
+            }
         }
-    },
-    props: ['exercise'],
-    watch: {
-        exercise(val) {
-            this.editMode = true;
-            this.title = val.title;
-            this.lines = val.exercise;
-            this.id = val._id;
-        }
-    }
-};
+    };
 </script>
 
 <style scoped>
-.margin-delete-button {
-    margin-top: 20px;
-    position: absolute;
-    right: 0;
-}
+    .margin-delete-button {
+        margin-top: 20px;
+        position: absolute;
+        right: 0;
+    }
 
-.upload-button {
-    margin-top: 1rem;
-}
+    .upload-button {
+        margin-top: 1rem;
+    }
 </style>

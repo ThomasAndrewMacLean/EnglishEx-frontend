@@ -6,7 +6,7 @@
             <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)"
                 :key="index">
                 <div class="box is-radiusless" @click="selectCourse(course)">
-                    <div class="img image is-3by1" :style="{ backgroundImage: `url('${course.imgURL}')` }"></div>
+                    <div class="img image is-3by1" :style="{ background:course.imgURL ? '':course.color, backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
                     <p class="level">{{course.description}}</p>
                     <ul v-for="ex in course.exercises" :key="ex._id">
@@ -34,18 +34,46 @@
             </div>
 
             <div class="field">
-                <label class="label" for="img">Image URL</label>
+                <label class="label" for="img">Choose image or colour
+                    <span class="icon has-text-info tooltip is-tooltip-multiline" data-tooltip="If no picture is uploaded, the colour will be used. You can click on the color to change it.">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
+                </label>
                 <div class="columns">
 
                     <div class="column">
                         <div class="control">
-                            <input class="input is-radiusless" v-model="selectedCourse.imgURL" type="text" name="img"
-                                id="img">
+                            <div class="columns">
+                                <div class="column">
+                                    <div class="file">
+                                        <label class="file-label">
+                                            <input @change="(e) => handleChange(e.target.files)" class="file-input"
+                                                type="file" name="resume">
+                                            <span class="file-cta is-radiusless">
+                                                <span class="file-icon">
+                                                    <i class="fas fa-upload"></i>
+                                                </span>
+                                                <span class="file-label is-radiusless">
+                                                    Choose a file…
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <button @click.prevent="clearPic" class="button is-radiusless">Clear</button>
+                                </div>
+                                <div class="column">
+                                    <input class="colorPicker" type="color" v-model="selectedCourse.color">
+                                </div>
+                            </div>
+                            <!-- <input class="input is-radiusless" v-model="course.imgURL" type="text" name="img" id="img"> -->
                         </div>
                     </div>
 
                     <div class="column">
-                        <div :style="{ backgroundImage: `url('${selectedCourse.imgURL}')` }" id="imgPreview2">
+                        <div :style="{background:selectedCourse.imgURL ? '':selectedCourse.color,  backgroundImage: `url('${selectedCourse.imgURL}')` }"
+                            id="imgPreview2">
                         </div>
                     </div>
                 </div>
@@ -68,7 +96,7 @@
                             <p class="control has-icons-left">
                                 <input class="input search-input is-radiusless" v-model="fil" type="text" placeholder="search">
                             <span class="icon is-small is-left search-icon">
-      <i class="fas fa-search"></i>
+       <i class="fas fa-search"></i>
     </span>
                             </p>
                         </div>
@@ -134,6 +162,41 @@ export default {
         };
     },
     methods: {
+        handleChange(files) {
+            this.$store.dispatch('showLoader', {
+                add: true,
+                name: 'uploadingPic'
+            });
+            const file = files[0];
+
+            var validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+            if (validImageTypes.indexOf(file.type) === -1) {
+                console.log('wrong type');
+                return;
+            }
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('upload_preset', 'uzgtvylv');
+            fetch('https://api.cloudinary.com/v1_1/dhz1ztiqb/upload', {
+                method: 'POST',
+                body: fd
+            })
+                .then(img => {
+                    return img.json();
+                })
+                .then(j => {
+                    this.selectedCourse.imgURL = j.secure_url;
+                    this.$store.dispatch('showLoader', {
+                        add: false,
+                        name: 'uploadingPic'
+                    });
+                    this.$forceUpdate();
+                });
+        },
+        clearPic() {
+            this.selectedCourse.imgURL = '';
+            this.$forceUpdate();
+        },
         selectCourse(c) {
             this.selectedCourse = c;
             this.exercises.forEach(e => {
@@ -142,6 +205,10 @@ export default {
                 if (exx && exx.tagName) {
                     e.tagName = exx.tagName;
                 }
+            });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         },
         deleteCourse() {
@@ -258,7 +325,10 @@ ul {
 .margin-top {
     margin-top: 2rem;
 }
-
+.colorPicker {
+    height: 36px;
+    width: 100%;
+}
 .panel-block.is-active {
     border-left-width: 1rem;
 }

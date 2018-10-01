@@ -1,24 +1,29 @@
 <template>
     <section>
-        <h1 class="title">Create Exercise Type B</h1>
-        <p class="level"> Here we create exercises type B.
+        <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type B</h1>
+        <p v-if="!editMode" class="level"> Here we create exercises type B.
             The words that have to be filled in should be put between double [[]]
             These can also be uploaded from an Excelfile. It will upload the first sheet of an excel file, and it needs
             a title on the first row.
         </p>
 
-        <div class="field">
-            <label class="label" for="title">Title</label>
-            <div class="columns">
-                <div class="column is-half">
-                    <div class="control">
-                        <input class="input is-radiusless" v-model="title" type="text" name="title" id="title" required>
+        <div v-if="error" class="notification is-danger">
+            <button @click="error = ''" class="delete"></button>
+            {{error}}
+        </div>
+        <form @submit.prevent="addExercise">
+            <div class="field">
+                <label class="label" for="title">Title</label>
+                <div class="columns">
+                    <div class="column is-half">
+                        <div class="control">
+                            <input class="input is-radiusless" v-model="title" type="text" name="title" id="title"
+                                required>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <form @submit.prevent="addExercise">
             <div v-for="(line, index) in lines" :key="line.toString() + index" class="field">
                 <div class="columns">
                     <div class="column">
@@ -38,7 +43,7 @@
                 </div>
             </div>
         </form>
-        <label class="button upload-button is-radiusless" for="inputfile">
+        <label v-if="!editMode" class="button upload-button is-radiusless" for="inputfile">
             <span class="file-icon">
                 <i class="fas fa-upload"></i>
             </span>
@@ -52,8 +57,11 @@
 export default {
     data() {
         return {
-            lines: [{}],
-            title: ''
+            lines: (this.exercise && this.exercise.exercise) || [{}],
+            title: (this.exercise && this.exercise.title) || '',
+            editMode: !!this.exercise,
+            id: (this.exercise && this.exercise._id) || null,
+            error: ''
         };
     },
     methods: {
@@ -62,17 +70,38 @@ export default {
             this.lines.splice(this.lines.findIndex(x => x === line), 1);
         },
         addExercise() {
-            this.$store
-                .dispatch('addExercise', {
-                    exercise: this.lines,
-                    title: this.title,
-                    type: 'B'
-                })
-                .then(x => {
-                    console.log(x);
-                    this.lines = [{}];
-                    this.title = '';
-                });
+            let correct = true;
+            this.lines.forEach(line => {
+                let checkForCorrectInput = line.partA.match(/\[\[(.+?)\]\]/g);
+                if (
+                    checkForCorrectInput === null ||
+                    checkForCorrectInput.length !== 1
+                ) {
+                    console.log('error');
+                    correct = false;
+                }
+            });
+            if (correct) {
+                this.$store
+                    .dispatch('addExercise', {
+                        exercise: this.lines,
+                        title: this.title,
+                        type: 'B',
+                        id: this.id
+                    })
+                    .then(x => {
+                        this.$emit('updated', {
+                            title: this.title,
+                            exercise: this.lines
+                        });
+                        console.log(x);
+                        this.lines = [{}];
+                        this.title = '';
+                    });
+            } else {
+                this.error =
+                    'Make sure every line has a correct [[word]] in it, and only 1.';
+            }
         },
         readExcel(event) {
             var inputElement = document.getElementById('inputfile');
@@ -89,6 +118,15 @@ export default {
                     });
                     event.target.value = '';
                 });
+        }
+    },
+    props: ['exercise'],
+    watch: {
+        exercise(val) {
+            this.editMode = true;
+            this.title = val.title;
+            this.lines = val.exercise;
+            this.id = val._id;
         }
     }
 };

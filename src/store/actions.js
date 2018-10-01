@@ -352,7 +352,9 @@ export default {
                 });
         });
     },
-
+    showLoader({ commit }, payload) {
+        commit('setLoader', { add: payload.add, name: payload.name });
+    },
     getCourse({ commit }, payload) {
         commit('setLoader', { add: true, name: 'getCourse' });
 

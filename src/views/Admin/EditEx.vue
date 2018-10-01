@@ -7,9 +7,12 @@
             <p class="panel-heading">
                 Exercises
             </p>
-            <div class="panel-block">
-                <p class="control">
-                    <input class="input is-small" v-model="fil" type="text" placeholder="search">
+            <div class="panel-block search-panel">
+                <p class="control has-icons-left">
+                    <input class="input search-input is-radiusless" v-model="fil" type="text" placeholder="search">
+                    <span class="icon is-small is-left search-icon">
+                        <i class="fas fa-search"></i>
+                    </span>
                 </p>
             </div>
             <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'"
@@ -19,7 +22,10 @@
                     {{ ex.type}})</span>
             </a>
         </div>
-        <CreateExA @updated="exHasBeenUpdated" v-if="selectedEx" :exercise="selectedEx" />
+        <div id="editArea">
+            <CreateExA @updated="exHasBeenUpdated" v-if="selectedEx && selectedEx.type ==='A'" :exercise="selectedEx" />
+            <CreateExB @updated="exHasBeenUpdated" v-if="selectedEx && selectedEx.type ==='B'" :exercise="selectedEx" />
+        </div>
         <Button @click="showModal=true" v-if="selectedEx" class="button delete-button is-radiusless">Delete</Button>
         <div :class="showModal? 'is-active modal':'modal'">
             <div class="modal-background"></div>
@@ -43,6 +49,7 @@
 
 <script>
 import CreateExA from './CreateExA';
+import CreateExB from './CreateExB';
 export default {
     name: 'editEx',
     data() {
@@ -54,13 +61,20 @@ export default {
         };
     },
     components: {
-        CreateExA
+        CreateExA,
+        CreateExB
     },
     methods: {
         selectEx(c) {
             this.exercises.forEach(e => (e.isActive = false));
             c.isActive = true;
             this.selectedEx = c;
+            setTimeout(() => {
+                window.scrollTo({
+                    top: document.getElementById('editArea').offsetTop + 35,
+                    behavior: 'smooth'
+                });
+            }, 10);
         },
         exHasBeenUpdated(ex) {
             this.selectedEx.isActive = false;
@@ -89,7 +103,10 @@ export default {
     },
     computed: {
         filteredExercises() {
-            return this.exercises.filter(e => e.title.indexOf(this.fil) !== -1);
+            return this.exercises.filter(
+                e =>
+                    e.title.toLowerCase().indexOf(this.fil.toLowerCase()) !== -1
+            );
         }
     }
 };
@@ -113,5 +130,17 @@ export default {
 
 .type {
     margin-left: 0.5rem;
+}
+
+.search-panel {
+    padding: 0;
+}
+
+.search-input {
+    min-height: 50px;
+}
+
+.search-icon {
+    margin-top: 7px;
 }
 </style>
