@@ -9,14 +9,19 @@
                 </div>
                 <div class="columns">
                     <div class="column">
-                        <div class="partA" v-for="e in columnA" :key="e">
+                        <div class="partA" v-for="(e,index) in columnA" :ref="'columnA-ref-'+index" :key="'columnA-' + index">
+                            <span v-if="checked[index]" class="checkie"><i class="fas fa-check-double"></i></span>
                             {{e}}
+                            <span v-if="checked[index]" @click.stop="unDoubleCheck(e, index)" class="undo-double-check"><i
+                                    class="fas fa-undo"></i></span>
                         </div>
                     </div>
                     <div class="column">
-                        <div draggable="true" @dragstart="startdrag" @click="clickk" @drop="onDrop" @dragover="ondragover"
-                            @dragenter="ondragenter" class="partB" v-for="e in columnB" :key="e">
+                        <div @click="clickk" class="partB" v-for="(e, index) in columnB" :ref="'columnB-ref-'+index"
+                            :key="e + '-' + index">
                             {{e}}
+                            <span v-if="!checked[index]" @click.stop="doubleCheck(e, index)" class="double-check"><i
+                                    class="fas fa-check-double"></i></span>
                         </div>
                     </div>
                 </div>
@@ -52,7 +57,8 @@ export default {
             copy: null,
             selected: null,
             score: null,
-            showInfo: true
+            showInfo: true,
+            checked: {}
         };
     },
     components: {
@@ -67,12 +73,39 @@ export default {
         }
     },
     methods: {
+        doubleCheck(text, index) {
+            this.clearSelectedDivs();
+            this.columnA[index] += ' ' + text;
+            //this.columnB[index] = '';
+            this.$refs['columnA-ref-' + index][0].classList.add(
+                'doubleChecked'
+            );
+            this.$refs['columnB-ref-' + index][0].classList.add(
+                'doubleChecked'
+            );
+            this.checked[index] = text;
+            this.$forceUpdate();
+        },
+        unDoubleCheck(text, index) {
+            let colBText = this.checked[index];
+            this.columnA[index] = text.replace(colBText, '').trim();
+            //this.columnB[index] = colBText;
+            this.$refs['columnA-ref-' + index][0].classList.remove(
+                'doubleChecked'
+            );
+            this.$refs['columnB-ref-' + index][0].classList.remove(
+                'doubleChecked'
+            );
+            delete this.checked[index];
+            this.$forceUpdate();
+        },
         setFocus(index) {
             let t = 'input-' + index;
 
             this.$refs[t][0].focus();
         },
         clickk(e) {
+            e.target.classList.toggle('selectedDiv');
             let text = e.target.innerText;
             this.switzch(text);
         },
@@ -84,27 +117,15 @@ export default {
                 this.selected = null;
             }
         },
-        ondragenter(event) {
-            event.preventDefault();
-        },
-        ondragover(event) {
-            event.preventDefault();
-        },
-        onDrop(e) {
-            console.log('DROP');
-            //console.log(e.target.innerText);
-            this.switzch(e.target.innerText);
-        },
-        startdrag(e) {
-            console.log('START');
+        clearSelectedDivs() {
+            const elems = document.querySelectorAll('.selectedDiv');
+            elems.forEach(el => {
+                el.classList.remove('selectedDiv');
+            });
             this.selected = null;
-            this.switzch(e.target.innerText);
-            //console.log(e.target.innerText);
         },
-
         switch(id1, id2) {
-            //console.log(id1, id2);
-
+            this.clearSelectedDivs;
             let copy = this.columnB;
             let place1 = this.columnB.indexOf(id1);
             let place2 = this.columnB.indexOf(id2);
@@ -141,6 +162,7 @@ export default {
     watch: {
         exercise: function() {
             this.score = null;
+            this.checked = {};
         }
     },
     props: ['exercise']
@@ -150,6 +172,39 @@ export default {
 
 <style lang="scss" scoped>
 @import '../mystyles.scss';
+
+.double-check {
+    color: lightgrey;
+    position: absolute;
+    right: 0;
+}
+
+.checkie {
+    position: absolute;
+    margin-left: -12px;
+    margin-top: 5px;
+    font-size: 0.5rem;
+    color: lightgreen;
+}
+
+.double-check:hover {
+    color: lightgreen;
+}
+
+.undo-double-check {
+    color: lightgrey;
+    position: absolute;
+    cursor: pointer;
+    right: 0; //-50px;
+}
+
+.undo-double-check:hover {
+    color: lightcoral;
+}
+
+.selectedDiv {
+    background: lightblue !important;
+}
 
 .typeBInput {
     display: inline-block;
@@ -161,21 +216,35 @@ export default {
 
 .partA {
     min-height: 72px;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
 }
 
 .partB {
     min-height: 72px;
     cursor: pointer;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
 }
 
 .partB:hover {
     color: $purple;
-    background: lightblue;
+    background: #f3fcff;
 }
 
-[draggable='true'] {
-    cursor: move;
+.doubleChecked.partA {
+    width: 200%;
+    //position: relative;
 }
+
+.doubleChecked.partB {
+    opacity: 0;
+    // width: 0;
+    pointer-events: none;
+}
+
 .exB {
     cursor: pointer;
 }
