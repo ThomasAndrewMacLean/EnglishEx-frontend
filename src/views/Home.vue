@@ -55,13 +55,12 @@ export default {
                             course.exercises.forEach(ex => {
                                 let score = yy.find(z => z.exId === ex.id);
                                 if (score) {
-                                    ex.score = score.score;
-                                    ex.total = score.total;
+                                    this.$set(ex, 'score', score.score);
+                                    this.$set(ex, 'total', score.total);
                                 }
                             });
                         }
                     });
-                    this.$forceUpdate();
                 });
             })
             .catch(err => {

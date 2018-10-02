@@ -108,15 +108,14 @@ export default {
             this.selected = null;
         },
         switch(id1, id2) {
-            this.clearSelectedDivs;
+            this.clearSelectedDivs();
             let copy = this.columnB;
             let place1 = this.columnB.indexOf(id1);
             let place2 = this.columnB.indexOf(id2);
-            //let temp = copy[copy.indexOf(id1)];
-            this.columnB[place1] = id2;
-            this.columnB[place2] = id1;
+
+            this.$set(this.columnB, place1, id2);
+            this.$set(this.columnB, place2, id1);
             this.$store.dispatch('changeColB', copy);
-            this.$forceUpdate();
         },
         sendExToServer() {
             if (this.exercise.type === 'A') {

@@ -185,17 +185,15 @@ export default {
                     return img.json();
                 })
                 .then(j => {
-                    this.selectedCourse.imgURL = j.secure_url;
                     this.$store.dispatch('showLoader', {
                         add: false,
                         name: 'uploadingPic'
                     });
-                    this.$forceUpdate();
+                    this.$set(this.selectedCourse, 'imgURL', j.secure_url);
                 });
         },
         clearPic() {
-            this.selectedCourse.imgURL = '';
-            this.$forceUpdate();
+            this.$set(this.selectedCourse, 'imgURL', '');
         },
         selectCourse(c) {
             this.selectedCourse = c;
@@ -237,8 +235,7 @@ export default {
         addTagName(event, ex) {
             event.stopPropagation();
             let tagName = prompt('Please enter the tagname for ' + ex.title);
-            ex.tagName = tagName;
-            this.$forceUpdate();
+            this.$set(ex, 'tagName', tagName);
         }
     },
     computed: {

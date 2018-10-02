@@ -152,13 +152,11 @@ export default {
                         add: false,
                         name: 'uploadingPic'
                     });
-                    this.course.imgURL = j.secure_url;
-                    this.$forceUpdate();
+                    this.$set(this.course, 'imgURL', j.secure_url);
                 });
         },
         clearPic() {
-            this.course.imgURL = '';
-            this.$forceUpdate();
+            this.$set(this.course, 'imgURL', '');
         },
         addCourse() {
             this.course.exercises = this.exercises.filter(e => e.isActive);
@@ -175,8 +173,7 @@ export default {
         addTagName(event, ex) {
             event.stopPropagation();
             let tagName = prompt('Please enter the tagname for ' + ex.title);
-            ex.tagName = tagName;
-            this.$forceUpdate();
+            this.$set(ex, 'tagName', tagName);
         }
     },
     mounted() {
