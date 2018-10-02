@@ -9,7 +9,7 @@
                 </div>
                 <div class="columns">
                     <div class="column">
-                        <div class="partA" v-for="(e,index) in columnA" :ref="'columnA-ref-'+index" :key="'columnA-' + index">
+                        <div :class="{ 'doubleChecked': checked[index] }" class="partA" v-for="(e,index) in columnA" :key="'columnA-' + index">
                             <span v-if="checked[index]" class="checkie"><i class="fas fa-check-double"></i></span>
                             {{e}}
                             <span v-if="checked[index]" @click.stop="unDoubleCheck(e, index)" class="undo-double-check"><i
@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="column">
-                        <div @click="clickk" class="partB" v-for="(e, index) in columnB" :ref="'columnB-ref-'+index"
+                        <div @click="clickk" :class="{ 'doubleChecked': checked[index] }" class="partB" v-for="(e, index) in columnB"
                             :key="e + '-' + index">
                             {{e}}
                             <span v-if="!checked[index]" @click.stop="doubleCheck(e, index)" class="double-check"><i
@@ -76,32 +76,15 @@ export default {
         doubleCheck(text, index) {
             this.clearSelectedDivs();
             this.columnA[index] += ' ' + text;
-            //this.columnB[index] = '';
-            this.$refs['columnA-ref-' + index][0].classList.add(
-                'doubleChecked'
-            );
-            this.$refs['columnB-ref-' + index][0].classList.add(
-                'doubleChecked'
-            );
-            this.checked[index] = text;
-            this.$forceUpdate();
+            this.$set(this.checked, index, text);
         },
         unDoubleCheck(text, index) {
             let colBText = this.checked[index];
             this.columnA[index] = text.replace(colBText, '').trim();
-            //this.columnB[index] = colBText;
-            this.$refs['columnA-ref-' + index][0].classList.remove(
-                'doubleChecked'
-            );
-            this.$refs['columnB-ref-' + index][0].classList.remove(
-                'doubleChecked'
-            );
-            delete this.checked[index];
-            this.$forceUpdate();
+            this.$set(this.checked, index, '');
         },
         setFocus(index) {
             let t = 'input-' + index;
-
             this.$refs[t][0].focus();
         },
         clickk(e) {
@@ -132,7 +115,6 @@ export default {
             //let temp = copy[copy.indexOf(id1)];
             this.columnB[place1] = id2;
             this.columnB[place2] = id1;
-
             this.$store.dispatch('changeColB', copy);
             this.$forceUpdate();
         },
@@ -147,8 +129,6 @@ export default {
                 return;
             }
             if (this.exercise.type === 'B') {
-                console.log(this.columnA);
-                // return;
                 this.$store
                     .dispatch('sendExToServer', {
                         exId: this.exercise._id,
@@ -162,6 +142,7 @@ export default {
     watch: {
         exercise: function() {
             this.score = null;
+            this.checked = {};
             this.clearSelectedDivs();
         }
     },
@@ -180,9 +161,9 @@ export default {
 }
 
 .checkie {
-    position: absolute;
-    margin-left: -12px;
-    margin-top: 5px;
+    //position: absolute;
+    margin-right: 5px;
+    //margin-top: 5px;
     font-size: 0.5rem;
     color: lightgreen;
 }
@@ -216,17 +197,17 @@ export default {
 
 .partA {
     min-height: 72px;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .partB {
     min-height: 72px;
     cursor: pointer;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .partB:hover {
