@@ -6,11 +6,17 @@
                 <div class="has-text-dark has-text-weight-light description" v-if="course">
                     {{course.description}}
                 </div>
-                <ul>
-                    <li class="ex-list" :key="e.id" v-for="e in exercises" @click="getExercise(e.id)">
-                        {{e.title}}
-                    </li>
-                </ul>
+
+                <div :key="tag" v-for="tag in tags">
+                    <label class="label">
+                        {{tag || 'untagged'}}
+                    </label>
+                    <ul>
+                        <li class="ex-list" :key="e.id" v-for="e in exercises.filter(ex => ex.tagName === tag)" @click="getExercise(e.id)">
+                            {{e.title}}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="column">
                 <div v-if="exercise">
@@ -37,8 +43,8 @@ export default {
     data() {
         return {
             course: undefined,
-            exercises: []
-            //exercise: undefined
+            exercises: [],
+            tags: []
         };
     },
     methods: {
@@ -71,6 +77,8 @@ export default {
             .then(x => {
                 this.course = x[0];
                 this.exercises = x[0].exercises;
+                this.tags = [...new Set(this.exercises.map(e => e.tagName))];
+                console.log(this.tags);
             })
             .catch(err => {
                 console.log(err);

@@ -6,7 +6,6 @@
         <p class="level">
             <TextLabel label="homeExplanation" />
         </p>
-        <!-- <pre>{{exercises}}</pre> -->
         <div class="columns is-multiline">
 
             <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)"
@@ -15,8 +14,6 @@
                     <div class="img image is-3by1" :style="{ background:course.imgURL ? '':course.color, backgroundImage: `url('${course.imgURL}')` }"></div>
                     <p class="title">{{course.title}}</p>
                     <p class="level">{{course.description}}</p>
-                    <!-- TODO: filter x.delete does not work here, we only know the id of the exercises, not the properties -->
-                    <!-- <p class="level">number of exercises {{course.exercises.filter(x => !x.delete).length}}</p> -->
                     <p class="level">{{ Math.floor(course.exercises.filter(x =>
                         x.total).length/course.exercises.filter(x => !x.delete).length * 100)}} %</p>
                     <ul v-for="ex in course.exercises" :key="ex._id">
@@ -66,7 +63,6 @@ export default {
             .catch(err => {
                 console.log('err');
                 console.log(err);
-
                 this.$router.push('/');
             });
     }
