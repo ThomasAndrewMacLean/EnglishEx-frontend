@@ -78,7 +78,6 @@ export default {
                 this.course = x[0];
                 this.exercises = x[0].exercises;
                 this.tags = [...new Set(this.exercises.map(e => e.tagName))];
-                console.log(this.tags);
             })
             .catch(err => {
                 console.log(err);

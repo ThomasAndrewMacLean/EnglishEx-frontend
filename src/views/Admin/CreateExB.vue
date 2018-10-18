@@ -24,6 +24,15 @@
                 </div>
             </div>
 
+            <div class="field">
+                <label class="label" for="title">Info</label>
+                <div class="info-input">
+                    <div class="control">
+                        <input class="input is-radiusless" v-model="info" type="text" name="info" id="info" placeholder="info">
+                    </div>
+                </div>
+            </div>
+
             <div v-for="(line, index) in lines" :key="line.toString() + index" class="field">
                 <div class="columns">
                     <div class="column">
@@ -86,6 +95,7 @@ export default {
                     .dispatch('addExercise', {
                         exercise: this.lines,
                         title: this.title,
+                        info: this.info,
                         type: 'B',
                         id: this.id
                     })

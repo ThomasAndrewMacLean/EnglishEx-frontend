@@ -1,6 +1,9 @@
 <template>
     <section>
         <div v-if="exercise" class="wrap">
+            <div v-if="exercise.info" class="notification">
+                {{exercise.info}}
+            </div>
             <div v-if="exercise.type==='A'">
                 <div v-if="showInfo" class="notification">
                     <button @click="showInfo = false" class="delete"></button>
@@ -9,7 +12,8 @@
                 </div>
                 <div class="columns">
                     <div class="column">
-                        <div :class="{ 'doubleChecked': checked[index] }" class="partA" v-for="(e,index) in columnA" :key="'columnA-' + index">
+                        <div :class="{ 'doubleChecked': checked[index] }" class="partA" v-for="(e,index) in columnA"
+                            :key="'columnA-' + index">
                             <span v-if="checked[index]" class="checkie"><i class="fas fa-check-double"></i></span>
                             {{e}}
                             <span v-if="checked[index]" @click.stop="unDoubleCheck(e, index)" class="undo-double-check"><i
