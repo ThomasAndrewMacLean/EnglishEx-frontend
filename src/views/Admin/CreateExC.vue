@@ -1,10 +1,11 @@
 <template>
     <section>
-        <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type B</h1>
-        <p v-if="!editMode" class="level"> Here we create exercises type B.
-            The words that have to be filled in should be put between double [[]]
-            These can also be uploaded from an Excelfile. It will upload the first sheet of an excel file, and it needs
-            a title on the first row.
+        <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type C</h1>
+        <p v-if="!editMode" class="level"> Here we create exercises type C.
+            One word is missing from each line. The word may be at the beginning, the end or somewhere
+            in between. Write in the missing words in the spaces provided.
+
+            To create these exercises just write the whole sentence, and put the word between double brackets [[]]
         </p>
 
         <div v-if="error" class="notification is-danger">
@@ -83,10 +84,8 @@ export default {
             this.lines.forEach(line => {
                 let checkForCorrectInput = line.partA.match(/\[\[(.+?)\]\]/g);
                 if (
-                    checkForCorrectInput === null
-                    //TODO: turn off validation for now, add again later?
-                    //||
-                    //checkForCorrectInput.length !== 1
+                    checkForCorrectInput === null ||
+                    checkForCorrectInput.length !== 1
                 ) {
                     console.log('error');
                     correct = false;
@@ -99,7 +98,7 @@ export default {
                         exercise: this.lines,
                         title: this.title,
                         info: this.info,
-                        type: 'B',
+                        type: 'C',
                         id: this.id
                     })
                     .then(x => {

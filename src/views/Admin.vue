@@ -21,6 +21,7 @@
                     <EditCourse ref="EditCourse" v-if="adminPage === 'EditCourse'" />
                     <CreateExA v-if="adminPage === 'CreateExA'" />
                     <CreateExB v-if="adminPage === 'CreateExB'" />
+                    <CreateExC v-if="adminPage === 'CreateExC'" />
                     <EditEx v-if="adminPage === 'EditEx'" />
                     <Users v-if="adminPage === 'Users'" />
                     <DevPage v-if="adminPage === 'DevPage'" />
@@ -35,6 +36,7 @@
 import LabelEditor from './Admin/LabelEditor.vue';
 import CreateExA from './Admin/CreateExA.vue';
 import CreateExB from './Admin/CreateExB.vue';
+import CreateExC from './Admin/CreateExC.vue';
 import CreateNewCourse from './Admin/CreateNewCourse.vue';
 import EditCourse from './Admin/EditCourse.vue';
 import Users from './Admin/Users.vue';
@@ -84,6 +86,10 @@ export default {
                         {
                             title: 'Create Type B',
                             page: 'CreateExB'
+                        },
+                        {
+                            title: 'Create Type C',
+                            page: 'CreateExC'
                         },
                         {
                             title: 'Edit Exercises',
@@ -140,6 +146,7 @@ export default {
         EditCourse,
         CreateExA,
         CreateExB,
+        CreateExC,
         EditEx,
         Users,
         DevPage
