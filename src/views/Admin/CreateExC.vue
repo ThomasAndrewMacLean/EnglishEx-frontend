@@ -69,6 +69,7 @@ export default {
         return {
             lines: (this.exercise && this.exercise.exercise) || [{}],
             title: (this.exercise && this.exercise.title) || '',
+            info: (this.exercise && this.exercise.info) || '',
             editMode: !!this.exercise,
             id: (this.exercise && this.exercise._id) || null,
             error: ''
@@ -104,10 +105,12 @@ export default {
                     .then(x => {
                         this.$emit('updated', {
                             title: this.title,
+                            info: this.info,
                             exercise: this.lines
                         });
                         console.log(x);
                         this.lines = [{}];
+                        this.info = '';
                         this.title = '';
                     });
             } else {
@@ -138,6 +141,7 @@ export default {
             this.editMode = true;
             this.title = val.title;
             this.lines = val.exercise;
+            this.info = val.info;
             this.id = val._id;
         }
     }

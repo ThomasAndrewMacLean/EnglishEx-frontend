@@ -91,9 +91,11 @@ export default {
                     console.log(x);
                     this.$emit('updated', {
                         title: this.title,
+                        info: this.info,
                         exercise: this.lines
                     });
                     this.lines = [{}];
+                    this.info = '';
                     this.title = '';
                 });
         },
@@ -122,6 +124,7 @@ export default {
         exercise(val) {
             this.editMode = true;
             this.title = val.title;
+            this.info = val.info;
             this.lines = val.exercise;
             this.id = val._id;
         }

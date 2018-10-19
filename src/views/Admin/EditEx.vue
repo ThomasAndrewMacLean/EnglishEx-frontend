@@ -25,6 +25,7 @@
         <div id="editArea">
             <CreateExA @updated="exHasBeenUpdated" v-if="selectedEx && selectedEx.type ==='A'" :exercise="selectedEx" />
             <CreateExB @updated="exHasBeenUpdated" v-if="selectedEx && selectedEx.type ==='B'" :exercise="selectedEx" />
+            <CreateExC @updated="exHasBeenUpdated" v-if="selectedEx && selectedEx.type ==='C'" :exercise="selectedEx" />
         </div>
         <Button @click="showModal=true" v-if="selectedEx" class="button delete-button is-radiusless">Delete</Button>
         <div :class="showModal? 'is-active modal':'modal'">
@@ -50,6 +51,7 @@
 <script>
 import CreateExA from './CreateExA';
 import CreateExB from './CreateExB';
+import CreateExC from './CreateExC';
 export default {
     name: 'editEx',
     data() {
@@ -62,7 +64,8 @@ export default {
     },
     components: {
         CreateExA,
-        CreateExB
+        CreateExB,
+        CreateExC
     },
     methods: {
         selectEx(c) {
@@ -79,6 +82,7 @@ export default {
         exHasBeenUpdated(ex) {
             this.selectedEx.isActive = false;
             this.selectedEx.title = ex.title;
+            this.selectedEx.info = ex.info;
             this.selectedEx.exercise = ex.exercise;
             this.selectedEx = null;
         },
