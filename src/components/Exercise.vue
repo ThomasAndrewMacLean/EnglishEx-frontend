@@ -39,10 +39,30 @@
                 <div class="columns">
                     <div class="column">
                         <div class="partA exB" v-for="(e, index) in columnA" :key="e.ex" @click=setFocus(index)>
-                            <div>{{e.ex.split('[[')[0]}}
-                                <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length +'ch'}" class="typeBInput"
+
+                            <div v-if="e.ex.split('[[').length === 2">
+
+                                {{e.ex.split('[[')[0]}}
+                                <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length+1 +'ch'}" class="typeBInput"
                                     type="text" v-model="e.ans" v-bind:ref="'input-' + index">
-                                {{e.ex.split(']]')[1]}}</div>
+                                {{e.ex.split(']]')[1].split('[[')[0]}}
+                            </div>
+                            <div v-if="e.ex.split('[[').length === 3">
+
+                                {{e.ex.split('[[')[0]}}
+                                <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length +1+'ch'}" class="typeBInput"
+                                    type="text" v-model="e.ans" v-bind:ref="'input-' + index">
+                                {{e.ex.split(']]')[1].split('[[')[0]}}
+                                <input @click.stop v-bind:style="{width:e.ex.split(']]')[1].split('[[')[1].split(']]')[0].length+1 +'ch'}"
+                                    class="typeBInput" type="text" v-model="e.ans1" v-bind:ref="'input-' + index">
+                                {{e.ex.split(']]')[2]}}
+                            </div>
+                            <!-- <br><br>--------------
+                            <div v-for="(part,index) in e.ex.match(/\[\[(.+?)\]\]/g)" :key="part">
+                                {{e.ex.split(part)[0]}}--
+                                <input v-bind:style="{width:(part.length -4)+'ch'}" class="typeBInput" type="text"
+                                    v-model="e.ans" v-bind:ref="'input-' + index">
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -196,6 +216,8 @@ export default {
     border-bottom: 2px solid lightblue;
     outline: none;
     font-size: 1rem;
+    text-align: center;
+    padding: 0px 2px;
 }
 
 .partA {
