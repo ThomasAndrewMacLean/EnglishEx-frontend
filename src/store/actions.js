@@ -26,7 +26,7 @@ export default {
                 commit('setLoader', { add: false, name: 'signUserUp' });
 
                 if (j.token) {
-                    localStorage.setItem('token', j.token);
+                    localStorage.setItem('token', 'Bearer ' + j.token);
                     //commit("setUser", {
                     //  email: payload.email
                     //});
@@ -59,7 +59,7 @@ export default {
                 commit('setLoader', { add: false, name: 'logUserIn' });
 
                 if (j.token) {
-                    localStorage.setItem('token', j.token);
+                    localStorage.setItem('token', 'Bearer ' + j.token);
                     commit('setUser', {
                         email: payload.email,
                         isAdmin: j.isAdmin
@@ -83,7 +83,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/getNameFromToken', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
                 method: 'GET'
             })
@@ -116,7 +116,7 @@ export default {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + localStorage.getItem('token')
+                Authorization: localStorage.getItem('token')
             },
 
             method: 'POST',
@@ -159,7 +159,7 @@ export default {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
 
                 method: 'POST',
@@ -185,7 +185,7 @@ export default {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
 
                 method: 'POST',
@@ -209,7 +209,7 @@ export default {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
 
                 method: 'POST',
@@ -232,7 +232,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/exercises', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
                 method: 'GET'
             })
@@ -267,7 +267,7 @@ export default {
 
             fetch(api + '/exercises/' + payload.id, {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
                 method: 'GET'
             })
@@ -298,7 +298,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/courses', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
                 method: 'GET'
             })
@@ -328,7 +328,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/getMyPoints', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
                 method: 'GET'
             })
@@ -361,7 +361,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/course/' + payload.id, {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
                 method: 'GET'
             })
@@ -416,7 +416,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/user', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token')
                 },
                 method: 'GET'
             })
@@ -442,6 +442,9 @@ export default {
     },
     changeColB({ commit }, payload) {
         commit('changeColB', payload);
+    },
+    changeUserName({ commit }, payload) {
+        commit('setUser', payload);
     },
     getLabels({ commit }) {
         commit('setLoader', { add: true, name: 'getLabels' });
@@ -471,7 +474,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/updateLabel', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    Authorization: localStorage.getItem('token'),
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 },
@@ -493,7 +496,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/newLabel', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    Authorization: localStorage.getItem('token'),
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 },
@@ -519,7 +522,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/saveEx', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    Authorization: localStorage.getItem('token'),
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 },
@@ -551,7 +554,7 @@ export default {
         return new Promise((resolve, reject) => {
             fetch(api + '/saveExB', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    Authorization: localStorage.getItem('token'),
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 },

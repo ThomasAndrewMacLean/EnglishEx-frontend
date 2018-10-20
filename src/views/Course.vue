@@ -12,7 +12,8 @@
                         {{tag || 'untagged'}}
                     </label>
                     <ul>
-                        <li class="ex-list" :key="e.id" v-for="e in exercises.filter(ex => ex.tagName === tag)" @click="getExercise(e.id)">
+                        <li class="ex-list" :class="{ 'is-active': exercise && exercise._id === e.id }" :key="e.id"
+                            v-for="e in exercises.filter(ex => ex.tagName === tag)" @click="getExercise(e.id)">
                             {{e.title}}
                         </li>
                     </ul>
@@ -88,7 +89,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../node_modules/bulma/bulma.sass';
+//@import '../../node_modules/bulma/bulma.sass';
+@import '../mystyles.scss';
+
+.is-active::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 6px;
+    background: $purple;
+    margin-bottom: 2px;
+}
+
+.is-active {
+    color: $dark;
+}
 
 .description {
     margin-bottom: 1rem;

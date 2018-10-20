@@ -1,3 +1,4 @@
+
 <template>
     <div class="landing">
         <section class="hero is-primary">
@@ -83,6 +84,9 @@
                             </div>
                         </form>
                     </div>
+                    <button @click.prevent class="button is-radiusless" id="customBtn">
+                        Login with Google
+                    </button>
                     <div class="notification is-radiusless is-danger" v-if="message">
                         <button class="delete" @click="$store.dispatch('clearErrorMessage')"></button>
                         {{message}}
@@ -133,6 +137,29 @@ export default {
             if (this.$store.getters.errorMessage !== null)
                 return this.$store.getters.errorMessage;
         }
+    },
+    mounted() {
+        gapi.load('auth2', () => {
+            // Retrieve the singleton for the GoogleAuth library and set up the client.
+            var auth2 = gapi.auth2.init({
+                client_id:
+                    '171417293160-mc387imspjctssvr62d2g8l5g4vpblbm.apps.googleusercontent.com'
+            });
+            const element = document.getElementById('customBtn');
+            auth2.attachClickHandler(
+                element,
+                {},
+                googleUser => {
+                    var id_token = googleUser.getAuthResponse().id_token;
+                    localStorage.setItem('token', 'Google ' + id_token);
+                    this.$store.dispatch('getNameFromToken');
+                    this.$router.push('/home');
+                },
+                function(error) {
+                    alert(JSON.stringify(error, undefined, 2));
+                }
+            );
+        });
     }
 };
 </script>

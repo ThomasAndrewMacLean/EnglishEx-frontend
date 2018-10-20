@@ -3,6 +3,7 @@ module.exports = {
     env: {
         node: true
     },
+    globals: { gapi: true },
     extends: ['plugin:vue/essential', '@vue/prettier'],
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

@@ -1,7 +1,11 @@
 <template>
     <section>
         <div v-if="exercise" class="wrap">
-            <div v-if="exercise.info" class="notification">
+            <div v-if="error" class="notification is-danger">
+                <button @click="error = ''" class="delete"></button>
+                {{error}}
+            </div>
+            <div v-if="exercise.info" class="notification is-link">
                 {{exercise.info}}
             </div>
             <div v-if="exercise.type==='A'">
@@ -67,6 +71,26 @@
                     </div>
                 </div>
             </div>
+            <div v-if="exercise.type==='C'">
+                <div v-if="showInfo" class="notification">
+                    <button @click="showInfo = false" class="delete"></button>
+                    <TextLabel label="explanationTypeC" />
+
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="partA exC" v-for="(e, index) in columnA" :key="e.ex">
+                            <div @click="clickOnSpaceOldSkool($event, e)" v-html="'<span class=\'space\'></span>' +(e.ex.split('[[')[0] + e.ex.split(']]')[1].split('[[')[0]).replace('  ',' ').trim().split(' ').join('<span class=\'space\'></span>')+'<span class=\'space\'></span>'">
+                            </div>
+                            <div>
+
+                            </div>
+                            <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length+1 +'ch'}" class="typeBInput"
+                                type="text" v-model="e.ans" v-bind:ref="'input-' + index">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <button @click="sendExToServer" class="button is-primary is-radiusless">Submit</button>
         <div v-if="score">{{score}}</div>
@@ -82,7 +106,8 @@ export default {
             selected: null,
             score: null,
             showInfo: true,
-            checked: {}
+            checked: {},
+            error: ''
         };
     },
     components: {
@@ -97,6 +122,24 @@ export default {
         }
     },
     methods: {
+        clickOnSpaceOldSkool(e, ex) {
+            let counter = 0;
+            if (e.target.className === 'space') {
+                e.target.parentNode.childNodes.forEach(c => {
+                    if (c === e.target) {
+                        counter++;
+                        c.classList.add('clicked');
+                        ex.ans1 = counter;
+                        console.log(counter);
+                    } else {
+                        if (c.classList) {
+                            counter++;
+                            c.classList.remove('clicked');
+                        }
+                    }
+                });
+            }
+        },
         doubleCheck(text, index) {
             this.clearSelectedDivs();
             this.columnA[index] += ' ' + text;
@@ -160,6 +203,27 @@ export default {
                     .then(re => (this.score = re));
                 return;
             }
+            if (this.exercise.type === 'C') {
+                this.error = '';
+                this.columnA.forEach((c, index) => {
+                    if (!c.ans1) {
+                        this.error =
+                            'Please click the location of the missing word in sentence ' +
+                            (index + 1);
+                        return;
+                    }
+                });
+
+                if (!this.error) {
+                    this.$store
+                        .dispatch('sendExToServer', {
+                            exId: this.exercise._id,
+                            data: this.columnA
+                        })
+                        .then(re => (this.score = re));
+                }
+                return;
+            }
         }
     },
     watch: {
@@ -174,7 +238,7 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../mystyles.scss';
 
 .double-check {
@@ -253,5 +317,48 @@ export default {
 
 .exB {
     cursor: pointer;
+}
+
+.exC {
+    display: flex;
+    justify-content: space-around;
+}
+
+.space {
+    height: 12px;
+    display: inline-block;
+    // background: red;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.space.clicked {
+    //background: gold;
+}
+
+.space:hover {
+    display: inline-block;
+}
+
+.space:hover::before {
+    position: absolute;
+    margin-top: -10px;
+    margin-left: -3px;
+    content: '';
+    height: 6px;
+    width: 6px;
+    border-radius: 6px;
+    background: $grey;
+}
+
+.space.clicked::before {
+    position: absolute;
+    margin-top: -10px;
+    margin-left: -3px;
+    content: '';
+    height: 6px;
+    width: 6px;
+    border-radius: 6px;
+    background: $purple;
 }
 </style>

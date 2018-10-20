@@ -43,6 +43,13 @@ export default {
                 }));
                 state.colB = null;
             }
+            if (payload.type === 'C') {
+                state.colA = payload.exercise.map(a => ({
+                    ex: a.partA.trim(),
+                    ans: ''
+                }));
+                state.colB = null;
+            }
         }
     },
     changeColB(state, payload) {
