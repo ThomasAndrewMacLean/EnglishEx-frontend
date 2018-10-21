@@ -70,6 +70,9 @@ export default {
 </script>
 
 <style scoped>
+.columns:last-child {
+    margin-bottom: 9.25rem;
+}
 .img {
     height: auto;
     background: tomato;
