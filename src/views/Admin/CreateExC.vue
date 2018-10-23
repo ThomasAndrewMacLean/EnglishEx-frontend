@@ -24,7 +24,17 @@
                     </div>
                 </div>
             </div>
-
+            <div class="field">
+                <label class="label" for="title">Search Tag</label>
+                <div class="columns title-input">
+                    <div class="column is-half">
+                        <div class="control">
+                            <input class="input is-radiusless" v-model="searchTag" type="text" name="searchTag" id="searchTag"
+                                placeholder="Search Tag" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="field">
                 <label class="label" for="title">Info</label>
                 <div class="info-input">
@@ -71,6 +81,7 @@ export default {
             title: (this.exercise && this.exercise.title) || '',
             info: (this.exercise && this.exercise.info) || '',
             editMode: !!this.exercise,
+            searchTag: (this.exercise && this.exercise.searchTag) || '',
             id: (this.exercise && this.exercise._id) || null,
             error: ''
         };
@@ -100,18 +111,21 @@ export default {
                         title: this.title,
                         info: this.info,
                         type: 'C',
-                        id: this.id
+                        id: this.id,
+                        searchTag: this.searchTag
                     })
                     .then(x => {
                         this.$emit('updated', {
                             title: this.title,
                             info: this.info,
-                            exercise: this.lines
+                            exercise: this.lines,
+                            searchTag: this.searchTag
                         });
                         console.log(x);
                         this.lines = [{}];
                         this.info = '';
                         this.title = '';
+                        this.searchTag = '';
                     });
             } else {
                 this.error =
@@ -143,6 +157,7 @@ export default {
             this.lines = val.exercise;
             this.info = val.info;
             this.id = val._id;
+            this.searchTag = val.searchTag;
         }
     }
 };

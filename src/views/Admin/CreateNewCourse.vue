@@ -89,7 +89,7 @@
                         <a v-for="(ex, index) in filteredExercises" :key="index" :class="ex.isActive ? 'is-active panel-block' : 'panel-block'" @click="ex.isActive = ! ex.isActive">
 
                     <span>
-                            {{ex.title}}
+                            {{ex.title}} - {{ex.searchTag}}
                             <span class="type is-italic has-text-grey-dark is-size-7">
                                 (type: {{ ex.type}})                       
                             </span>
@@ -186,6 +186,7 @@ export default {
                         id: z._id,
                         isActive: false,
                         title: z.title,
+                        searchTag: z.searchTag,
                         type: z.type
                     };
                 }));
@@ -195,7 +196,9 @@ export default {
         filteredExercises() {
             return this.exercises.filter(
                 e =>
-                    e.title.toLowerCase().indexOf(this.fil.toLowerCase()) !== -1
+                    ((e.searchTag || '') + e.title)
+                        .toLowerCase()
+                        .indexOf(this.fil.toLowerCase()) !== -1
             );
         }
     }

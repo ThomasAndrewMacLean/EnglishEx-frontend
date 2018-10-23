@@ -14,7 +14,18 @@
                     <div class="column is-half">
                         <div class="control">
                             <input class="input is-radiusless" v-model="title" type="text" name="title" id="title"
-                                required>
+                                placeholder="Title" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="title">Search Tag</label>
+                <div class="columns title-input">
+                    <div class="column is-half">
+                        <div class="control">
+                            <input class="input is-radiusless" v-model="searchTag" type="text" name="searchTag" id="searchTag"
+                                placeholder="Search Tag" required>
                         </div>
                     </div>
                 </div>
@@ -69,6 +80,7 @@ export default {
             //(this.exercise && this.exercise.exercise) ||
             lines: (this.exercise && this.exercise.exercise) || [{}],
             title: (this.exercise && this.exercise.title) || '',
+            searchTag: (this.exercise && this.exercise.searchTag) || '',
             editMode: !!this.exercise,
             id: (this.exercise && this.exercise._id) || null
         };
@@ -85,18 +97,21 @@ export default {
                     title: this.title,
                     type: 'A',
                     info: this.info,
-                    id: this.id
+                    id: this.id,
+                    searchTag: this.searchTag
                 })
                 .then(x => {
                     console.log(x);
                     this.$emit('updated', {
                         title: this.title,
                         info: this.info,
+                        searchTag: this.searchTag,
                         exercise: this.lines
                     });
                     this.lines = [{}];
                     this.info = '';
                     this.title = '';
+                    this.searchTag = '';
                 });
         },
         readExcel(event) {
@@ -127,6 +142,7 @@ export default {
             this.info = val.info;
             this.lines = val.exercise;
             this.id = val._id;
+            this.searchTag = val.searchTag;
         }
     }
 };
