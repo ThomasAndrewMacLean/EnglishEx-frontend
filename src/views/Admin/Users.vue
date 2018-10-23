@@ -13,7 +13,7 @@
             </thead>
             <tbody>
                 <tr v-for="u in users" :key="u._id">
-                    <td>{{u.email}}</td>
+                    <td @click="getPoints(u.email)">{{u.email}}</td>
                     <td>{{u.confirmed}}</td>
                     <td>{{u.isAdmin}}</td>
                 </tr>
@@ -33,7 +33,13 @@ export default {
             users: []
         };
     },
-    methods: {},
+    methods: {
+        getPoints(id) {
+            this.$store.dispatch('getMyPoints', id).then(r => {
+                console.log(r);
+            });
+        }
+    },
     computed: {},
     mounted() {
         //TODO: store in vuex store so we dont fetch them every time we visit homepage?

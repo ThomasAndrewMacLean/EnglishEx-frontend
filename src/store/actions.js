@@ -324,13 +324,16 @@ export default {
                 });
         });
     },
-    getMyPoints({ commit }) {
+    getMyPoints({ commit }, payload) {
         return new Promise((resolve, reject) => {
             fetch(api + '/getMyPoints', {
                 headers: {
-                    Authorization: localStorage.getItem('token')
+                    Authorization: localStorage.getItem('token'),
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                method: 'GET'
+                body: JSON.stringify({ userId: payload }),
+                method: 'POST'
             })
                 .then(res => {
                     if (res.status !== 200) {
