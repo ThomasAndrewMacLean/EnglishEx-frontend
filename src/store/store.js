@@ -13,7 +13,7 @@ export default new Vuex.Store({
         loading: [],
         error: null,
         navigateToAfterSignin: null,
-        appName: 'End Training',
+        appName: 'End Learning',
         errorMessage: null,
         currentExercise: null,
         colA: null,
