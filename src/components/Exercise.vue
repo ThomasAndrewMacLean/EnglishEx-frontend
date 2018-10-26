@@ -287,7 +287,7 @@ export default {
 .partA {
     min-height: 72px;
     display: flex;
-    justify-content: center;
+    //justify-content: center;
     align-items: center;
 }
 
@@ -295,7 +295,7 @@ export default {
     min-height: 72px;
     cursor: pointer;
     display: flex;
-    justify-content: center;
+    //justify-content: center;
     align-items: center;
 }
 
