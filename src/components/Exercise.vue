@@ -30,6 +30,7 @@
                             {{e}}
                             <span v-if="!checked[index]" @click.stop="doubleCheck(e, index)" class="double-check"><i
                                     class="fas fa-check-double"></i></span>
+                            <div v-if="answers && answers[index] !== ''" class="margin-left corrected-answer-c">{{answers[index]}}</div>
                         </div>
                     </div>
                 </div>
@@ -38,21 +39,17 @@
                 <div v-if="showInfo" class="notification">
                     <button @click="showInfo = false" class="delete"></button>
                     <TextLabel label="explanationTypeB" />
-
                 </div>
                 <div class="columns">
                     <div class="column">
                         <div class="partA exB" v-for="(e, index) in columnA" :key="e.ex" @click=setFocus(index)>
-
                             <div v-if="e.ex.split('[[').length === 2">
-
                                 {{e.ex.split('[[')[0]}}
                                 <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length+1 +'ch'}" class="typeBInput"
                                     type="text" v-model="e.ans" v-bind:ref="'input-' + index">
                                 {{e.ex.split(']]')[1].split('[[')[0]}}
                             </div>
                             <div v-if="e.ex.split('[[').length === 3">
-
                                 {{e.ex.split('[[')[0]}}
                                 <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length +1+'ch'}" class="typeBInput"
                                     type="text" v-model="e.ans" v-bind:ref="'input-' + index">
@@ -61,6 +58,8 @@
                                     class="typeBInput" type="text" v-model="e.ans1" v-bind:ref="'input-' + index">
                                 {{e.ex.split(']]')[2]}}
                             </div>
+                            <div v-if="answers" class="corrected-answer">{{answers[index]}}</div>
+                            <div v-if="answers && answers[index] === ''" class="good-answer"><i class="far fa-check-circle"></i></div>
                             <!-- <br><br>--------------
                             <div v-for="(part,index) in e.ex.match(/\[\[(.+?)\]\]/g)" :key="part">
                                 {{e.ex.split(part)[0]}}--
@@ -87,12 +86,15 @@
                             </div>
                             <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length+1 +'ch'}" class="typeBInput"
                                 type="text" v-model="e.ans" v-bind:ref="'input-' + index">
+                            <div v-if="answers" class="corrected-answer-c">{{answers[index]}}</div>
+                            <div v-if="answers && answers[index] === ''" class="good-answer-c"><i class="far fa-check-circle"></i></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <button @click="sendExToServer" class="button is-primary is-radiusless">Submit</button>
+        <button @click="getAnswer" class="button is-radiusless margin-left">Check</button>
         <div v-if="score">{{score}}</div>
     </section>
 </template>
@@ -107,7 +109,8 @@ export default {
             score: null,
             showInfo: true,
             checked: {},
-            error: ''
+            error: '',
+            answers: null
         };
     },
     components: {
@@ -184,6 +187,53 @@ export default {
             this.$set(this.columnB, place2, id1);
             this.$store.dispatch('changeColB', copy);
         },
+        getAnswer() {
+            this.$store
+                .dispatch('getAnswer', {
+                    exId: this.exercise._id
+                })
+                .then(re => {
+                    if (
+                        this.exercise.type === 'B' ||
+                        this.exercise.type === 'C'
+                    ) {
+                        console.log(re);
+                        const answers = re[0].exercise; // the array of ex, we have to extract the words from quotes
+
+                        this.answers = [];
+                        this.columnA.forEach((e, index) => {
+                            let corrAnswers = answers[index].partA.match(
+                                /\[\[(.+?)\]\]/g
+                            );
+                            console.log(corrAnswers);
+
+                            if (`[[${e.ans}]]` === corrAnswers[0]) {
+                                console.log('okkk');
+                                this.answers.push('');
+                            } else {
+                                this.answers.push(
+                                    corrAnswers[0]
+                                        .replace('[[', '')
+                                        .replace(']]', '')
+                                );
+                            }
+                        });
+                    }
+                    if (this.exercise.type === 'A') {
+                        const answers = re[0].exercise;
+                        console.log(answers);
+                        this.answers = [];
+                        this.columnB.forEach((e, index) => {
+                            if (e === answers[index].partB) {
+                                console.log('okkk');
+                                this.answers.push('');
+                            } else {
+                                this.answers.push(answers[index].partB);
+                            }
+                        });
+                    }
+                });
+        },
         sendExToServer() {
             if (this.exercise.type === 'A') {
                 this.$store
@@ -229,6 +279,7 @@ export default {
     watch: {
         exercise: function() {
             this.score = null;
+            this.answers = null;
             this.checked = {};
             this.clearSelectedDivs();
         }
@@ -240,6 +291,32 @@ export default {
 
 <style lang="scss">
 @import '../mystyles.scss';
+
+.good-answer {
+    position: absolute;
+    right: 40px;
+    color: lightgreen;
+}
+
+.corrected-answer {
+    position: absolute;
+    right: 40px;
+    background: lightpink;
+    color: darkred;
+}
+
+.good-answer-c {
+    color: lightgreen;
+}
+
+.corrected-answer-c {
+    background: lightpink;
+    color: darkred;
+}
+
+.margin-left {
+    margin-left: 1rem;
+}
 
 .double-check {
     color: lightgrey;
@@ -330,10 +407,6 @@ export default {
     // background: red;
     padding: 5px;
     cursor: pointer;
-}
-
-.space.clicked {
-    //background: gold;
 }
 
 .space:hover {

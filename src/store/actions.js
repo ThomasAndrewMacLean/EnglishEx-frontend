@@ -520,6 +520,38 @@ export default {
                 });
         });
     },
+    getAnswer({ commit }, payload) {
+        commit('setLoader', { add: true, name: 'getAnswer' });
+        return new Promise((resolve, reject) => {
+            fetch(api + '/getAnswer', {
+                headers: {
+                    Authorization: localStorage.getItem('token'),
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+                .then(res => {
+                    commit('setLoader', { add: false, name: 'getAnswer' });
+
+                    if (res.status !== 200) {
+                        commit(
+                            'setErrorMessage',
+                            'make sure you are logged in.'
+                        );
+                    }
+                    return res.json();
+                })
+                .then(j => {
+                    return resolve(j);
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
+    },
     sendExToServer({ commit }, payload) {
         commit('setLoader', { add: true, name: 'sendExToServer' });
         return new Promise((resolve, reject) => {
