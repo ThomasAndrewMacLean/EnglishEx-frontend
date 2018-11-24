@@ -114,7 +114,12 @@
                             </span>
 
                     </span>
+                    <div>
+
+
                     <button @click.prevent="addTagName($event, ex)" v-if="ex.isActive" class="button is-small is-radiusless is-pulled-right">{{ex.tagName? 'Edit': 'Add'}} Tag</button>
+                                        <input @click.stop placeholder="order" class="order-input is-pulled-right is-radiusless" v-model="ex.order" v-if="ex.isActive" />
+                    </div>
                
                         </a>
                     </div>
@@ -346,5 +351,10 @@ ul {
 }
 .box {
     height: 100%;
+}
+.order-input {
+    height: 27px;
+    width: 3rem;
+    margin-right: 1rem;
 }
 </style>
