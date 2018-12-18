@@ -13,7 +13,7 @@
                 <a href="https://eu.mouseflow.com/websites/63ae51ef-6201-44c0-bde3-f85e1756b57c" target="_blank">mouseflow</a>
             </li>
             <li>
-                <a href="https://uptimerobot.com/dashboard#mainDashboard" target="_blank">Uptown Robot</a>
+                <a href="https://uptimerobot.com/dashboard#mainDashboard" target="_blank">Uptime Robot</a>
             </li>
             <li>
                 <a href="https://analytics.google.com/analytics/web/#/report-home/a110018468w184610848p181927921"
@@ -25,26 +25,26 @@
 </template>
 
 <script>
-export default {};
+    export default {};
 </script>
 
 <style scoped>
-section {
-    height: 80vh;
-    width: 100vw;
-    background: url('https://sentry-brand.storage.googleapis.com/sentry-pattern.png');
-}
+    section {
+        height: 80vh;
+        width: 100vw;
+        background: url('https://sentry-brand.storage.googleapis.com/sentry-pattern.png');
+    }
 
-ul {
-    list-style: inside;
-    background: white;
-    width: 300px;
-    margin: 2rem;
-    border-radius: 4px;
-    border: 2px solid lightgrey;
-}
+    ul {
+        list-style: inside;
+        background: white;
+        width: 300px;
+        margin: 2rem;
+        border-radius: 4px;
+        border: 2px solid lightgrey;
+    }
 
-li {
-    margin: 1rem;
-}
+    li {
+        margin: 1rem;
+    }
 </style>
