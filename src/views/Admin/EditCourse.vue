@@ -209,6 +209,9 @@ export default {
                 if (exx && exx.tagName) {
                     e.tagName = exx.tagName;
                 }
+                if (exx && exx.order) {
+                    e.order = exx.order;
+                }
             });
             window.scrollTo({
                 top: 0,
