@@ -81,6 +81,7 @@ export default {
             .then(x => {
                 this.course = x[0];
                 this.exercises = x[0].exercises;
+                console.log(this.exercises);
                 this.tags = [...new Set(this.exercises.map(e => e.tagName))];
             })
             .catch(err => {
