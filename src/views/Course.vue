@@ -13,7 +13,9 @@
                     </label>
                     <ul>
                         <li class="ex-list" :class="{ 'is-active': exercise && exercise._id === e.id }" :key="e.id"
-                            v-for="e in exercises.sort((a,b) => parseInt(a.order) - parseInt(b.order)).filter(ex => ex.tagName === tag)"
+                            v-for="e in exercises
+                            //.sort((a,b) => parseInt(a.order) - parseInt(b.order))
+                            .filter(ex => ex.tagName === tag)"
                             @click="getExercise(e.id)">
                             {{e.title}}
                         </li>
