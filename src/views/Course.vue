@@ -80,7 +80,9 @@ export default {
             })
             .then(x => {
                 this.course = x[0];
-                this.exercises = x[0].exercises;
+                this.exercises = x[0].exercises.sort(
+                    (a, b) => parseInt(a.order) - parseInt(b.order)
+                );
                 console.log(this.exercises);
                 this.tags = [...new Set(this.exercises.map(e => e.tagName))];
             })
