@@ -50,6 +50,14 @@ export default {
                 }));
                 state.colB = null;
             }
+            if (payload.type === 'D') {
+                state.colA = payload.exercise.map(a => a.partA.trim());
+                state.colB = payload.exercise.map(a => ({
+                    button1: a.button1,
+                    button2: a.button2,
+                    button3: a.button3
+                }));
+            }
         }
     },
     changeColB(state, payload) {

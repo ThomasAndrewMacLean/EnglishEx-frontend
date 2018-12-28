@@ -92,6 +92,25 @@
                     </div>
                 </div>
             </div>
+            <div v-if="exercise.type==='D'">
+                <div v-if="showInfo" class="notification">
+                    <button @click="showInfo = false" class="delete"></button>
+                    <TextLabel label="explanationTypeD" />
+
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="partA exD" v-for="(e, index) in columnA" :key="e">
+                            <div> {{e}}
+                                <button class="button is-radiusless" v-for="b in columnB[index]" v-if="b" :key="b">{{b}}</button>
+                            </div>
+
+
+                            <div v-if="answers && answers[index] === ''" class="good-answer-d"><i class="far fa-check-circle"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <button @click="sendExToServer" class="button is-primary is-radiusless">Submit</button>
         <button @click="getAnswer" class="button is-radiusless margin-left">Check</button>

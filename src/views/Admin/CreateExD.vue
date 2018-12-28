@@ -1,10 +1,9 @@
 <template>
     <section>
-        <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type B</h1>
-        <p v-if="!editMode" class="level"> Here we create exercises type B.
-            The words that have to be filled in should be put between double [[]]
-            These can also be uploaded from an Excelfile. It will upload the first sheet of an excel file, and it needs
-            a title on the first row.
+        <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type D</h1>
+        <p v-if="!editMode" class="level"> Here we create exercises type D.
+            We have a sentence and then a few possible answers that will be shown as buttons.
+            Wrap the correct answer in square braquets. example: is the pope catholic [yes] no
         </p>
 
         <div v-if="error" class="notification is-danger">
@@ -45,11 +44,27 @@
             <div class="field">
                 <label class="label">Exercise</label>
             </div>
+
             <div v-for="(line, index) in lines" :key="line.toString() + index" class="field">
                 <div class="columns">
-                    <div class="column">
+                    <div class="column is-half">
                         <div class="control">
                             <input v-model="line.partA" class="input is-radiusless" type="text" required>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="control">
+                            <input v-model="line.button1" class="input is-radiusless" type="text" required>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="control">
+                            <input v-model="line.button2" class="input is-radiusless" type="text" required>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="control">
+                            <input v-model="line.button3" class="input is-radiusless" type="text">
                         </div>
                     </div>
                     <a @click="deleteLine(line)" class="margin-delete-button delete" tabindex="-1"></a>
@@ -81,8 +96,8 @@ export default {
             lines: (this.exercise && this.exercise.exercise) || [{}],
             title: (this.exercise && this.exercise.title) || '',
             info: (this.exercise && this.exercise.info) || '',
-            searchTag: (this.exercise && this.exercise.searchTag) || '',
             editMode: !!this.exercise,
+            searchTag: (this.exercise && this.exercise.searchTag) || '',
             id: (this.exercise && this.exercise._id) || null,
             error: ''
         };
@@ -94,18 +109,16 @@ export default {
         },
         addExercise() {
             let correct = true;
-            this.lines.forEach(line => {
-                let checkForCorrectInput = line.partA.match(/\[\[(.+?)\]\]/g);
-                if (
-                    checkForCorrectInput === null
-                    //TODO: turn off validation for now, add again later?
-                    //||
-                    //checkForCorrectInput.length !== 1
-                ) {
-                    console.log('error');
-                    correct = false;
-                }
-            });
+            // this.lines.forEach(line => {
+            //     let checkForCorrectInput = line.partA.match(/\[\[(.+?)\]\]/g);
+            //     if (
+            //         checkForCorrectInput === null ||
+            //         checkForCorrectInput.length !== 1
+            //     ) {
+            //         console.log('error');
+            //         correct = false;
+            //     }
+            // });
             if (correct) {
                 this.error = '';
                 this.$store
@@ -113,21 +126,21 @@ export default {
                         exercise: this.lines,
                         title: this.title,
                         info: this.info,
-                        type: 'B',
+                        type: 'D',
                         id: this.id,
                         searchTag: this.searchTag
                     })
                     .then(x => {
                         this.$emit('updated', {
                             title: this.title,
-                            exercise: this.lines,
                             info: this.info,
+                            exercise: this.lines,
                             searchTag: this.searchTag
                         });
                         console.log(x);
                         this.lines = [{}];
-                        this.title = '';
                         this.info = '';
+                        this.title = '';
                         this.searchTag = '';
                     });
             } else {
@@ -145,7 +158,10 @@ export default {
                     const keys = Object.keys(x[0]);
                     this.lines = x.map(y => {
                         return {
-                            partA: y.partA || y[keys[0]]
+                            partA: y.partA || y[keys[0]],
+                            button1: y.button1 || y[keys[1]],
+                            button2: y.button2 || y[keys[2]],
+                            button3: y.button3 || y[keys[3]]
                         };
                     });
                     event.target.value = '';
@@ -157,8 +173,8 @@ export default {
         exercise(val) {
             this.editMode = true;
             this.title = val.title;
-            this.info = val.info;
             this.lines = val.exercise;
+            this.info = val.info;
             this.id = val._id;
             this.searchTag = val.searchTag;
         }

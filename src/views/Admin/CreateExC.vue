@@ -43,7 +43,9 @@
                     </div>
                 </div>
             </div>
-
+            <div class="field">
+                <label class="label">Exercise</label>
+            </div>
             <div v-for="(line, index) in lines" :key="line.toString() + index" class="field">
                 <div class="columns">
                     <div class="column">

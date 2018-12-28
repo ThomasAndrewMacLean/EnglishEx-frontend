@@ -39,6 +39,10 @@
                 </div>
             </div>
 
+            <div class="field">
+                <label class="label">Exercise</label>
+            </div>
+
             <div v-for="(line, index) in lines" :key="line.toString() + index" class="field">
                 <div class="columns">
                     <div class="column">
@@ -74,88 +78,88 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            //(this.exercise && this.exercise.exercise) ||
-            lines: (this.exercise && this.exercise.exercise) || [{}],
-            title: (this.exercise && this.exercise.title) || '',
-            searchTag: (this.exercise && this.exercise.searchTag) || '',
-            editMode: !!this.exercise,
-            id: (this.exercise && this.exercise._id) || null
-        };
-    },
-    methods: {
-        deleteLine(line) {
-            this.preventDefault;
-            this.lines.splice(this.lines.findIndex(x => x === line), 1);
+    export default {
+        data() {
+            return {
+                //(this.exercise && this.exercise.exercise) ||
+                lines: (this.exercise && this.exercise.exercise) || [{}],
+                title: (this.exercise && this.exercise.title) || '',
+                searchTag: (this.exercise && this.exercise.searchTag) || '',
+                editMode: !!this.exercise,
+                id: (this.exercise && this.exercise._id) || null
+            };
         },
-        addExercise() {
-            this.$store
-                .dispatch('addExercise', {
-                    exercise: this.lines,
-                    title: this.title,
-                    type: 'A',
-                    info: this.info,
-                    id: this.id,
-                    searchTag: this.searchTag
-                })
-                .then(x => {
-                    console.log(x);
-                    this.$emit('updated', {
+        methods: {
+            deleteLine(line) {
+                this.preventDefault;
+                this.lines.splice(this.lines.findIndex(x => x === line), 1);
+            },
+            addExercise() {
+                this.$store
+                    .dispatch('addExercise', {
+                        exercise: this.lines,
                         title: this.title,
+                        type: 'A',
                         info: this.info,
-                        searchTag: this.searchTag,
-                        exercise: this.lines
+                        id: this.id,
+                        searchTag: this.searchTag
+                    })
+                    .then(x => {
+                        console.log(x);
+                        this.$emit('updated', {
+                            title: this.title,
+                            info: this.info,
+                            searchTag: this.searchTag,
+                            exercise: this.lines
+                        });
+                        this.lines = [{}];
+                        this.info = '';
+                        this.title = '';
+                        this.searchTag = '';
                     });
-                    this.lines = [{}];
-                    this.info = '';
-                    this.title = '';
-                    this.searchTag = '';
-                });
+            },
+            readExcel(event) {
+                var inputElement = document.getElementById('inputfile');
+                this.$store
+                    .dispatch('readExcel', {
+                        file: inputElement.files[0]
+                    })
+                    .then(x => {
+                        const keys = Object.keys(x[0]);
+                        //dodgy shit goin on here... cant be sure of the order of the keys...
+                        console.log(keys);
+                        this.lines = x.map(y => {
+                            return {
+                                partA: y.partA || y[keys[0]],
+                                partB: y.partB || y[keys[1]]
+                            };
+                        });
+                        event.target.value = '';
+                    });
+            }
         },
-        readExcel(event) {
-            var inputElement = document.getElementById('inputfile');
-            this.$store
-                .dispatch('readExcel', {
-                    file: inputElement.files[0]
-                })
-                .then(x => {
-                    const keys = Object.keys(x[0]);
-                    //dodgy shit goin on here... cant be sure of the order of the keys...
-                    console.log(keys);
-                    this.lines = x.map(y => {
-                        return {
-                            partA: y.partA || y[keys[0]],
-                            partB: y.partB || y[keys[1]]
-                        };
-                    });
-                    event.target.value = '';
-                });
+        props: ['exercise'],
+        watch: {
+            exercise(val) {
+                this.editMode = true;
+                this.title = val.title;
+                this.info = val.info;
+                this.lines = val.exercise;
+                this.id = val._id;
+                this.searchTag = val.searchTag;
+            }
         }
-    },
-    props: ['exercise'],
-    watch: {
-        exercise(val) {
-            this.editMode = true;
-            this.title = val.title;
-            this.info = val.info;
-            this.lines = val.exercise;
-            this.id = val._id;
-            this.searchTag = val.searchTag;
-        }
-    }
-};
+    };
 </script>
 
 <style scoped>
-.margin-delete-button {
-    margin-top: 20px;
-    position: absolute;
-    right: 0;
-}
+    .margin-delete-button {
+        margin-top: 20px;
+        position: absolute;
+        right: 0;
+    }
 
-.upload-button {
-    margin-top: 1rem;
-}
+    .upload-button {
+        margin-top: 1rem;
+    }
 </style>

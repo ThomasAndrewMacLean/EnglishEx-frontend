@@ -25,26 +25,26 @@
 </template>
 
 <script>
-    export default {};
+export default {};
 </script>
 
 <style scoped>
-    section {
-        height: 80vh;
-        width: 100vw;
-        background: url('https://sentry-brand.storage.googleapis.com/sentry-pattern.png');
-    }
+section {
+    height: 80vh;
+    width: 100vw;
+    background: url('https://sentry-brand.storage.googleapis.com/sentry-pattern.png');
+}
 
-    ul {
-        list-style: inside;
-        background: white;
-        width: 300px;
-        margin: 2rem;
-        border-radius: 4px;
-        border: 2px solid lightgrey;
-    }
+ul {
+    list-style: inside;
+    background: white;
+    width: 300px;
+    margin: 2rem;
+    border-radius: 4px;
+    border: 2px solid lightgrey;
+}
 
-    li {
-        margin: 1rem;
-    }
+li {
+    margin: 1rem;
+}
 </style>
