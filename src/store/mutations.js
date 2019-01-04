@@ -33,25 +33,32 @@ export default {
         } else {
             state.currentExercise = payload;
             if (payload.type === 'A') {
-                state.colA = payload.exercise.map(a => a.partA.trim());
-                state.colB = payload.exercise.map(a => a.partB.trim());
+                debugger;
+                state.colA = payload.exercise.map(a =>
+                    a.partA.toString().trim()
+                );
+                state.colB = payload.exercise.map(a =>
+                    a.partB.toString().trim()
+                );
             }
             if (payload.type === 'B') {
                 state.colA = payload.exercise.map(a => ({
-                    ex: a.partA.trim(),
+                    ex: a.partA.toString().trim(),
                     ans: ''
                 }));
                 state.colB = null;
             }
             if (payload.type === 'C') {
                 state.colA = payload.exercise.map(a => ({
-                    ex: a.partA.trim(),
+                    ex: a.partA.toString().trim(),
                     ans: ''
                 }));
                 state.colB = null;
             }
             if (payload.type === 'D') {
-                state.colA = payload.exercise.map(a => a.partA.trim());
+                state.colA = payload.exercise.map(a =>
+                    a.partA.toString().trim()
+                );
                 state.colB = payload.exercise.map(a => ({
                     button1: a.button1,
                     button2: a.button2,
