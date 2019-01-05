@@ -102,7 +102,8 @@
                     <div class="column">
                         <div class="partA exD" v-for="(e, index) in columnA" :key="e">
                             <div> {{e}}
-                                <button class="button is-radiusless" v-for="b in columnB[index]" v-if="b" :key="b">{{b}}</button>
+                                <button :class="{ 'is-primary': answerButtonsTypeD[index] === b }" @click="clickButton(index,b)"
+                                    class="button is-radiusless" v-for="b in columnB[index]" v-if="b" :key="b">{{b}}</button>
                             </div>
 
 
@@ -129,7 +130,8 @@ export default {
             showInfo: true,
             checked: {},
             error: '',
-            answers: null
+            answers: null,
+            answerButtonsTypeD: []
         };
     },
     components: {
@@ -206,6 +208,9 @@ export default {
             this.$set(this.columnB, place2, id1);
             this.$store.dispatch('changeColB', copy);
         },
+        clickButton(index, button) {
+            this.$set(this.answerButtonsTypeD, index, button);
+        },
         getAnswer() {
             this.$store
                 .dispatch('getAnswer', {
@@ -259,6 +264,15 @@ export default {
                     .dispatch('sendExToServer', {
                         exId: this.exercise._id,
                         data: this.columnB
+                    })
+                    .then(re => (this.score = re));
+                return;
+            }
+            if (this.exercise.type === 'D') {
+                this.$store
+                    .dispatch('sendExToServer', {
+                        exId: this.exercise._id,
+                        data: this.answerButtonsTypeD
                     })
                     .then(re => (this.score = re));
                 return;

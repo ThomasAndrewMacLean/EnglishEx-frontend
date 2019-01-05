@@ -33,7 +33,6 @@ export default {
         } else {
             state.currentExercise = payload;
             if (payload.type === 'A') {
-                debugger;
                 state.colA = payload.exercise.map(a =>
                     a.partA.toString().trim()
                 );
