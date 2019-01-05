@@ -16,10 +16,7 @@
                     <p class="level">{{course.description}}</p>
                     <p class="level">{{ Math.floor(course.exercises.filter(x =>
                         x.total).length/course.exercises.filter(x => !x.delete).length * 100)}} %</p>
-                    <ul v-for="ex in course.exercises.sort(
-                    (a, b) => parseInt(a.order) - parseInt(b.order)
-                )"
-                        :key="ex._id">
+                    <ul v-for="ex in course.exercises" :key="ex._id">
                         <li>
                             {{ex.title}} <span v-if="ex.total">score:({{ex.score}}/{{ex.total}})</span>
                         </li>
@@ -31,69 +28,69 @@
 </template>
 
 <script>
-import TextLabel from './../components/TextLabel.vue';
-export default {
-    name: 'home',
-    data() {
-        return {
-            courses: []
-        };
-    },
-    components: {
-        TextLabel
-    },
-    mounted() {
-        //TODO: store in vuex store so we dont fetch them every time we visit homepage?
-        this.$store
-            .dispatch('getCourses')
-            .then(x => {
-                this.courses = x;
-                this.$store.dispatch('getMyPoints').then(y => {
-                    let yy = y.reverse();
-                    this.courses.forEach(course => {
-                        if (course.exercises) {
-                            course.exercises.forEach(ex => {
-                                let score = yy.find(z => z.exId === ex.id);
-                                if (score) {
-                                    this.$set(ex, 'score', score.score);
-                                    this.$set(ex, 'total', score.total);
-                                }
-                            });
-                        }
+    import TextLabel from './../components/TextLabel.vue';
+    export default {
+        name: 'home',
+        data() {
+            return {
+                courses: []
+            };
+        },
+        components: {
+            TextLabel
+        },
+        mounted() {
+            //TODO: store in vuex store so we dont fetch them every time we visit homepage?
+            this.$store
+                .dispatch('getCourses')
+                .then(x => {
+                    this.courses = x;
+                    this.$store.dispatch('getMyPoints').then(y => {
+                        let yy = y.reverse();
+                        this.courses.forEach(course => {
+                            if (course.exercises) {
+                                course.exercises.forEach(ex => {
+                                    let score = yy.find(z => z.exId === ex.id);
+                                    if (score) {
+                                        this.$set(ex, 'score', score.score);
+                                        this.$set(ex, 'total', score.total);
+                                    }
+                                });
+                            }
+                        });
                     });
+                })
+                .catch(err => {
+                    console.log('err');
+                    console.log(err);
+                    this.$router.push('/');
                 });
-            })
-            .catch(err => {
-                console.log('err');
-                console.log(err);
-                this.$router.push('/');
-            });
-    }
-};
+        }
+    };
 </script>
 
 <style scoped>
-.columns:last-child {
-    margin-bottom: 9.25rem;
-}
+    .columns:last-child {
+        margin-bottom: 9.25rem;
+    }
 
-.img {
-    height: auto;
-    background: tomato;
-    /* randomize the background */
-    width: calc(100% + 2.5rem);
-    margin-left: -1.25rem;
-    margin-top: -1.25rem;
-    background-size: cover;
-    background-repeat: no-repeat;
-    filter: grayscale(20%);
-}
+    .img {
+        height: auto;
+        background: tomato;
+        /* randomize the background */
+        width: calc(100% + 2.5rem);
+        margin-left: -1.25rem;
+        margin-top: -1.25rem;
+        background-size: cover;
+        background-repeat: no-repeat;
+        filter: grayscale(20%);
+    }
 
-.box {
-    height: 100%;
-}
+    .box {
+        height: 100%;
+    }
 
-ul {
-    list-style: inside;
-}
+    ul {
+        list-style: inside;
+    }
 </style>
