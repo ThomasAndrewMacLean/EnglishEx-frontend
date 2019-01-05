@@ -16,7 +16,10 @@
                     <p class="level">{{course.description}}</p>
                     <p class="level">{{ Math.floor(course.exercises.filter(x =>
                         x.total).length/course.exercises.filter(x => !x.delete).length * 100)}} %</p>
-                    <ul v-for="ex in course.exercises" :key="ex._id">
+                    <ul v-for="ex in course.exercises.sort(
+                    (a, b) => parseInt(a.order) - parseInt(b.order)
+                )"
+                        :key="ex._id">
                         <li>
                             {{ex.title}} <span v-if="ex.total">score:({{ex.score}}/{{ex.total}})</span>
                         </li>
@@ -73,6 +76,7 @@ export default {
 .columns:last-child {
     margin-bottom: 9.25rem;
 }
+
 .img {
     height: auto;
     background: tomato;
