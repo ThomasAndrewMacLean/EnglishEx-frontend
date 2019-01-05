@@ -8,8 +8,8 @@ import VueAnalytics from 'vue-analytics';
 import './registerServiceWorker';
 
 //SET UP GOOGLE ANALYTICS AND SENTRY ERROR LOGGING
-console.log('Setting up Sentry 🤖');
 if (window.location.host === 'end-learning.com') {
+    console.log('Setting up Sentry 🤖');
     Raven.config('https://39def78bbaa6426c91ffc5c48d5c245c@sentry.io/1282651')
 
         .addPlugin(RavenVue, Vue)

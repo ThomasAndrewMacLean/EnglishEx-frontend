@@ -216,13 +216,14 @@ export default {
         getAnswer() {
             this.$store
                 .dispatch('getAnswer', {
-                    exId: this.exercise._id
+                    exId: this.exercise._id,
+                    data: this.columnA
                 })
                 .then(re => {
-                    if (
-                        this.exercise.type === 'B' ||
-                        this.exercise.type === 'C'
-                    ) {
+                    if (this.exercise.type === 'C') {
+                        this.answers = re;
+                    }
+                    if (this.exercise.type === 'B') {
                         console.log(re);
                         const answers = re[0].exercise; // the array of ex, we have to extract the words from quotes
 
