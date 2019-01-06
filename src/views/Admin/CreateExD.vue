@@ -3,7 +3,7 @@
         <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type D</h1>
         <p v-if="!editMode" class="level"> Here we create exercises type D.
             We have a sentence and then a few possible answers that will be shown as buttons.
-            Wrap the correct answer in square braquets. example: is the pope catholic [yes] no
+            Wrap the correct answer in square braquets. example: is the pope catholic [[yes]] no
         </p>
 
         <div v-if="error" class="notification is-danger">

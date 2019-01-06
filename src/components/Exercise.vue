@@ -79,7 +79,7 @@
                 <div class="columns">
                     <div class="column">
                         <div class="partA exC" v-for="(e, index) in columnA" :key="e.ex">
-                            <div @click="clickOnSpaceOldSkool($event, e)" v-html="'<span class=\'space\'></span>' +(e.ex.split('[[')[0] + e.ex.split(']]')[1].split('[[')[0]).replace('  ',' ').trim().split(' ').join('<span class=\'space\'></span>')+'<span class=\'space\'></span>'">
+                            <div @click="clickOnSpaceOldSkool($event, e)" v-html="'<span class=\'space\'></span>' +(e.ex.split('[[')[0] + e.ex.split(']]')[1].split('[[')[0]).('  ',' ').trim().split(' ').join('<span class=\'space\'></span>')+'<span class=\'space\'></span>'">
                             </div>
                             <div>
 
