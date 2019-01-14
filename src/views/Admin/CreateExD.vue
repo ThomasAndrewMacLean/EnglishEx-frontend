@@ -67,6 +67,11 @@
                             <input v-model="line.button3" class="input is-radiusless" type="text">
                         </div>
                     </div>
+                     <div class="column">
+                        <div class="control">
+                            <input v-model="line.button4" class="input is-radiusless" type="text">
+                        </div>
+                    </div>
                     <a @click="deleteLine(line)" class="margin-delete-button delete" tabindex="-1"></a>
                 </div>
             </div>
