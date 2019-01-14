@@ -61,7 +61,8 @@ export default {
                 state.colB = payload.exercise.map(a => ({
                     button1: a.button1,
                     button2: a.button2,
-                    button3: a.button3
+                    button3: a.button3,
+                    button4: a.button4
                 }));
             }
         }
