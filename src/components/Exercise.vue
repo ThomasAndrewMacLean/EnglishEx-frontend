@@ -276,7 +276,10 @@ export default {
                                     e.button2) ||
                                 (e.button3 &&
                                     e.button3.includes('[') &&
-                                    e.button3);
+                                    e.button3) ||
+                                (e.button4 &&
+                                    e.button4.includes('[') &&
+                                    e.button4);
 
                             if (
                                 correct ===
