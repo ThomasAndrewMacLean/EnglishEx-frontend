@@ -1,8 +1,8 @@
 <template>
     <section>
-        <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type A</h1>
-        <p v-if="!editMode" class="level"> Here we create exercises type A, we set the left and right part in the
-            correct order. These
+        <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type E</h1>
+        <p v-if="!editMode" class="level"> Here we create exercises type E, these will be flashcards, the first column
+            will be the front of the card, the second column the back. These
             can also be uploaded from an Excelfile.
             It will upload the first sheet of an excel file, and it needs a title on the first row.
         </p>
@@ -84,6 +84,7 @@ export default {
             //(this.exercise && this.exercise.exercise) ||
             lines: (this.exercise && this.exercise.exercise) || [{}],
             title: (this.exercise && this.exercise.title) || '',
+            info: (this.exercise && this.exercise.info) || '',
             searchTag: (this.exercise && this.exercise.searchTag) || '',
             editMode: !!this.exercise,
             id: (this.exercise && this.exercise._id) || null
@@ -99,7 +100,7 @@ export default {
                 .dispatch('addExercise', {
                     exercise: this.lines,
                     title: this.title,
-                    type: 'A',
+                    type: 'E',
                     info: this.info,
                     id: this.id,
                     searchTag: this.searchTag

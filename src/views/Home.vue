@@ -15,7 +15,7 @@
                     <p class="title">{{course.title}}</p>
                     <p class="level">{{course.description}}</p>
                     <p class="level">{{ Math.floor(course.exercises.filter(x =>
-                        x.total).length/course.exercises.filter(x => !x.delete).length * 100)}} %</p>
+                        x.total).length/course.exercises.filter(x => !x.delete).length * 100)}}%</p>
                     <ul v-for="ex in course.exercises" :key="ex._id">
                         <li>
                             {{ex.title}} <span v-if="ex.total">score:({{ex.score}}/{{ex.total}})</span>

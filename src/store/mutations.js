@@ -65,6 +65,14 @@ export default {
                     button4: a.button4
                 }));
             }
+            if (payload.type === 'E') {
+                state.colA = payload.exercise.map(a =>
+                    a.partA.toString().trim()
+                );
+                state.colB = payload.exercise.map(a =>
+                    a.partB.toString().trim()
+                );
+            }
         }
     },
     changeColB(state, payload) {
