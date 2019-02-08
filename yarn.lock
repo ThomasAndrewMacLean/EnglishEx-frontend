@@ -6804,9 +6804,10 @@ regexpu-core@^4.1.3, regexpu-core@^4.1.4:
     unicode-match-property-ecmascript "^1.0.4"
     unicode-match-property-value-ecmascript "^1.0.2"
 
-register-service-worker@^1.0.0:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/register-service-worker/-/register-service-worker-1.4.1.tgz#4b4c9b4200fc697942c6ae7d611349587b992b2f"
+register-service-worker@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/register-service-worker/-/register-service-worker-1.6.0.tgz#4a551b0c24e9d9ce6ff9def2ed8c366b0e633638"
+  integrity sha512-9XMpHojHe/7ijJe9gjv7R61PafxhQfehqpK/z7QwEPRgLzwPllrzMv+BLzW1gPnujU5Lc7HFLQprYVtnJp9oIw==
 
 regjsgen@^0.2.0:
   version "0.2.0"
