@@ -1759,9 +1759,10 @@ bulma-tooltip@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/bulma-tooltip/-/bulma-tooltip-2.0.2.tgz#cf0bf5ad2dc75492cbcbd4816e1a005314dc90ac"
 
-bulma@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.1.tgz#73c2e3b2930c90cc272029cbd19918b493fca486"
+bulma@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.4.tgz#7e74512e9118d9799021339e67e365ee0ac4f3f9"
+  integrity sha512-krG2rP6eAX1WE0sf6O0SC/FUVSOBX4m1PBC2+GKLpb2pX0qanaDqcv9U2nu75egFrsHkI0zdWYuk/oGwoszVWg==
 
 bytes@3.0.0:
   version "3.0.0"
