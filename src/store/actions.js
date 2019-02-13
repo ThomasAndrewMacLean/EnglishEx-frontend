@@ -195,6 +195,7 @@ export default {
             })
                 .then(res => res.json())
                 .then(j => {
+                    commit('addCourse', j);
                     resolve(j);
                 })
                 .catch(err => {
@@ -292,7 +293,10 @@ export default {
                 });
         }
     },
-    getCourses({ commit }) {
+    getCourses({ commit, state }) {
+        if (state.courses.length) {
+            return;
+        }
         commit('setLoader', { add: true, name: 'getCourses' });
 
         return new Promise((resolve, reject) => {
@@ -316,6 +320,7 @@ export default {
                     return res.json();
                 })
                 .then(j => {
+                    commit('setCourses', j);
                     return resolve(j);
                 })
                 .catch(err => {
@@ -621,5 +626,83 @@ export default {
     },
     toggleShowLabels({ commit }) {
         commit('toggleShowLabels');
+    },
+    getCategories({ commit, state }) {
+        console.log(state.categories);
+        if (state.categories.length) {
+            return;
+        }
+        commit('setLoader', { add: true, name: 'getCategories' });
+        return new Promise((resolve, reject) => {
+            fetch(api + '/getCategories', {
+                headers: {
+                    Authorization: localStorage.getItem('token'),
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'GET'
+            })
+                .then(res => {
+                    commit('setLoader', { add: false, name: 'getCategories' });
+                    return res.json();
+                })
+                .then(j => {
+                    commit('setCategories', j);
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
+    },
+    addCategory({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            fetch(api + '/addCategory', {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: localStorage.getItem('token')
+                },
+
+                method: 'POST',
+                body: JSON.stringify({
+                    category: payload.category
+                })
+            })
+                .then(res => res.json())
+                .then(j => {
+                    commit('addCategory', j);
+                    resolve(j);
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
+    } ,
+    updateCategory({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            fetch(api + '/editCategory', {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: localStorage.getItem('token')
+                },
+
+                method: 'POST',
+                body: JSON.stringify({
+                    category: payload.category
+                })
+            })
+                .then(res => res.json())
+                .then(j => {
+                  //  commit('addCategory', j);
+                    resolve(j);
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
     }
 };

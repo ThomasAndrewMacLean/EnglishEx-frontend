@@ -33,18 +33,23 @@ export default {
     name: 'home',
     data() {
         return {
-            courses: []
+            // courses: []
         };
     },
     components: {
         TextLabel
     },
+    computed: {
+        courses() {
+            return this.$store.getters.getCourses;
+        }
+    },
     mounted() {
         //TODO: store in vuex store so we dont fetch them every time we visit homepage?
         this.$store
             .dispatch('getCourses')
-            .then(x => {
-                this.courses = x;
+            .then(() => {
+                //this.courses = x;
                 this.$store.dispatch('getMyPoints').then(y => {
                     let yy = y.reverse();
                     this.courses.forEach(course => {

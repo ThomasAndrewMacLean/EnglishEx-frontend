@@ -27,6 +27,7 @@
                     <EditEx v-if="adminPage === 'EditEx'" />
                     <Users v-if="adminPage === 'Users'" />
                     <DevPage v-if="adminPage === 'DevPage'" />
+                    <AddCategory v-if="adminPage ==='AddCategory'" />
                 </section>
             </div>
         </div>
@@ -46,6 +47,7 @@ import Users from './Admin/Users.vue';
 import EditEx from './Admin/EditEx.vue';
 import DevPage from './Admin/DevPage.vue';
 import AddLabel from './Admin/AddLabel.vue';
+import AddCategory from './Admin/AddCategory.vue';
 export default {
     data() {
         return {
@@ -63,6 +65,15 @@ export default {
                             title: 'Add Label',
                             page: 'AddLabel',
                             new: true
+                        }
+                    ]
+                },
+                {
+                    title: 'Categories',
+                    pages: [
+                        {
+                            title: 'Categories',
+                            page: 'AddCategory'
                         }
                     ]
                 },
@@ -162,7 +173,8 @@ export default {
         CreateExE,
         EditEx,
         Users,
-        DevPage
+        DevPage,
+        AddCategory
     }
 };
 </script>

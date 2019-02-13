@@ -22,6 +22,18 @@ export default {
     setLabels(state, payload) {
         state.labels = payload;
     },
+    setCategories(state, payload) {
+        state.categories = payload;
+    },
+    addCategory(state, payload) {
+        state.categories.push(payload);
+    },
+    setCourses(state, payload) {
+        state.courses = payload;
+    },
+    addCourse(state, payload) {
+        state.courses.push(payload);
+    },
     addLabel(state, payload) {
         state.labels.push(payload);
     },

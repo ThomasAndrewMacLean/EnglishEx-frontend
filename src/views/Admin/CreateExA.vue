@@ -86,7 +86,8 @@ export default {
             title: (this.exercise && this.exercise.title) || '',
             searchTag: (this.exercise && this.exercise.searchTag) || '',
             editMode: !!this.exercise,
-            id: (this.exercise && this.exercise._id) || null
+            id: (this.exercise && this.exercise._id) || null,
+            info: (this.exercise && this.info) || ''
         };
     },
     methods: {

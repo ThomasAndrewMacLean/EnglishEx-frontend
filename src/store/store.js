@@ -19,7 +19,9 @@ export default new Vuex.Store({
         colA: null,
         colB: null,
         labels: [],
-        showLabels: true
+        showLabels: true,
+        categories: [],
+        courses: []
     },
     mutations,
     actions,

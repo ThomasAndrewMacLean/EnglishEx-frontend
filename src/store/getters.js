@@ -28,5 +28,11 @@ export default {
     },
     getShowLabels(state) {
         return state.showLabels;
+    },
+    getCategories(state) {
+        return state.categories;
+    },
+    getCourses(state) {
+        return state.courses;
     }
 };

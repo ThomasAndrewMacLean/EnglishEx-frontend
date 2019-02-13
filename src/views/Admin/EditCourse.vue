@@ -160,7 +160,6 @@ export default {
     name: 'editCourse',
     data() {
         return {
-            courses: [],
             selectedCourse: null,
             fil: '',
             exercises: [],
@@ -255,19 +254,15 @@ export default {
                         .toLowerCase()
                         .indexOf(this.fil.toLowerCase()) !== -1
             );
+        },
+        courses() {
+            return this.$store.getters.getCourses;
         }
     },
     mounted() {
         //TODO: store in vuex store so we dont fetch them every time we visit homepage?
-        this.$store
-            .dispatch('getCourses')
-            .then(x => (this.courses = x))
-            .catch(err => {
-                console.log('err');
-                console.log(err);
+        this.$store.dispatch('getCourses');
 
-                this.$router.push('/');
-            });
         this.$store.dispatch('getExercises').then(x => {
             return (this.exercises = x
                 .filter(y => y.title && !y.delete)
