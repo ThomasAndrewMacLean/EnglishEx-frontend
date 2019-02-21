@@ -679,7 +679,7 @@ export default {
                     reject(err);
                 });
         });
-    } ,
+    },
     updateCategory({ commit }, payload) {
         return new Promise((resolve, reject) => {
             fetch(api + '/editCategory', {
@@ -696,7 +696,7 @@ export default {
             })
                 .then(res => res.json())
                 .then(j => {
-                  //  commit('addCategory', j);
+                    //  commit('addCategory', j);
                     resolve(j);
                 })
                 .catch(err => {
