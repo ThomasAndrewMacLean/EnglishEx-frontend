@@ -38,6 +38,6 @@
         "node-sass": "^4.9.3",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.0",
-        "vue-template-compiler": "^2.5.16"
+        "vue-template-compiler": "^2.6.8"
     }
 }
