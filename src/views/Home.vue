@@ -8,10 +8,12 @@
         </p>
         <div class="columns is-multiline">
 
-            <div class="column is-one-third " v-if="course.title" v-for="(course,index) in courses.filter(c => !c.delete)"
+            <div class="column is-one-third " v-for="(course,index) in courses.filter(c => !c.delete && c.title)"
                 :key="index">
                 <a :href="'#/course/' + course._id" class="box is-radiusless">
-                    <div class="img image is-3by1" :style="{ background:course.imgURL ? '':course.color, backgroundImage: `url('${course.imgURL}')` }"></div>
+                    <div class="img image is-3by1"
+                        :style="{ background:course.imgURL ? '':course.color, backgroundImage: `url('${course.imgURL}')` }">
+                    </div>
                     <p class="title">{{course.title}}</p>
                     <p class="level">{{course.description}}</p>
                     <p class="level">{{ Math.floor(course.exercises.filter(x =>

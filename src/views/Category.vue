@@ -3,7 +3,6 @@
         <h1 class="title">Category:
             {{categories.find(c=> c._id === categoryId).name}}</h1>
         <ul>
-            {{categoryId}}
             <ol>
                 <li v-for="course in categories.find(c=> c._id === categoryId).courses" :key="course">
                     <a

@@ -15,39 +15,39 @@
 </template>
 
 <script>
-    import TextLabel from './../components/TextLabel.vue';
+import TextLabel from './../components/TextLabel.vue';
 
-    export default {
-        name: 'categories',
-        data() {
-            return {
-                // courses: []
-            };
+export default {
+    name: 'categories',
+    data() {
+        return {
+            // courses: []
+        };
+    },
+    components: {
+        TextLabel
+    },
+    computed: {
+        categories() {
+            return this.$store.getters.getCategories;
         },
-        components: {
-            TextLabel
-        },
-        computed: {
-            categories() {
-                return this.$store.getters.getCategories;
-            },
-            courses() {
-                return this.$store.getters.getCourses;
-            }
-        },
-        mounted() {
-            this.$store.dispatch('getCourses').catch(err => {
-                this.$store.dispatch({
-                    message: err
-                });
-            });
-            this.$store.dispatch('getCategories').catch(err => {
-                this.$store.dispatch({
-                    message: err
-                });
-            });
+        courses() {
+            return this.$store.getters.getCourses;
         }
-    };
+    },
+    mounted() {
+        this.$store.dispatch('getCourses').catch(err => {
+            this.$store.dispatch({
+                message: err
+            });
+        });
+        this.$store.dispatch('getCategories').catch(err => {
+            this.$store.dispatch({
+                message: err
+            });
+        });
+    }
+};
 </script>
 
 <style>
