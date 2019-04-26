@@ -20,6 +20,9 @@
                     <a @click="showNav = false" class="navbar-item" href="#/home">
                         home
                     </a>
+                    <a @click="showNav = false" class="navbar-item" href="#/categories">
+                        categories
+                    </a>
                     <a @click="showNav = false" class="navbar-item" href="#/settings">
                         settings
                     </a>

@@ -7,6 +7,8 @@ import Settings from './../views/Settings.vue';
 import Admin from './../views/Admin.vue';
 import Confirm from './../views/Confirm.vue';
 import Course from './../views/Course.vue';
+import Categories from './../views/Categories.vue';
+import Category from './../views/Category.vue';
 
 Vue.use(Router);
 
@@ -26,6 +28,18 @@ export default new Router({
             path: '/home',
             name: 'home',
             component: Home,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/categories',
+            name: 'categories',
+            component: Categories,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/category/:categoryid',
+            name: 'category',
+            component: Category,
             beforeEnter: AuthGuard
         },
         {

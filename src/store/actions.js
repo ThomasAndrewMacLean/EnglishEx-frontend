@@ -7,6 +7,10 @@ import router from '../router/router';
 import XLSX from 'xlsx';
 
 export default {
+    setErrorMessage({ commit }, payload) {
+        router.push('/');
+        commit('setErrorMessage', payload.message);
+    },
     signUserUp({ commit }, payload) {
         commit('setLoader', { add: true, name: 'signUserUp' });
         fetch(api + '/signup', {
@@ -628,7 +632,6 @@ export default {
         commit('toggleShowLabels');
     },
     getCategories({ commit, state }) {
-        console.log(state.categories);
         if (state.categories.length) {
             return;
         }

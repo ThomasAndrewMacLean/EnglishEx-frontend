@@ -25,13 +25,14 @@
                         </div>
                     </div>
                     <div class="column">
-                        <div @click="clickk" :class="{ 'doubleChecked': checked[index] }" class="partB" v-for="(e, index) in columnB"
-                            :key="e + '-' + index">
+                        <div @click="clickk" :class="{ 'doubleChecked': checked[index] }" class="partB"
+                            v-for="(e, index) in columnB" :key="e + '-' + index">
                             {{e}}
                             <span v-if="!checked[index]" @click.stop="doubleCheck(e, index)" class="double-check">
                                 <i class="fas fa-check-double"></i>
                             </span>
-                            <div v-if="answers && answers[index] !== ''" class="margin-left corrected-answer-c">{{answers[index]}}</div>
+                            <div v-if="answers && answers[index] !== ''" class="margin-left corrected-answer-c">
+                                {{answers[index]}}</div>
                         </div>
                     </div>
                 </div>
@@ -46,16 +47,17 @@
                         <div class="partA exB" v-for="(e, index) in columnA" :key="e.ex" @click="setFocus(index)">
                             <div v-if="e.ex.split('[[').length === 2">
                                 {{e.ex.split('[[')[0]}}
-                                <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length+1 +'ch'}" class="typeBInput"
-                                    type="text" v-model="e.ans" v-bind:ref="'input-' + index">
+                                <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length+1 +'ch'}"
+                                    class="typeBInput" type="text" v-model="e.ans" v-bind:ref="'input-' + index">
                                 {{e.ex.split(']]')[1].split('[[')[0]}}
                             </div>
                             <div v-if="e.ex.split('[[').length === 3">
                                 {{e.ex.split('[[')[0]}}
-                                <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length +1+'ch'}" class="typeBInput"
-                                    type="text" v-model="e.ans" v-bind:ref="'input-' + index">
+                                <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length +1+'ch'}"
+                                    class="typeBInput" type="text" v-model="e.ans" v-bind:ref="'input-' + index">
                                 {{e.ex.split(']]')[1].split('[[')[0]}}
-                                <input @click.stop v-bind:style="{width:e.ex.split(']]')[1].split('[[')[1].split(']]')[0].length+1 +'ch'}"
+                                <input @click.stop
+                                    v-bind:style="{width:e.ex.split(']]')[1].split('[[')[1].split(']]')[0].length+1 +'ch'}"
                                     class="typeBInput" type="text" v-model="e.ans1" v-bind:ref="'input-' + index">
                                 {{e.ex.split(']]')[2]}}
                             </div>
@@ -81,10 +83,12 @@
                 <div class="columns">
                     <div class="column">
                         <div class="partA exC" v-for="(e, index) in columnA" :key="e.ex">
-                            <div @click="clickOnSpaceOldSkool($event, e)" v-html="'<span class=\'space\'></span>' +(e.ex.split('[[')[0] + e.ex.split(']]')[1].split('[[')[0]).replace('  ',' ').trim().split(' ').join('<span class=\'space\'></span>') + '<span class=\'space\'></span>'"></div>
+                            <div @click="clickOnSpaceOldSkool($event, e)"
+                                v-html="'<span class=\'space\'></span>' +(e.ex.split('[[')[0] + e.ex.split(']]')[1].split('[[')[0]).replace('  ',' ').trim().split(' ').join('<span class=\'space\'></span>') + '<span class=\'space\'></span>'">
+                            </div>
                             <div></div>
-                            <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length+1 +'ch'}" class="typeBInput"
-                                type="text" v-model="e.ans" v-bind:ref="'input-' + index">
+                            <input v-bind:style="{width:e.ex.split('[[')[1].split(']]')[0].length+1 +'ch'}"
+                                class="typeBInput" type="text" v-model="e.ans" v-bind:ref="'input-' + index">
                             <div v-if="answers" class="corrected-answer-c">{{answers[index]}}</div>
                             <div v-if="answers && answers[index] === ''" class="good-answer-c">
                                 <i class="far fa-check-circle"></i>
@@ -103,8 +107,9 @@
                         <div class="partA exD" v-for="(e, index) in columnA" :key="e">
                             <div>
                                 {{e}}
-                                <button :class="{ 'is-primary': answerButtonsTypeD[index] === b }" @click="clickButton(index,b)"
-                                    class="button is-radiusless" v-for="b in columnB[index]" v-if="b" :key="b">{{b}}</button>
+                                <button :class="{ 'is-primary': answerButtonsTypeD[index] === b }"
+                                    @click="clickButton(index,b)" class="button is-radiusless"
+                                    v-for="b in columnB[index]" v-if="b" :key="b">{{b}}</button>
                             </div>
 
                             <div v-if="answers" class="corrected-answer-c">{{answers[index]}}</div>
@@ -119,8 +124,8 @@
             <div v-if="exercise.type==='E'">
                 <div class="columns">
                     <div class="column">
-                        <div class="partB" @mouseover="showTypeE=index" @mouseleave="showTypeE=-1" v-for="(e,index) in columnA"
-                            :key="'columnA-' + index">{{e}}</div>
+                        <div class="partB" @mouseover="showTypeE=index" @mouseleave="showTypeE=-1"
+                            v-for="(e,index) in columnA" :key="'columnA-' + index">{{e}}</div>
                     </div>
                     <div class="column">
                         <div class="partBNoHover" v-for="(e, index) in columnB" :key="e + '-' + index">
@@ -130,7 +135,8 @@
                 </div>
             </div>
         </div>
-        <button v-if="exercise.type!=='E'" @click="sendExToServer" class="button is-primary is-radiusless">Submit</button>
+        <button v-if="exercise.type!=='E'" @click="sendExToServer"
+            class="button is-primary is-radiusless">Submit</button>
         <button v-if="exHasBeenSubmitted" @click="getAnswer" class="button is-radiusless margin-left">Check</button>
         <div v-if="score">{{score}}</div>
     </section>
