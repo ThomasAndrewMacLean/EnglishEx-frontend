@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section>
         <h1 class="title">Edit Exercise</h1>
         <p class="level">Select an exercise and then alter it down below.</p>

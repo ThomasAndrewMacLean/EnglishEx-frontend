@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section class="section container">
         <h1 class="title">Categories</h1>
         <ul>

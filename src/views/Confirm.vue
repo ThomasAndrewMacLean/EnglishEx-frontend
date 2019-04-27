@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section class="confirm landing">
         <section class="hero is-primary">
             <div class="hero-body">

@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section v-if="categories.find(c=> c._id === categoryId)" class="section container">
         <h1 class="title">Category:
             {{categories.find(c=> c._id === categoryId).name}}</h1>
@@ -17,7 +17,7 @@
 import TextLabel from './../components/TextLabel.vue';
 
 export default {
-    name: 'categories',
+    name: 'category',
     data() {
         return {
             categoryId: this.$route.params.categoryid,

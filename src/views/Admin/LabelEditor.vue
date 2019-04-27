@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section>
         <h1 class="title">Label factory</h1>
         <p class="level"> Here we can change the labels for the website. Every change you make is directly saved in the

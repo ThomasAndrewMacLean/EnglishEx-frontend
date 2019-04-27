@@ -659,6 +659,8 @@ export default {
         });
     },
     addCategory({ commit }, payload) {
+        commit('setLoader', { add: true, name: 'addCategory' });
+
         return new Promise((resolve, reject) => {
             fetch(api + '/addCategory', {
                 headers: {
@@ -684,6 +686,7 @@ export default {
         });
     },
     updateCategory({ commit }, payload) {
+        commit('setLoader', { add: true, name: 'updateCategory' });
         return new Promise((resolve, reject) => {
             fetch(api + '/editCategory', {
                 headers: {
@@ -699,7 +702,7 @@ export default {
             })
                 .then(res => res.json())
                 .then(j => {
-                    //  commit('addCategory', j);
+                    commit('setLoader', { add: false, name: 'updateCategory' });
                     resolve(j);
                 })
                 .catch(err => {

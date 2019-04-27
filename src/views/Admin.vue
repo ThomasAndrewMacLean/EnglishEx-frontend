@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section class="container section">
         <div class="columns">
             <div class="column is-one-fifth admin-menu">

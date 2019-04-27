@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section>
         <h1 class="title">Developers Page</h1>
         <ul>

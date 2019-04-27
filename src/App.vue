@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <div id="app">
         <div class="navbar is-primary" v-if="user">
             <div class="navbar-brand">

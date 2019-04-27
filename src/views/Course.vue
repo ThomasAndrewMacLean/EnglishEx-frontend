@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section v-if="course" class="section container">
         <h1 class="title">{{course.title}} </h1>
         <div class="columns">

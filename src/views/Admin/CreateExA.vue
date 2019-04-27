@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section>
         <h1 class="title">{{editMode? "Edit": "Create"}} Exercise Type A</h1>
         <p v-if="!editMode" class="level"> Here we create exercises type A, we set the left and right part in the

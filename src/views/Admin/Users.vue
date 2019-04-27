@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section>
         <h1 class="title">Users</h1>
         <p class="level"> A summary of all the users.

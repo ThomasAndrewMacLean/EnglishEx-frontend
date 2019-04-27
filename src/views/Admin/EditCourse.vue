@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section>
         <!-- have all courses right. click one to load it and edit it -->
         <h1 class="title">Edit Courses</h1>

@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section>
         <h1 class="title">Create New Course Card</h1>
         <p class="level"> Here we set the title and description of a course, plus we add the exercises that go in the

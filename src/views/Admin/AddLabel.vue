@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section>
         <h1 class="title">Add Label</h1>
         <p class="level"> Here we can add labels for the website. Each label should have a unique key. A key can not

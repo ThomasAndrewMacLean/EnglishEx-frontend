@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <section class="section container">
         <h1 class="title">Settings</h1>
         <p class="level">set name displayname, see points and stuff</p>
