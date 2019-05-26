@@ -61,9 +61,13 @@
                                     class="typeBInput" type="text" v-model="e.ans1" v-bind:ref="'input-' + index">
                                 {{e.ex.split(']]')[2]}}
                             </div>
-                            <div v-if="answers" class="corrected-answer">{{answers[index]}}</div>
-                            <div v-if="answers && answers[index] === ''" class="good-answer">
-                                <i class="far fa-check-circle"></i>
+                            <div v-if="answers" class="answer-wrapper">
+                                <div v-for="(ans, ansIndex) in answers[index].split('-----')" :key="ans + ansIndex">
+                                    <div class="corrected-answer">{{ans}}</div>
+                                    <div v-if="ans === ''" class="good-answer">
+                                        <i class="far fa-check-circle"></i>
+                                    </div>
+                                </div>
                             </div>
                             <!-- <br><br>--------------
                             <div v-for="(part,index) in e.ex.match(/\[\[(.+?)\]\]/g)" :key="part">
@@ -256,9 +260,8 @@ export default {
                                 /\[\[(.+?)\]\]/g
                             );
                             console.log(corrAnswers);
-
+                            console.log(e);
                             if (`[[${e.ans}]]` === corrAnswers[0]) {
-                                console.log('okkk');
                                 this.answers.push('');
                             } else {
                                 this.answers.push(
@@ -267,7 +270,25 @@ export default {
                                         .replace(']]', '')
                                 );
                             }
+
+                            //CHECK IF THERE ARE MULTIPLE ANSWERS
+                            if (e.ans1 || e.ans1 === '') {
+                                let answerForThisLine = this.answers.pop();
+                                if (`[[${e.ans1}]]` === corrAnswers[1]) {
+                                    answerForThisLine += '-----' + '';
+
+                                    this.answers.push(answerForThisLine);
+                                } else {
+                                    answerForThisLine +=
+                                        '-----' +
+                                        corrAnswers[1]
+                                            .replace('[[', '')
+                                            .replace(']]', '');
+                                    this.answers.push(answerForThisLine);
+                                }
+                            }
                         });
+                        console.log(this.answers);
                     }
                     if (this.exercise.type === 'A') {
                         const answers = re[0].exercise;
@@ -395,14 +416,15 @@ export default {
 @import '../mystyles.scss';
 
 .good-answer {
-    position: absolute;
-    right: 40px;
     color: lightgreen;
 }
 
-.corrected-answer {
+.answer-wrapper {
     position: absolute;
     right: 40px;
+}
+
+.corrected-answer {
     background: lightpink;
     color: darkred;
 }
