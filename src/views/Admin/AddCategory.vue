@@ -32,16 +32,41 @@
             </thead>
             <tbody>
                 <tr v-for="category in categories" :key="category._id">
-                    <td @click="selectedCategory = category"
-                        :class="selectedCategory === category ? 'active-category':''">{{category.name}}</td>
+                    <td class="td-no-padding" @click="selectedCategory = category">
+                        <div :class="selectedCategory === category ? 'active-category td-padding':'td-padding'">
+                            {{category.name}}
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
         <br>
-        <br>
-        <input v-if="selectedCategory" class="input is-radiusless" id="categoryNameEdit" type="text"
-            v-model="selectedCategory.name" required>
         <button v-if="selectedCategory" @click="updateCategory" class="button is-primary is-radiusless">SAVE</button>
+        <br>
+        <br>
+        <label v-if="selectedCategory" class="checkbox">
+            <input type="checkbox" v-model="selectedCategory.showOnHomePage">
+            Show this category on homepage?
+        </label>
+        <br>
+
+        <div v-if="selectedCategory" class="control">
+            <label class="label" for="categoryNameEdit">edit name of category:</label>
+            <input class="input is-radiusless" id="categoryNameEdit" type="text" v-model="selectedCategory.name"
+                required>
+        </div>
+        <br>
+
+        <div v-if="selectedCategory" class="control">
+            <label class="label" for="categoryInfo">add info for the category:</label>
+            <input class="input is-radiusless" id="categoryInfo" type="text" v-model="selectedCategory.info"
+                required>
+        </div>
+        <br>
+
+        <p v-if="selectedCategory" class="level">
+            Select the courses that are part of the category
+        </p>
         <table v-if="selectedCategory" class="table table is-bordered is-hoverable">
             <thead>
                 <tr>
@@ -50,13 +75,19 @@
             </thead>
             <tbody>
                 <tr v-for="course in courses" :key="course._id">
-                    <td @click="addCourseToCategory(course._id)"
-                        :class="!!selectedCategory.courses.includes(course._id) ? 'active-category':''">{{course.title}}
-                        <p class="is-size-7 is-family-secondary"> {{course.description}}</p>
+                    <td class="td-no-padding" @click="addCourseToCategory(course._id)">
+                        <div
+                            :class="!!selectedCategory.courses.includes(course._id) ? 'active-category td-padding':'td-padding'">
+
+                            {{course.title}}
+                            <p class="is-size-7 is-family-secondary"> {{course.description}}</p>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <button v-if="selectedCategory" @click="updateCategory" class="button is-primary is-radiusless">SAVE</button>
+
     </section>
 </template>
 
@@ -127,7 +158,17 @@ export default {
 
 <style scoped>
 .active-category {
+    border-left-style: solid;
     border-left-width: 1rem !important;
     border-left-color: #fa7c91;
+}
+
+.td-padding {
+    padding: 8px 12px;
+}
+
+.td-no-padding {
+    cursor: pointer;
+    padding: 0;
 }
 </style>
