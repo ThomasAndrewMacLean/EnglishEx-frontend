@@ -24,8 +24,8 @@
                 <div class="columns title-input">
                     <div class="column is-half">
                         <div class="control">
-                            <input class="input is-radiusless" v-model="searchTag" type="text" name="searchTag" id="searchTag"
-                                placeholder="Search Tag" required>
+                            <input class="input is-radiusless" v-model="searchTag" type="text" name="searchTag"
+                                id="searchTag" placeholder="Search Tag" required>
                         </div>
                     </div>
                 </div>
@@ -34,7 +34,8 @@
                 <label class="label" for="title">Info</label>
                 <div class="info-input">
                     <div class="control">
-                        <input class="input is-radiusless" v-model="info" type="text" name="info" id="info" placeholder="info">
+                        <input class="input is-radiusless" v-model="info" type="text" name="info" id="info"
+                            placeholder="info">
                     </div>
                 </div>
             </div>
@@ -87,7 +88,7 @@ export default {
             searchTag: (this.exercise && this.exercise.searchTag) || '',
             editMode: !!this.exercise,
             id: (this.exercise && this.exercise._id) || null,
-            info: (this.exercise && this.info) || ''
+            info: (this.exercise && this.exercise.info) || ''
         };
     },
     methods: {
