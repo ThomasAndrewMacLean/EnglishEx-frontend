@@ -710,5 +710,31 @@ export default {
                     reject(err);
                 });
         });
+    },
+    deleteCategory({ commit }, payload) {
+        commit('setLoader', { add: true, name: 'deleteCategory' });
+        return new Promise((resolve, reject) => {
+            fetch(api + '/deleteCategory', {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: localStorage.getItem('token')
+                },
+
+                method: 'POST',
+                body: JSON.stringify({
+                    category: payload.category
+                })
+            })
+                .then(res => res.json())
+                .then(j => {
+                    commit('setLoader', { add: false, name: 'deleteCategory' });
+                    resolve(j);
+                })
+                .catch(err => {
+                    commit('setErrorMessage', err);
+                    reject(err);
+                });
+        });
     }
 };
