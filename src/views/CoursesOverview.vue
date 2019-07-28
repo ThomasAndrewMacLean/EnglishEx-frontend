@@ -32,7 +32,7 @@
 <script>
 import TextLabel from './../components/TextLabel.vue';
 export default {
-    name: 'home',
+    name: 'CoursesOverview',
     data() {
         return {
             // courses: []

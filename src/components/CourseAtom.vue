@@ -25,4 +25,15 @@ export default {
 </script>
 
 <style>
+.img {
+    height: auto;
+    background: tomato;
+    /* randomize the background */
+    width: calc(100% + 2.5rem);
+    margin-left: -1.25rem;
+    margin-top: -1.25rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: grayscale(20%);
+}
 </style>

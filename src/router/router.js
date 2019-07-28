@@ -2,7 +2,7 @@ import Vue from 'vue';
 import AuthGuard from './auth-guard';
 import Router from 'vue-router';
 import Landing from './../views/Landing.vue';
-import Home from './../views/Home.vue';
+import CoursesOverview from './../views/CoursesOverview.vue';
 import Settings from './../views/Settings.vue';
 import Admin from './../views/Admin.vue';
 import Confirm from './../views/Confirm.vue';
@@ -27,13 +27,13 @@ export default new Router({
         {
             path: '/home',
             name: 'home',
-            component: Home,
+            component: Categories,
             beforeEnter: AuthGuard
         },
         {
-            path: '/categories',
-            name: 'categories',
-            component: Categories,
+            path: '/courses',
+            name: 'courses',
+            component: CoursesOverview,
             beforeEnter: AuthGuard
         },
         {
