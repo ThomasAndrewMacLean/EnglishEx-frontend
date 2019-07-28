@@ -1,18 +1,17 @@
 <template>
-    <div>
+    <a :href="'#/category/' + category._id" class="box is-radiusless">
+        <h3 class="title">{{category.name}}</h3>
 
-        <h1>{{category.name}}</h1>
-        <a :href="'#/category/' + category._id">{{category.name}}</a>
-    </div>
+        <p class="level">{{category.info}}</p>
+        <div class="tags has-addons">
+            <span class="tag is-dark">#courses</span>
+            <span class="tag is-info">{{category.courses.length}}</span>
+        </div>
+    </a>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            title: ''
-        };
-    },
     watch: {
         category: function() {}
     },
@@ -21,5 +20,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
