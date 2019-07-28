@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="category in categories" :key="category._id">
+                <tr v-for="category in categories.filter(c => !c.deleted)" :key="category._id">
                     <td class="td-no-padding" @click="selectedCategory = category">
                         <div :class="selectedCategory === category ? 'active-category td-padding':'td-padding'">
                             {{category.name}}
@@ -42,6 +42,25 @@
         </table>
         <br>
         <button v-if="selectedCategory" @click="updateCategory" class="button is-primary is-radiusless">SAVE</button>
+        <Button v-if="selectedCategory" @click="showModal=true"
+            class="button delete-button is-radiusless">Delete</Button>
+        <div :class="showModal? 'is-active modal':'modal'">
+            <div class="modal-background"></div>
+            <div class="modal-card is-radiusless">
+                <header class="modal-card-head is-radiusless">
+                    <p class="modal-card-title">Are you sure??</p>
+                    <button @click="showModal=false" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <!-- Content ... -->
+                    Are you sure you want to delete this category?
+                </section>
+                <footer class="modal-card-foot is-radiusless">
+                    <button @click="deleteCategory" class="button is-danger is-radiusless">Yes, delete</button>
+                    <button @click="showModal=false" class="button is-radiusless">Cancel</button>
+                </footer>
+            </div>
+        </div>
         <br>
         <br>
         <label v-if="selectedCategory" class="checkbox">
@@ -59,8 +78,7 @@
 
         <div v-if="selectedCategory" class="control">
             <label class="label" for="categoryInfo">add info for the category:</label>
-            <input class="input is-radiusless" id="categoryInfo" type="text" v-model="selectedCategory.info"
-                required>
+            <input class="input is-radiusless" id="categoryInfo" type="text" v-model="selectedCategory.info" required>
         </div>
         <br>
 
@@ -100,7 +118,8 @@ export default {
                 courses: []
             },
             selectedCategory: null,
-            error: null
+            error: null,
+            showModal: false
         };
     },
     computed: {
@@ -112,6 +131,14 @@ export default {
         }
     },
     methods: {
+        deleteCategory() {
+            this.showModal = false;
+
+            this.$store.dispatch('deleteCategory', {
+                category: this.selectedCategory
+            });
+            this.selectedCategory.deleted = true;
+        },
         updateCategory() {
             this.$store.dispatch('updateCategory', {
                 category: this.selectedCategory
