@@ -14,7 +14,7 @@
     "dependencies": {
         "bulma-badge": "^2.0.0",
         "bulma-switch": "^2.0.0",
-        "bulma-tooltip": "^2.0.2",
+        "bulma-tooltip": "^3.0.0",
         "raven-js": "^3.27.0",
         "register-service-worker": "^1.0.0",
         "vue": "^2.5.16",
