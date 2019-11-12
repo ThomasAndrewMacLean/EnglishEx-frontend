@@ -8080,9 +8080,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-analytics@^5.16.0:
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.0.tgz#82e88703a0678cba076d51acacd6569bc8f7d54c"
+vue-analytics@^5.17.3:
+  version "5.17.3"
+  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.17.3.tgz#74a152059cf3e682720460f299ae15ef46ff1cc6"
+  integrity sha512-nF71diCWE84Sk37hrTTr+ErhKV+piAS2f0ZucEsWwtkrWjhRbnwCHSqwyAG/v0GIHNz3lX8YD2IMaa/hrFzmTQ==
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
